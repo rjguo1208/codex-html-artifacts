@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-19T22:19:20-04:00</span>
+        <span>2026-05-20T00:01:23-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -227,7 +227,7 @@
       </div>
       <div class="metric">
         <strong>Report scope</strong>
-        <span>Toy model checks and figures</span>
+        <span>Toy model checks, figures, and QE setup notes</span>
       </div>
     </div>
   </header>
@@ -236,6 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
+    <p>The TiO2 QE setup has also been advanced locally: QE 7.5 was located, the required HPC module stack was recorded, and official PseudoDojo LDA Ti/O UPF files were downloaded into an ignored local pseudopotential directory.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>
@@ -299,7 +300,13 @@
           <td><code>dft/tio2/</code></td>
           <td>QE input templates</td>
           <td>local only</td>
-          <td>Prepared locally for TiO2 relax, SCF, and DFPT; summarized on the TiO2 input-prep page but not uploaded as raw workspace files.</td>
+          <td>Prepared locally for TiO2 relax, SCF, and DFPT; updated to use absolute QE output and PseudoDojo UPF paths; summarized on the TiO2 input-prep page.</td>
+        </tr>
+        <tr>
+          <td><code>pseudos/</code></td>
+          <td>Local pseudopotentials</td>
+          <td>local only</td>
+          <td>Official PseudoDojo LDA standard UPF tarball and extracted Ti/O files; ignored and not uploaded.</td>
         </tr>
       </tbody>
     </table>
@@ -307,7 +314,7 @@
 
   <section>
     <h2>TiO2 DFT/DFPT Input Preparation</h2>
-    <p>The next reproduction stage has been prepared locally: Quantum ESPRESSO templates for anatase TiO2 internal-coordinate relaxation, SCF, Gamma-point dielectric/Born-charge DFPT, and a 4x4x4 phonon grid. These templates are not committed to the Pages repository, but the public-safe setup summary is available in a dedicated subpage.</p>
+    <p>The next reproduction stage has been prepared locally: Quantum ESPRESSO templates for anatase TiO2 internal-coordinate relaxation, SCF, Gamma-point dielectric/Born-charge DFPT, and a 4x4x4 phonon grid. QE 7.5 is available at <code>/anvil/projects/x-che190065/rjguo/qe-7.5</code>, the requested module stack is documented, and the official PseudoDojo LDA Ti/O UPF files have been downloaded locally. These files are not committed to the Pages repository, but the public-safe setup summary is available in a dedicated subpage.</p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
 
@@ -496,7 +503,8 @@ python toy_model_plph.py
 python toy_model_plph.py --plot</code></pre>
     <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
     <p>The unit convention baseline was added locally as <code>environment/unit_conventions.md</code>. The public-safe summary is available as <a href="unit_conventions.html">a dedicated unit-conventions page</a>.</p>
-    <p>TiO2 QE input templates were added locally under <code>dft/tio2/</code>. They are excluded from the Pages artifact and summarized in <a href="tio2_input_prep.html">the TiO2 input-prep page</a>.</p>
+    <p>TiO2 QE input templates were added locally under <code>dft/tio2/</code>. QE executables are referenced from <code>/anvil/projects/x-che190065/rjguo/qe-7.5/bin</code>, with modules <code>aocc/3.1.0</code>, <code>openmpi/4.1.6</code>, <code>amdblis/3.0</code>, <code>amdlibflame/3.0</code>, <code>amdlibm/3.0</code>, and <code>fftw</code>.</p>
+    <p>Local pseudopotentials were downloaded from the official PseudoDojo LDA standard UPF tarball, with only <code>Ti.upf</code> and <code>O.upf</code> extracted for this baseline. The public-safe details are summarized in <a href="tio2_input_prep.html">the TiO2 input-prep page</a>.</p>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
@@ -506,6 +514,8 @@ python toy_model_plph.py --plot</code></pre>
     <ul>
       <li><code>PhysRevLett.133.116402.pdf</code>, 1.6 MB: copyrighted paper PDF, not needed for the public report.</li>
       <li><code>supp_revised.pdf</code>, 918 KB: supplemental PDF, not needed for the public report.</li>
+      <li><code>dft/tio2/</code>: local QE input templates and future raw QE working directories.</li>
+      <li><code>pseudos/</code>: local PseudoDojo UPF tarball and extracted pseudopotential files.</li>
       <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
       <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>
     </ul>

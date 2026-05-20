@@ -148,11 +148,11 @@
   <a class="nav" href="index.html">Back to report</a>
   <header>
     <h1>TiO2 DFT/DFPT Input Preparation</h1>
-    <p>This page documents the local input-template step for the anatase TiO2 undoped baseline. The templates are stored in the HPC working folder, not in the GitHub Pages repository.</p>
+    <p>This page documents the local input-template, Quantum ESPRESSO, and pseudopotential setup for the anatase TiO2 undoped baseline. The working inputs and UPF files stay in the HPC folder, not in the GitHub Pages repository.</p>
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-19T23:09:21-04:00</span>
+        <span>2026-05-20T00:01:23-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -160,7 +160,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Templates prepared, not run</span>
+        <span>QE path and PseudoDojo UPFs resolved; not run</span>
       </div>
     </div>
   </header>
@@ -185,7 +185,7 @@
         </tr>
         <tr>
           <td>Pseudopotentials</td>
-          <td>Scalar-relativistic norm-conserving PseudoDojo v0.4.1; template filenames are placeholders and must be replaced locally.</td>
+          <td>Scalar-relativistic norm-conserving PseudoDojo v0.4.1 LDA; official standard UPF tarball downloaded locally and Ti/O files extracted.</td>
         </tr>
         <tr>
           <td>Plane-wave cutoff</td>
@@ -243,6 +243,57 @@
           <td>QE <code>ph.x</code> 4x4x4 phonon-grid template for later interpolation.</td>
           <td>No</td>
         </tr>
+        <tr>
+          <td><code>pseudos/pseudodojo_lda_nc_sr_0.4_standard_upf/</code></td>
+          <td>Local extracted <code>Ti.upf</code> and <code>O.upf</code> files used by the QE templates.</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>QE Environment and Pseudopotentials</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Value / check</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>QE root</td>
+          <td><code>/anvil/projects/x-che190065/rjguo/qe-7.5</code></td>
+        </tr>
+        <tr>
+          <td>Executables</td>
+          <td><code>bin/pw.x</code> and <code>bin/ph.x</code> are present and start under the requested module stack.</td>
+        </tr>
+        <tr>
+          <td>Required modules</td>
+          <td><code>module reset</code>, then <code>module load aocc/3.1.0 openmpi/4.1.6</code>, then <code>module load amdblis/3.0 amdlibflame/3.0 amdlibm/3.0 fftw</code>.</td>
+        </tr>
+        <tr>
+          <td>UPF source</td>
+          <td><code>https://www.pseudo-dojo.org/pseudos/nc-sr-04_pw_standard_upf.tgz</code></td>
+        </tr>
+        <tr>
+          <td>Tarball checksum</td>
+          <td><code>305351634a791ca63ff8043bd498b526e45d1e893d49e7a4429762cf7c5a3bcd</code></td>
+        </tr>
+        <tr>
+          <td>Ti UPF</td>
+          <td><code>Ti.upf</code>, checksum <code>10c932e2c47e069f49188f505cb1822c05fa83f359ed6b3a928a386bf35eb350</code>; metadata: NC, scalar relativistic, LDA, <code>z_valence=12.00</code>.</td>
+        </tr>
+        <tr>
+          <td>O UPF</td>
+          <td><code>O.upf</code>, checksum <code>e1efa9b48cf0dd16e952fe3410d5e6bef8d48d8f8d44ba58e104b62f8ff7b7e3</code>; metadata: NC, scalar relativistic, LDA, <code>z_valence=6.00</code>.</td>
+        </tr>
+        <tr>
+          <td>Template path update</td>
+          <td>QE inputs now use absolute <code>outdir</code> and <code>pseudo_dir</code> paths so they do not depend on the launch directory.</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -250,13 +301,19 @@
   <section>
     <h2>Run Order</h2>
     <p>The templates are not run yet. The intended local command order is:</p>
-    <pre><code>pw.x -in dft/tio2/relax/tio2_anatase_relax.in &gt; dft/tio2/relax/tio2_anatase_relax.out
+    <pre><code>module reset
+module load aocc/3.1.0 openmpi/4.1.6
+module load amdblis/3.0 amdlibflame/3.0 amdlibm/3.0 fftw
+
+QE=/anvil/projects/x-che190065/rjguo/qe-7.5/bin
+
+$QE/pw.x -in dft/tio2/relax/tio2_anatase_relax.in &gt; dft/tio2/relax/tio2_anatase_relax.out
 
 # Copy final relaxed ATOMIC_POSITIONS into the SCF input first.
-pw.x -in dft/tio2/scf/tio2_anatase_scf.in &gt; dft/tio2/scf/tio2_anatase_scf.out
+$QE/pw.x -in dft/tio2/scf/tio2_anatase_scf.in &gt; dft/tio2/scf/tio2_anatase_scf.out
 
-ph.x -in dft/tio2/ph/tio2_anatase_ph_gamma_eps.in &gt; dft/tio2/ph/tio2_anatase_ph_gamma_eps.out
-ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.out</code></pre>
+$QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_gamma_eps.in &gt; dft/tio2/ph/tio2_anatase_ph_gamma_eps.out
+$QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.out</code></pre>
   </section>
 
   <section>
@@ -285,6 +342,21 @@ ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_anatase
           <td>Separate Gamma dielectric/Born-charge input and 4x4x4 phonon-grid input prepared.</td>
           <td class="status">PASS</td>
         </tr>
+        <tr>
+          <td>QE executable discovery</td>
+          <td><code>pw.x</code> and <code>ph.x</code> found in the provided QE 7.5 tree and start after loading the requested modules.</td>
+          <td class="status">PASS</td>
+        </tr>
+        <tr>
+          <td>Pseudopotential resolution</td>
+          <td>Official PseudoDojo LDA standard UPF tarball downloaded; <code>Ti.upf</code> and <code>O.upf</code> extracted and metadata checked.</td>
+          <td class="status">PASS</td>
+        </tr>
+        <tr>
+          <td>Path robustness</td>
+          <td>QE inputs now point to absolute <code>outdir</code> and <code>pseudo_dir</code> values on this HPC filesystem.</td>
+          <td class="status">PASS</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -292,16 +364,16 @@ ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_anatase
   <section class="warning">
     <h2>Important Warnings Before Running</h2>
     <ul>
-      <li>The pseudopotential names in the templates are placeholders. Replace them with exact PseudoDojo v0.4.1 LDA scalar-relativistic norm-conserving filenames available on the HPC filesystem.</li>
       <li>The SCF template still contains the initial internal coordinates. For production, replace them with final coordinates from the relaxation output.</li>
       <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, or local pseudopotentials.</li>
-      <li>The templates have not been run yet; this step only prepares the local input files.</li>
+      <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
+      <li>The templates have not been run yet; this step only resolves the executable and pseudopotential setup.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to resolve the exact local pseudopotential filenames and run a lightweight QE availability check, then submit or run the TiO2 internal-coordinate relaxation.</p>
+    <p>The next implementation step is to run the TiO2 internal-coordinate relaxation with the recorded module stack, then inspect force convergence and copy the final relaxed coordinates into the SCF input.</p>
   </section>
 </main>
 </body>
