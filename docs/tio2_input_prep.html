@@ -133,6 +133,10 @@
       color: #166534;
       font-weight: 700;
     }
+    .status-pending {
+      color: #9a4d00;
+      font-weight: 700;
+    }
     ul { margin: 8px 0 0 22px; padding: 0; }
     li { margin: 4px 0; }
     @media (max-width: 760px) {
@@ -152,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T00:01:23-04:00</span>
+        <span>2026-05-20T00:21:06-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -160,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>QE path and PseudoDojo UPFs resolved; not run</span>
+        <span>Relax job submitted, pending resources</span>
       </div>
     </div>
   </header>
@@ -225,7 +229,12 @@
         </tr>
         <tr>
           <td><code>dft/tio2/relax/tio2_anatase_relax.in</code></td>
-          <td>QE <code>pw.x</code> internal-coordinate relaxation template.</td>
+          <td>QE <code>pw.x</code> internal-coordinate relaxation input; force convergence target set to <code>1.0d-5 Ry/bohr</code>.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/relax/run_relax.slurm</code></td>
+          <td>Local Slurm submission script for the TiO2 relaxation job.</td>
           <td>No</td>
         </tr>
         <tr>
@@ -317,6 +326,40 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
   </section>
 
   <section>
+    <h2>Current Relax Submission</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Submitted job</td>
+          <td><code>17481280</code></td>
+        </tr>
+        <tr>
+          <td>State at submission check</td>
+          <td><span class="status-pending">PENDING</span>, reason <code>Resources</code></td>
+        </tr>
+        <tr>
+          <td>Slurm resources</td>
+          <td><code>account=che190065</code>, <code>partition=standard</code>, <code>qos=cpu</code>, 1 node, 128 MPI tasks, 4 hour walltime.</td>
+        </tr>
+        <tr>
+          <td>QE launch</td>
+          <td><code>srun -n 128 pw.x -nk 8</code> using QE 7.5 from the recorded project path.</td>
+        </tr>
+        <tr>
+          <td>Output target</td>
+          <td><code>dft/tio2/relax/tio2_anatase_relax.out</code> plus Slurm stdout/stderr logs. These are local raw outputs and are ignored by Git.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
     <h2>Template Sanity Checks</h2>
     <table>
       <thead>
@@ -357,6 +400,16 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
           <td>QE inputs now point to absolute <code>outdir</code> and <code>pseudo_dir</code> values on this HPC filesystem.</td>
           <td class="status">PASS</td>
         </tr>
+        <tr>
+          <td>Relax submission dry-run</td>
+          <td><code>sbatch --test-only</code> accepted the standard-node submission with 128 processors.</td>
+          <td class="status">PASS</td>
+        </tr>
+        <tr>
+          <td>Relax job submission</td>
+          <td>Job <code>17481280</code> submitted and visible in Slurm as pending for resources.</td>
+          <td class="status-pending">PENDING</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -365,15 +418,15 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
     <h2>Important Warnings Before Running</h2>
     <ul>
       <li>The SCF template still contains the initial internal coordinates. For production, replace them with final coordinates from the relaxation output.</li>
-      <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, or local pseudopotentials.</li>
+      <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, Slurm stdout/stderr logs, or local pseudopotentials.</li>
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
-      <li>The templates have not been run yet; this step only resolves the executable and pseudopotential setup.</li>
+      <li>The relaxation is queued but not complete yet; force convergence and final coordinates are not available until job <code>17481280</code> finishes.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to run the TiO2 internal-coordinate relaxation with the recorded module stack, then inspect force convergence and copy the final relaxed coordinates into the SCF input.</p>
+    <p>The next implementation step is to monitor job <code>17481280</code>. After it finishes, parse <code>tio2_anatase_relax.out</code>, verify the final force is below <code>1.0d-5 Ry/bohr</code>, and copy the final relaxed coordinates into the SCF input.</p>
   </section>
 </main>
 </body>

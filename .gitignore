@@ -11,6 +11,9 @@
 *.log
 *.out
 *.err
+*.stdout
+*.stderr
+slurm-*.out
 __pycache__/
 .DS_Store
 .env
