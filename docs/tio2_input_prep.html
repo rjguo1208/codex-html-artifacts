@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T17:47:25-04:00</span>
+        <span>2026-05-20T17:59:41-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -365,7 +365,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T17:47:25-04:00</code></td>
+          <td><code>2026-05-20T17:59:41-04:00</code></td>
         </tr>
         <tr>
           <td>Primitive smoke job</td>
@@ -397,7 +397,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>4x4x4 phonon-grid DFPT job</td>
-          <td>Shared job <code>17535117</code> started at <code>2026-05-20T17:40:56</code> on node <code>a198</code>, using <code>128</code> CPUs / MPI tasks, <code>ph.x -nk 8</code>, and the completed <code>tmp_scf</code> outdir. At the latest check (<code>2026-05-20T17:47:25-04:00</code>) it is <code>RUNNING</code>, processing the first q point at Gamma. Electric-field response has completed; Gamma representations <code>1</code>-<code>6</code> have reached <code>Convergence has been achieved</code>, and representation <code>7</code> is in progress. Files <code>tio2_anatase_prim.dyn0</code> and <code>tio2_anatase_prim.dyn1</code> have been created.</td>
+          <td>Shared job <code>17535117</code> started at <code>2026-05-20T17:40:56</code> on node <code>a198</code>, using <code>128</code> CPUs / MPI tasks, <code>ph.x -nk 8</code>, and the completed <code>tmp_scf</code> outdir. At the latest check (<code>2026-05-20T17:59:41-04:00</code>) it is <code>RUNNING</code>. The Gamma q point has completed all <code>18</code> representations and written <code>tio2_anatase_prim.dyn1</code> (<code>21.9 KB</code>). The second q point <code>(0, -0.3606176, 0.1434133)</code> is in progress; representations <code>1</code>-<code>4</code> have reached <code>Convergence has been achieved</code>, representation <code>5</code> is running, and <code>tio2_anatase_prim.dyn2</code> has been created but is still empty.</td>
         </tr>
         <tr>
           <td>Primitive vectors</td>
@@ -560,7 +560,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
       <li>The first 12-atom relaxation completed but did not meet the force threshold: final total force was <code>3.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target.</li>
       <li>The 6-atom primitive relaxation, SCF, and Gamma dielectric/Born-charge DFPT have completed successfully. The <code>4x4x4</code> phonon-grid DFPT job is currently running on <code>shared</code>.</li>
       <li>The primitive smoke, relax, <code>cont1</code>, <code>cont2</code>, SCF, and Gamma DFPT outputs exist locally. The <code>tmp_scf</code> save directory is about <code>379M</code> and is required for DFPT, but it remains excluded from GitHub as raw calculation data.</li>
-      <li>The completed Gamma DFPT job used the user-requested <code>shared</code> partition. The active <code>4x4x4</code> grid job also uses <code>shared</code> and has backfilled into node <code>a198</code>.</li>
+      <li>The completed Gamma DFPT job used the user-requested <code>shared</code> partition. The active <code>4x4x4</code> grid job also uses <code>shared</code> and has backfilled into node <code>a198</code>; it has already finished the Gamma q point of the grid.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
     </ul>
