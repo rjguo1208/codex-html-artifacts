@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T01:36:22-04:00</span>
+        <span>2026-05-20T01:53:57-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Shared relax running; smoke test passed</span>
+        <span>Initial relax incomplete; continuation queued</span>
       </div>
     </div>
   </header>
@@ -351,20 +351,20 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
       </thead>
       <tbody>
         <tr>
-          <td>Submitted job</td>
-          <td><code>17481858</code></td>
+          <td>Initial relax job</td>
+          <td><code>17481858</code>, completed with Slurm exit code <code>0:0</code></td>
         </tr>
         <tr>
-          <td>State at latest check</td>
-          <td><span class="status">RUNNING</span> on node <code>a038</code></td>
+          <td>Initial relax outcome</td>
+          <td><span class="status-pending">NOT FORCE-CONVERGED</span>. QE wrote <code>JOB DONE</code>, but BFGS reported convergence not achieved.</td>
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T01:36:22-04:00</code></td>
+          <td><code>2026-05-20T01:53:57-04:00</code></td>
         </tr>
         <tr>
-          <td>Start time</td>
-          <td><code>2026-05-20T01:17:42</code>; elapsed time was about 18 minutes 40 seconds at the latest check.</td>
+          <td>Initial relax runtime</td>
+          <td><code>2026-05-20T01:17:42</code> to <code>2026-05-20T01:43:09</code>, elapsed <code>00:25:27</code>.</td>
         </tr>
         <tr>
           <td>Slurm resources</td>
@@ -380,7 +380,7 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Post-check job</td>
-          <td>Slurm job <code>17481859</code> is queued on <code>shared</code> with dependency <code>afterany:17481858</code>. It will parse the relax output after the QE job leaves the queue and write a local summary file.</td>
+          <td>Initial post-check job <code>17481859</code> completed and wrote a local summary file. Continuation post-check job <code>17482109</code> is queued with dependency <code>afterany:17482108</code>.</td>
         </tr>
         <tr>
           <td>QE smoke test</td>
@@ -392,11 +392,15 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Relax progress</td>
-          <td>The production output has passed pseudo reading and SCF initialization. Completed ionic/BFGS force markers: step 0 <code>0.014068 Ry/Bohr</code>, step 1 <code>0.009634 Ry/Bohr</code>, step 2 <code>0.004686 Ry/Bohr</code>. Target force is <code>1.0e-5 Ry/Bohr</code>.</td>
+          <td>Initial force markers: step 0 <code>0.014068</code>, step 1 <code>0.009634</code>, step 2 <code>0.004686</code>, step 3 <code>0.000070</code>, step 4 <code>0.000048</code>, final <code>0.000032 Ry/Bohr</code>. Target force is <code>1.0e-5 Ry/Bohr</code>.</td>
         </tr>
         <tr>
           <td>Output size</td>
-          <td><code>dft/tio2/relax/tio2_anatase_relax.out</code> was about <code>310 KB</code> at the latest check. The file is local raw output and is not uploaded.</td>
+          <td><code>dft/tio2/relax/tio2_anatase_relax.out</code> was about <code>577 KB</code> at completion. The file is local raw output and is not uploaded.</td>
+        </tr>
+        <tr>
+          <td>Continuation relax</td>
+          <td>Job <code>17482108</code> was submitted on <code>shared</code> from the final coordinates of job <code>17481858</code>. It is currently <code>PENDING (Priority)</code>. The continuation uses the same cell, k grid, cutoff, and pseudopotentials with tighter electronic threshold <code>conv_thr=1.0d-12</code>.</td>
         </tr>
       </tbody>
     </table>
@@ -450,13 +454,13 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Relax job submission</td>
-          <td>Old job <code>17481280</code> was cancelled before running. New shared job <code>17481858</code> is running on node <code>a038</code>.</td>
-          <td class="status">RUNNING</td>
+          <td>Old job <code>17481280</code> was cancelled before running. Shared job <code>17481858</code> completed but did not satisfy the force threshold.</td>
+          <td class="status-pending">INCOMPLETE</td>
         </tr>
         <tr>
           <td>Completion parser</td>
-          <td>Old job <code>17481482</code> was cancelled before running. New shared dependency job <code>17481859</code> is queued with <code>afterany:17481858</code>; current state is <code>PENDING (Dependency)</code>.</td>
-          <td class="status-pending">PENDING</td>
+          <td>Old job <code>17481482</code> was cancelled before running. Shared parser job <code>17481859</code> completed for the first relax; continuation parser job <code>17482109</code> is queued.</td>
+          <td class="status-pending">FOLLOW-UP QUEUED</td>
         </tr>
         <tr>
           <td>QE smoke-test submission</td>
@@ -473,7 +477,8 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
       <li>The SCF template still contains the initial internal coordinates. For production, replace them with final coordinates from the relaxation output.</li>
       <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, Slurm stdout/stderr logs, or local pseudopotentials.</li>
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
-      <li>The relaxation is running but not complete yet; final force convergence and final coordinates are not available until job <code>17481858</code> finishes.</li>
+      <li>The first relaxation completed but did not meet the force threshold: final total force was <code>3.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target.</li>
+      <li>The final coordinates from job <code>17481858</code> are being used only as the starting point for continuation job <code>17482108</code>. They have not been promoted to the SCF production input.</li>
       <li>All active TiO2 Slurm jobs now use the <code>shared</code> partition. The shared queue may be substantially slower than the earlier standard/debug submissions.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
@@ -482,7 +487,7 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to monitor shared production relax job <code>17481858</code>. After it finishes, dependency job <code>17481859</code> should write a local post-check summary; then parse the final force and copy the relaxed coordinates into the SCF input.</p>
+    <p>The next implementation step is to monitor continuation relax job <code>17482108</code>. If it reaches the <code>1.0e-5 Ry/Bohr</code> force target, then copy the final relaxed coordinates into the SCF input; otherwise continue the relaxation or adjust the ionic optimizer settings.</p>
   </section>
 </main>
 </body>
