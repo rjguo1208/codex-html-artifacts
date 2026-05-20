@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toy Model Formulas</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --formula-bg: #fbfcff;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 12px 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0 0 12px;
+    }
+    a {
+      color: var(--accent);
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+    }
+    code {
+      padding: 2px 5px;
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    .formula {
+      overflow-x: auto;
+      margin: 12px 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--formula-bg);
+    }
+    math {
+      font-size: 1.08rem;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      background: #f3f6f9;
+    }
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 20px, 1040px);
+        padding-top: 16px;
+      }
+      section {
+        padding: 14px;
+      }
+      .meta {
+        grid-template-columns: 1fr;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>Toy Plasmon-Phonon Model Formulas</h1>
+    <p>This subpage documents the formulas used by the toy model checks and figures. Formulas are rendered with browser-native MathML, so the page does not use external plugins, CDNs, fonts, JavaScript, or network requests.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-19T22:42:35-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Implementation</strong>
+        <span><code>toy_model_plph.py</code></span>
+      </div>
+      <div class="metric">
+        <strong>Units</strong>
+        <span>energies in eV, coupling in eV<sup>2</sup></span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>1. Toy Model Parameters</h2>
+    <p>The displayed figures use one plasmon and two phonon modes. Only the first phonon is coupled to the plasmon; the second phonon is intentionally decoupled as a control.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Value used in the default check</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>omega_pl</code></td>
+          <td>80 meV for the check; swept for the avoided-crossing figure</td>
+          <td>Bare plasmon energy.</td>
+        </tr>
+        <tr>
+          <td><code>omega_ph,1</code></td>
+          <td>100 meV</td>
+          <td>Coupled phonon mode.</td>
+        </tr>
+        <tr>
+          <td><code>omega_ph,2</code></td>
+          <td>160 meV</td>
+          <td>Decoupled phonon mode.</td>
+        </tr>
+        <tr>
+          <td><code>c1</code></td>
+          <td>0.0018 i eV<sup>2</sup></td>
+          <td>Plasmon-phonon coupling amplitude.</td>
+        </tr>
+        <tr>
+          <td><code>c2</code></td>
+          <td>0</td>
+          <td>Control coupling for the decoupled phonon.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>2. Zero-Linewidth Dynamical Matrix</h2>
+    <p>The zero-linewidth toy model diagonalizes the plasmon-phonon dynamical matrix.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <mover><mi>C</mi><mo>~</mo></mover>
+          <mo>=</mo>
+          <mfenced open="(" close=")">
+            <mtable>
+              <mtr>
+                <mtd><msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup></mtd>
+                <mtd><msub><mi>c</mi><mn>1</mn></msub></mtd>
+                <mtd><msub><mi>c</mi><mn>2</mn></msub></mtd>
+              </mtr>
+              <mtr>
+                <mtd><msubsup><mi>c</mi><mn>1</mn><mo>*</mo></msubsup></mtd>
+                <mtd><msubsup><mi>&omega;</mi><mrow><mi>ph</mi><mo>,</mo><mn>1</mn></mrow><mn>2</mn></msubsup></mtd>
+                <mtd><mn>0</mn></mtd>
+              </mtr>
+              <mtr>
+                <mtd><msubsup><mi>c</mi><mn>2</mn><mo>*</mo></msubsup></mtd>
+                <mtd><mn>0</mn></mtd>
+                <mtd><msubsup><mi>&omega;</mi><mrow><mi>ph</mi><mo>,</mo><mn>2</mn></mrow><mn>2</mn></msubsup></mtd>
+              </mtr>
+            </mtable>
+          </mfenced>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>C_tilde =
+[[omega_pl^2, c1, c2],
+ [c1*, omega_ph,1^2, 0],
+ [c2*, 0, omega_ph,2^2]]</code></pre>
+  </section>
+
+  <section>
+    <h2>3. Hybrid Mode Eigenproblem</h2>
+    <p>The hybrid energies are the square roots of the eigenvalues of the matrix above.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <mover><mi>C</mi><mo>~</mo></mover>
+          <msub><mover><mi>V</mi><mo>~</mo></mover><mi>&beta;</mi></msub>
+          <mo>=</mo>
+          <msubsup><mover><mi>&omega;</mi><mo>~</mo></mover><mi>&beta;</mi><mn>2</mn></msubsup>
+          <msub><mover><mi>V</mi><mo>~</mo></mover><mi>&beta;</mi></msub>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msub><mi>E</mi><mi>&beta;</mi></msub>
+          <mo>=</mo>
+          <msub><mover><mi>&omega;</mi><mo>~</mo></mover><mi>&beta;</mi></msub>
+          <mo>=</mo>
+          <msqrt>
+            <mrow>
+              <msub><mi>&lambda;</mi><mi>&beta;</mi></msub>
+              <mo stretchy="false">(</mo>
+              <mover><mi>C</mi><mo>~</mo></mover>
+              <mo stretchy="false">)</mo>
+            </mrow>
+          </msqrt>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>C_tilde V_beta = omega_tilde_beta^2 V_beta
+E_beta = omega_tilde_beta = sqrt(lambda_beta(C_tilde))</code></pre>
+  </section>
+
+  <section>
+    <h2>4. Avoided Crossing Formula</h2>
+    <p>Because <code>c2 = 0</code>, the second phonon remains exactly fixed. The avoided crossing is controlled by the two-mode plasmon plus coupled-phonon block.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>E</mi><mo>&plusmn;</mo></msub>
+          <mo>=</mo>
+          <msqrt>
+            <mfrac>
+              <mrow>
+                <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+                <mo>+</mo>
+                <msubsup><mi>&omega;</mi><mrow><mi>ph</mi><mo>,</mo><mn>1</mn></mrow><mn>2</mn></msubsup>
+                <mo>&plusmn;</mo>
+                <msqrt>
+                  <mrow>
+                    <msup>
+                      <mfenced open="(" close=")">
+                        <mrow>
+                          <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+                          <mo>-</mo>
+                          <msubsup><mi>&omega;</mi><mrow><mi>ph</mi><mo>,</mo><mn>1</mn></mrow><mn>2</mn></msubsup>
+                        </mrow>
+                      </mfenced>
+                      <mn>2</mn>
+                    </msup>
+                    <mo>+</mo>
+                    <mn>4</mn>
+                    <msup>
+                      <mfenced open="|" close="|">
+                        <msub><mi>c</mi><mn>1</mn></msub>
+                      </mfenced>
+                      <mn>2</mn>
+                    </msup>
+                  </mrow>
+                </msqrt>
+              </mrow>
+              <mn>2</mn>
+            </mfrac>
+          </msqrt>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>E_+- = sqrt((omega_pl^2 + omega_ph,1^2
+            +- sqrt((omega_pl^2 - omega_ph,1^2)^2 + 4 |c1|^2)) / 2)</code></pre>
+    <p>The third energy is simply <code>E3 = omega_ph,2</code> because the decoupled mode has <code>c2 = 0</code>.</p>
+  </section>
+
+  <section>
+    <h2>5. Direct Dyson Check</h2>
+    <p>The full plasmon-phonon Green function uses the inverse matrix below. The direct Dyson check compares its phonon block with the explicit phonon Dyson equation.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msup><mover><mi>D</mi><mo>~</mo></mover><mrow><mo>-</mo><mn>1</mn></mrow></msup>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msup>
+            <mfenced open="(" close=")">
+              <mrow>
+                <mi>&omega;</mi>
+                <mo>+</mo>
+                <mi>i</mi>
+                <mover><mi>&Gamma;</mi><mo>~</mo></mover>
+              </mrow>
+            </mfenced>
+            <mn>2</mn>
+          </msup>
+          <mo>-</mo>
+          <mover><mi>C</mi><mo>~</mo></mover>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msup><mi>D</mi><mrow><mo>-</mo><mn>1</mn></mrow></msup>
+          <mo>=</mo>
+          <msup><mfenced open="(" close=")"><msup><mi>D</mi><mn>0</mn></msup></mfenced><mrow><mo>-</mo><mn>1</mn></mrow></msup>
+          <mo>-</mo>
+          <mi>&Pi;</mi>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msub><mi>&Pi;</mi><mrow><mi>&mu;</mi><mi>&nu;</mi></mrow></msub>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msubsup><mi>c</mi><mi>&mu;</mi><mo>*</mo></msubsup>
+          <mfrac>
+            <mn>1</mn>
+            <mrow>
+              <msup><mfenced open="(" close=")"><mrow><mi>&omega;</mi><mo>+</mo><mi>i</mi><msub><mi>&gamma;</mi><mn>0</mn></msub></mrow></mfenced><mn>2</mn></msup>
+              <mo>-</mo>
+              <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+            </mrow>
+          </mfrac>
+          <msub><mi>c</mi><mi>&nu;</mi></msub>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>D_tilde^{-1}(omega) = (omega + i Gamma_tilde)^2 - C_tilde
+D^{-1} = (D0)^{-1} - Pi
+Pi_mu,nu(omega) = c_mu* D0_pl(omega) c_nu</code></pre>
+  </section>
+
+  <section>
+    <h2>6. Finite-Linewidth Solver</h2>
+    <p>The finite-linewidth check follows the damped-oscillator construction used in the supplemental material. A phase transform first makes the coupling block real.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <mi>&Phi;</mi>
+          <mo>=</mo>
+          <mi>diag</mi>
+          <mo stretchy="false">(</mo>
+          <mn>1</mn>
+          <mo>,</mo>
+          <msup><mi>e</mi><mrow><mi>i</mi><msub><mi>&phi;</mi><mn>1</mn></msub></mrow></msup>
+          <mo>,</mo>
+          <msup><mi>e</mi><mrow><mi>i</mi><msub><mi>&phi;</mi><mn>2</mn></msub></mrow></msup>
+          <mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msup><mi>e</mi><mrow><mi>i</mi><msub><mi>&phi;</mi><mi>&nu;</mi></msub></mrow></msup>
+          <mo>=</mo>
+          <mfrac>
+            <msub><mi>c</mi><mi>&nu;</mi></msub>
+            <mfenced open="|" close="|"><msub><mi>c</mi><mi>&nu;</mi></msub></mfenced>
+          </mfrac>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>A</mi>
+          <mo>=</mo>
+          <mfrac><mn>1</mn><mn>2</mn></mfrac>
+          <mfenced open="(" close=")">
+            <mrow>
+              <mi>&Phi;</mi>
+              <mover><mi>C</mi><mo>~</mo></mover>
+              <msup><mi>&Phi;</mi><mo>&dagger;</mo></msup>
+              <mo>+</mo>
+              <mi>I</mi>
+            </mrow>
+          </mfenced>
+          <mo>-</mo>
+          <mi>i</mi>
+          <mover><mi>&Gamma;</mi><mo>~</mo></mover>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>B</mi>
+          <mo>=</mo>
+          <mfrac><mn>1</mn><mn>2</mn></mfrac>
+          <mfenced open="(" close=")">
+            <mrow>
+              <mi>&Phi;</mi>
+              <mover><mi>C</mi><mo>~</mo></mover>
+              <msup><mi>&Phi;</mi><mo>&dagger;</mo></msup>
+              <mo>-</mo>
+              <mi>I</mi>
+            </mrow>
+          </mfenced>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mfenced open="(" close=")">
+            <mtable>
+              <mtr>
+                <mtd><mi>A</mi></mtd>
+                <mtd><mi>B</mi></mtd>
+              </mtr>
+              <mtr>
+                <mtd><mo>-</mo><msup><mi>B</mi><mo>*</mo></msup></mtd>
+                <mtd><mo>-</mo><msup><mi>A</mi><mo>*</mo></msup></mtd>
+              </mtr>
+            </mtable>
+          </mfenced>
+          <mfenced open="(" close=")">
+            <mtable>
+              <mtr><mtd><mi>x</mi></mtd></mtr>
+              <mtr><mtd><mi>y</mi></mtd></mtr>
+            </mtable>
+          </mfenced>
+          <mo>=</mo>
+          <mi>&lambda;</mi>
+          <mfenced open="(" close=")">
+            <mtable>
+              <mtr><mtd><mi>x</mi></mtd></mtr>
+              <mtr><mtd><mi>y</mi></mtd></mtr>
+            </mtable>
+          </mfenced>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>Phi = diag(1, exp(i phi_1), exp(i phi_2))
+exp(i phi_nu) = c_nu / |c_nu|
+A = 1/2 (Phi C_tilde Phi^dagger + I) - i Gamma_tilde
+B = 1/2 (Phi C_tilde Phi^dagger - I)
+[[A, B], [-B*, -A*]] [x, y]^T = lambda [x, y]^T</code></pre>
+    <p>The positive branch is written as follows, so a physical linewidth has a negative imaginary part.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&lambda;</mi><mi>&beta;</mi></msub>
+          <mo>=</mo>
+          <msub><mover><mi>&omega;</mi><mo>~</mo></mover><mi>&beta;</mi></msub>
+          <mo>-</mo>
+          <mi>i</mi>
+          <msub><mover><mi>&gamma;</mi><mo>~</mo></mover><mi>&beta;</mi></msub>
+        </mrow>
+      </math>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. Static Plasmon-Pole Check</h2>
+    <p>The static approximation fixes a high plasmon-pole energy and chooses the pole strength to reproduce a target static inverse dielectric function at low energy.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&omega;</mi><mn>0</mn></msub>
+          <mo>=</mo>
+          <msup><mi>&omega;</mi><mo>*</mo></msup>
+          <mo>=</mo>
+          <mn>5</mn>
+          <mtext> eV</mtext>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msub><mi>&Omega;</mi><mn>0</mn></msub>
+          <mo>=</mo>
+          <msup><mi>&omega;</mi><mo>*</mo></msup>
+          <msqrt>
+            <mrow>
+              <mn>1</mn>
+              <mo>-</mo>
+              <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+              <mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo>
+            </mrow>
+          </msqrt>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mn>1</mn>
+          <mo>+</mo>
+          <mfrac>
+            <msubsup><mi>&Omega;</mi><mn>0</mn><mn>2</mn></msubsup>
+            <mrow>
+              <msup><mi>&omega;</mi><mn>2</mn></msup>
+              <mo>-</mo>
+              <msup><mfenced open="(" close=")"><msup><mi>&omega;</mi><mo>*</mo></msup></mfenced><mn>2</mn></msup>
+            </mrow>
+          </mfrac>
+          <mo>&approx;</mo>
+          <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>omega_0 = omega* = 5 eV
+Omega_0 = omega* sqrt(1 - eps_el^{-1}(0))
+eps_el^{-1}(omega) = 1 + Omega_0^2 / (omega^2 - omega*^2)
+eps_el^{-1}(omega << omega*) approximately eps_el^{-1}(0)</code></pre>
+  </section>
+</main>
+</body>
+</html>
