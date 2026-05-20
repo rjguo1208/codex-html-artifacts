@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T16:35:50-04:00</span>
+        <span>2026-05-20T17:15:38-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup has also been advanced locally: QE 7.5 was located, the required HPC module stack was recorded, and official PseudoDojo LDA Ti/O UPF files were downloaded into an ignored local pseudopotential directory. After reviewing the reference wording, the production route was switched from a 12-atom conventional cell to a 6-atom primitive anatase cell. Latest check at <code>2026-05-20T16:35:50-04:00</code>: the user-requested <code>shared</code> Gamma-point dielectric/Born-charge DFPT job <code>17531312</code> completed with exit code <code>0:0</code>. It produced the dielectric tensor, Born effective charges, and Gamma phonon frequencies; the next calculation is the 4x4x4 phonon-grid DFPT job.</p>
+    <p>The TiO2 QE setup has also been advanced locally: QE 7.5 was located, the required HPC module stack was recorded, and official PseudoDojo LDA Ti/O UPF files were downloaded into an ignored local pseudopotential directory. After reviewing the reference wording, the production route was switched from a 12-atom conventional cell to a 6-atom primitive anatase cell. Latest action at <code>2026-05-20T17:15:38-04:00</code>: the <code>4x4x4</code> phonon-grid DFPT job was submitted on the user-selected <code>shared</code> partition as job <code>17535117</code> with <code>128</code> MPI tasks. Shared dry-runs with <code>16</code>-<code>128</code> tasks predicted very long queue latency around <code>2026-08-15</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>
@@ -314,7 +314,7 @@
 
   <section>
     <h2>TiO2 DFT/DFPT Input Preparation</h2>
-    <p>The next reproduction stage has been prepared locally: Quantum ESPRESSO templates for 6-atom primitive anatase TiO2 internal-coordinate relaxation, SCF, Gamma-point dielectric/Born-charge DFPT, and a 4x4x4 phonon grid. QE 7.5 is available at <code>/anvil/projects/x-che190065/rjguo/qe-7.5</code>, the requested module stack is documented, the official PseudoDojo LDA Ti/O UPF files have been downloaded locally, and the Gamma-point DFPT job completed on the <code>shared</code> partition. These files are not committed to the Pages repository, but the public-safe setup summary is available in a dedicated subpage.</p>
+    <p>The next reproduction stage has been prepared locally: Quantum ESPRESSO templates for 6-atom primitive anatase TiO2 internal-coordinate relaxation, SCF, Gamma-point dielectric/Born-charge DFPT, and a 4x4x4 phonon grid. QE 7.5 is available at <code>/anvil/projects/x-che190065/rjguo/qe-7.5</code>, the requested module stack is documented, the official PseudoDojo LDA Ti/O UPF files have been downloaded locally, and the 4x4x4 phonon-grid DFPT job is queued on the <code>shared</code> partition. These files are not committed to the Pages repository, but the public-safe setup summary is available in a dedicated subpage.</p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
 
