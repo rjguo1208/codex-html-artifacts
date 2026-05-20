@@ -237,6 +237,7 @@
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
+    <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
   </section>
 
   <section>
@@ -286,6 +287,12 @@
           <td>Markdown notes</td>
           <td>21 KB</td>
           <td>Used as context for interpretation.</td>
+        </tr>
+        <tr>
+          <td><code>environment/unit_conventions.md</code></td>
+          <td>Markdown notes</td>
+          <td>local only</td>
+          <td>Implemented locally; summarized on the unit-conventions page but not uploaded as raw workspace file.</td>
         </tr>
       </tbody>
     </table>
@@ -429,6 +436,7 @@ conda activate Tmat
 python toy_model_plph.py
 python toy_model_plph.py --plot</code></pre>
     <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
+    <p>The unit convention baseline was added locally as <code>environment/unit_conventions.md</code>. The public-safe summary is available as <a href="unit_conventions.html">a dedicated unit-conventions page</a>.</p>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
