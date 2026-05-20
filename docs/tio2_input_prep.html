@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T00:21:06-04:00</span>
+        <span>2026-05-20T00:47:19-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Relax job submitted, pending resources</span>
+        <span>Relax job pending; post-check job queued</span>
       </div>
     </div>
   </header>
@@ -235,6 +235,16 @@
         <tr>
           <td><code>dft/tio2/relax/run_relax.slurm</code></td>
           <td>Local Slurm submission script for the TiO2 relaxation job.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/relax/check_relax_status.sh</code></td>
+          <td>Local status-check helper for <code>squeue</code>, <code>sacct</code>, and QE output markers.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/relax/post_relax_check.slurm</code></td>
+          <td>Local dependency job that will parse the relax output after the QE job finishes.</td>
           <td>No</td>
         </tr>
         <tr>
@@ -340,8 +350,16 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
           <td><code>17481280</code></td>
         </tr>
         <tr>
-          <td>State at submission check</td>
+          <td>State at latest check</td>
           <td><span class="status-pending">PENDING</span>, reason <code>Resources</code></td>
+        </tr>
+        <tr>
+          <td>Latest check time</td>
+          <td><code>2026-05-20T00:47:19-04:00</code></td>
+        </tr>
+        <tr>
+          <td>Estimated start time</td>
+          <td><code>N/A</code> in the latest <code>squeue</code> snapshot. An earlier scheduler estimate was <code>2026-05-21T12:25:58</code>; this value is scheduler-dependent and may change.</td>
         </tr>
         <tr>
           <td>Slurm resources</td>
@@ -354,6 +372,10 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         <tr>
           <td>Output target</td>
           <td><code>dft/tio2/relax/tio2_anatase_relax.out</code> plus Slurm stdout/stderr logs. These are local raw outputs and are ignored by Git.</td>
+        </tr>
+        <tr>
+          <td>Post-check job</td>
+          <td>Slurm job <code>17481482</code> is queued with dependency <code>afterany:17481280</code>. It will parse the relax output after the QE job leaves the queue and write a local summary file.</td>
         </tr>
       </tbody>
     </table>
@@ -407,7 +429,12 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Relax job submission</td>
-          <td>Job <code>17481280</code> submitted and visible in Slurm as pending for resources.</td>
+          <td>Job <code>17481280</code> submitted and visible in Slurm as pending for resources. The latest <code>squeue</code> snapshot reports start time as <code>N/A</code>.</td>
+          <td class="status-pending">PENDING</td>
+        </tr>
+        <tr>
+          <td>Completion parser</td>
+          <td>Dependency job <code>17481482</code> queued in <code>debug</code> with <code>afterany:17481280</code>; current state is <code>PENDING (Dependency)</code>.</td>
           <td class="status-pending">PENDING</td>
         </tr>
       </tbody>
@@ -421,12 +448,13 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
       <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, Slurm stdout/stderr logs, or local pseudopotentials.</li>
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
       <li>The relaxation is queued but not complete yet; force convergence and final coordinates are not available until job <code>17481280</code> finishes.</li>
+      <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to monitor job <code>17481280</code>. After it finishes, parse <code>tio2_anatase_relax.out</code>, verify the final force is below <code>1.0d-5 Ry/bohr</code>, and copy the final relaxed coordinates into the SCF input.</p>
+    <p>The next implementation step is to continue checking job <code>17481280</code>. After it finishes, dependency job <code>17481482</code> will produce a local post-check summary; then parse <code>tio2_anatase_relax.out</code>, verify the final force is below <code>1.0d-5 Ry/bohr</code>, and copy the final relaxed coordinates into the SCF input.</p>
   </section>
 </main>
 </body>
