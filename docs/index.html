@@ -2,24 +2,432 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Codex HTML Artifacts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plasmon-Phonon Toy Model Report</title>
   <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --accent-2: #7a4b00;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+      --code-bg: #eef3f8;
+    }
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: system-ui, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      line-height: 1.6;
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding: 28px 0 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0 0 12px;
+    }
+    a {
+      color: var(--accent);
+    }
+    code, pre {
+      background: var(--code-bg);
+      border-radius: 6px;
     }
     code {
-      background: #f3f3f3;
       padding: 2px 5px;
-      border-radius: 4px;
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      font-size: 1rem;
+      overflow-wrap: anywhere;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    figure {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    figcaption {
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #f3f6f9;
+    }
+    .status-pass {
+      color: #166534;
+      font-weight: 700;
+    }
+    .warning {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+    .note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e6f0fb;
+      color: #174b80;
+      font-size: 0.85rem;
+      font-weight: 650;
+    }
+    ul {
+      margin: 8px 0 0 22px;
+      padding: 0;
+    }
+    li {
+      margin: 4px 0;
+    }
+    @media (max-width: 850px) {
+      main {
+        width: min(100% - 20px, 1120px);
+        padding-top: 16px;
+      }
+      .meta,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      section {
+        padding: 14px;
+      }
+      table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Codex HTML Artifacts</h1>
-  <p>If you can see this page, GitHub Pages is working.</p>
-  <p>Later, Codex can overwrite <code>docs/index.html</code> with a generated HTML artifact.</p>
+<main>
+  <header>
+    <p class="pill">GitHub Pages artifact</p>
+    <h1>Plasmon-Phonon Hybridization Toy Model Report</h1>
+    <p>This page summarizes the small, public-safe results currently present in the HPC working folder for the plasmon-phonon hybridization study. It focuses on the formula-level toy model and does not upload raw DFT, DFPT, Wannier, EPW, or paper PDF data.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-19T22:19:20-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Source folder</strong>
+        <span><code>/anvil/scratch/x-rg47749/codex/1-Ph_Pl</code></span>
+      </div>
+      <div class="metric">
+        <strong>Report scope</strong>
+        <span>Toy model checks and figures</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Short Summary</h2>
+    <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
+    <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
+  </section>
+
+  <section>
+    <h2>Current Result Structure</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Type</th>
+          <th>Size</th>
+          <th>Use in this report</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>toy_model_plph.py</code></td>
+          <td>Python script</td>
+          <td>15.6 KB</td>
+          <td>Core reproducible toy-model implementation.</td>
+        </tr>
+        <tr>
+          <td><code>figures/toy_model/avoided_crossing.png</code></td>
+          <td>PNG figure</td>
+          <td>80 KB</td>
+          <td>Copied to <code>docs/assets/</code> and displayed.</td>
+        </tr>
+        <tr>
+          <td><code>figures/toy_model/spectral_function.png</code></td>
+          <td>PNG figure</td>
+          <td>51 KB</td>
+          <td>Copied to <code>docs/assets/</code> and displayed.</td>
+        </tr>
+        <tr>
+          <td><code>figures/toy_model/static_ppm.png</code></td>
+          <td>PNG figure</td>
+          <td>63 KB</td>
+          <td>Copied to <code>docs/assets/</code> and displayed.</td>
+        </tr>
+        <tr>
+          <td><code>plan.md</code></td>
+          <td>Markdown plan</td>
+          <td>40 KB</td>
+          <td>Used as context for the Phase 0 checks.</td>
+        </tr>
+        <tr>
+          <td><code>research.md</code></td>
+          <td>Markdown notes</td>
+          <td>21 KB</td>
+          <td>Used as context for interpretation.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Key Figures</h2>
+    <div class="grid">
+      <figure>
+        <img src="assets/avoided_crossing.png" alt="Toy plasmon-phonon avoided crossing">
+        <figcaption><strong>Avoided crossing.</strong> The bare plasmon is swept through a coupled phonon. The hybrid eigenmodes repel instead of crossing, while the intentionally decoupled phonon remains fixed.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/spectral_function.png" alt="Toy phonon spectral function">
+        <figcaption><strong>Phonon spectral function.</strong> Peaks align with the finite-linewidth hybrid modes, illustrating the Green-function observable used later for phonon spectra.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/static_ppm.png" alt="Static plasmon-pole low-energy limit">
+        <figcaption><strong>Static PPM limit.</strong> The static plasmon-pole construction stays close to the target low-energy inverse dielectric function.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Numerical Checks</h2>
+    <p>The toy model uses energies in eV and coupling <code>c</code> in eV<sup>2</sup>. The default zero-linewidth model has one plasmon at 80 meV, one coupled phonon at 100 meV, and one decoupled phonon at 160 meV.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Check</th>
+          <th>Value</th>
+          <th>Tolerance</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Direct Dyson vs full Green function</td>
+          <td><code>8.643478e-12</code></td>
+          <td><code>5.000000e-07</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Zero modes vs direct Green function</td>
+          <td><code>1.383554e-10</code></td>
+          <td><code>5.000000e-07</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Finite gamma to zero energy</td>
+          <td><code>3.330669e-16</code></td>
+          <td><code>5.000000e-08</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Finite gamma to zero damping</td>
+          <td><code>1.033976e-25</code></td>
+          <td><code>5.000000e-08</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Finite A/B vs direct damped eigenvalues</td>
+          <td><code>4.998866e-16</code></td>
+          <td><code>5.000000e-12</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Damping sign convention</td>
+          <td><code>-1.000000e-03</code></td>
+          <td><code>&lt;= 1.000000e-12</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Minimum spectral function</td>
+          <td><code>4.271899e-02</code></td>
+          <td><code>&gt;= -1.000000e-10</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Decoupled mode energy error</td>
+          <td><code>0.000000e+00</code></td>
+          <td><code>1.000000e-12</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Static PPM low-energy error</td>
+          <td><code>1.201923e-03</code></td>
+          <td><code>2.000000e-03</code></td>
+          <td class="status-pass">PASS</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Hybrid Mode Values</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Mode</th>
+          <th>Zero-linewidth energy</th>
+          <th>Finite-linewidth lambda</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+          <td>75.1958482 meV</td>
+          <td>75.3076349 - 5.2816952i meV</td>
+          <td>Lower hybrid mode, plasmon-like away from resonance.</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>103.6609107 meV</td>
+          <td>103.5500314 - 1.7183048i meV</td>
+          <td>Upper hybrid mode from the coupled 100 meV phonon.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>160.0000000 meV</td>
+          <td>160.0000000 - 1.0000000i meV</td>
+          <td>Decoupled phonon; it remains unshifted because its coupling is zero.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Interpretation</h2>
+    <p>The avoided-crossing figure is the cleanest visualization of plasmon-phonon hybridization. Without coupling, the bare plasmon line and phonon level would cross. With nonzero coupling, the eigenvalues of the plasmon-phonon dynamical matrix repel, producing two hybrid modes. This is the toy analog of the resonant regime discussed in the paper and later targeted in GaAs and TiO2.</p>
+    <p>The spectral-function figure checks that the Green-function observable is consistent with those hybrid modes. The static-PPM figure verifies the separate static approximation used as a control calculation in the reproduction plan.</p>
+  </section>
+
+  <section>
+    <h2>Reproducibility Notes</h2>
+    <p>The toy model was run with the requested HPC environment:</p>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+conda activate Tmat
+python toy_model_plph.py
+python toy_model_plph.py --plot</code></pre>
+    <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
+    <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
+  </section>
+
+  <section class="warning">
+    <h2>Files Not Uploaded</h2>
+    <p>The following files are intentionally not included in <code>docs/</code> or the GitHub Pages artifact:</p>
+    <ul>
+      <li><code>PhysRevLett.133.116402.pdf</code>, 1.6 MB: copyrighted paper PDF, not needed for the public report.</li>
+      <li><code>supp_revised.pdf</code>, 918 KB: supplemental PDF, not needed for the public report.</li>
+      <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
+      <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>
+    </ul>
+    <p>No private keys, tokens, credentials, raw wavefunction files, or large raw outputs were selected for upload.</p>
+  </section>
+</main>
 </body>
 </html>

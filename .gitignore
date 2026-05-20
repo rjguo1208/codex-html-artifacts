@@ -1,0 +1,25 @@
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.dat
+*.wfc
+*.wfc*
+*.save/
+*.tmp
+*.bak
+*.log
+*.out
+*.err
+__pycache__/
+.DS_Store
+.env
+*.key
+*.pem
+id_rsa*
+id_ed25519*
+
+# Local source PDFs and generated non-pages figures are kept out of the
+# GitHub Pages artifact. Public report assets should live under docs/assets/.
+*.pdf
+figures/
