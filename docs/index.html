@@ -388,6 +388,52 @@
   </section>
 
   <section>
+    <h2>Regression Test Update</h2>
+    <p>The toy model checks have been promoted to a local standard-library <code>unittest</code> suite. The test suite is kept in the HPC working folder as <code>tests/test_toy_model.py</code>; it is summarized here but not uploaded as a raw source file.</p>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+conda activate Tmat
+python -m unittest -v tests.test_toy_model</code></pre>
+    <table>
+      <thead>
+        <tr>
+          <th>Test area</th>
+          <th>Coverage</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Matrix structure</td>
+          <td><code>C_tilde</code> Hermiticity and energy-squared diagonal/off-diagonal checks.</td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Green functions</td>
+          <td>Direct Dyson phonon block equals the full plasmon-phonon Green function; zero-linewidth modes reconstruct the direct Green function.</td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Coupling limits</td>
+          <td>All-decoupled modes do not shift; weak coupling keeps bare energies; resonant two-mode avoided crossing matches the analytic formula.</td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Finite linewidth</td>
+          <td>A/B non-Hermitian matrix matches direct damped matrix; damping signs are physical; gamma-to-zero limit returns the Hermitian result.</td>
+          <td class="status-pass">PASS</td>
+        </tr>
+        <tr>
+          <td>Spectral and static checks</td>
+          <td>Spectral function remains non-negative; static PPM low-energy limit works for multiple target dielectric values.</td>
+          <td class="status-pass">PASS</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Result:</strong> 12 tests ran in 0.076 s, all passed.</p>
+  </section>
+
+  <section>
     <h2>Hybrid Mode Values</h2>
     <table>
       <thead>
