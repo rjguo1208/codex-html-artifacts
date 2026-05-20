@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T01:18:31-04:00</span>
+        <span>2026-05-20T01:36:22-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -360,11 +360,11 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T01:18:31-04:00</code></td>
+          <td><code>2026-05-20T01:36:22-04:00</code></td>
         </tr>
         <tr>
           <td>Start time</td>
-          <td><code>2026-05-20T01:17:42</code>; elapsed time was about 1 minute at the latest check.</td>
+          <td><code>2026-05-20T01:17:42</code>; elapsed time was about 18 minutes 40 seconds at the latest check.</td>
         </tr>
         <tr>
           <td>Slurm resources</td>
@@ -392,7 +392,11 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Relax progress</td>
-          <td>The production output has passed pseudo reading and SCF initialization. Latest parsed marker: electronic iteration <code>#3</code> in the first ionic step.</td>
+          <td>The production output has passed pseudo reading and SCF initialization. Completed ionic/BFGS force markers: step 0 <code>0.014068 Ry/Bohr</code>, step 1 <code>0.009634 Ry/Bohr</code>, step 2 <code>0.004686 Ry/Bohr</code>. Target force is <code>1.0e-5 Ry/Bohr</code>.</td>
+        </tr>
+        <tr>
+          <td>Output size</td>
+          <td><code>dft/tio2/relax/tio2_anatase_relax.out</code> was about <code>310 KB</code> at the latest check. The file is local raw output and is not uploaded.</td>
         </tr>
       </tbody>
     </table>
@@ -469,7 +473,7 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
       <li>The SCF template still contains the initial internal coordinates. For production, replace them with final coordinates from the relaxation output.</li>
       <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, Slurm stdout/stderr logs, or local pseudopotentials.</li>
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
-      <li>The relaxation is queued but not complete yet; force convergence and final coordinates are not available until job <code>17481858</code> finishes.</li>
+      <li>The relaxation is running but not complete yet; final force convergence and final coordinates are not available until job <code>17481858</code> finishes.</li>
       <li>All active TiO2 Slurm jobs now use the <code>shared</code> partition. The shared queue may be substantially slower than the earlier standard/debug submissions.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
