@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T14:23:32-04:00</span>
+        <span>2026-05-20T14:37:15-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup has also been advanced locally: QE 7.5 was located, the required HPC module stack was recorded, and official PseudoDojo LDA Ti/O UPF files were downloaded into an ignored local pseudopotential directory. After reviewing the reference wording, the production route was switched from a 12-atom conventional cell to a 6-atom primitive anatase cell. Latest check at <code>2026-05-20T14:23:32-04:00</code>: highmem smoke job <code>17524043</code> completed successfully with exit code <code>0:0</code> and QE <code>JOB DONE.</code>; 128-CPU relax job <code>17524044</code> is now eligible and still <code>PENDING</code> with reason <code>None</code>; post-check job <code>17524045</code> remains <code>PENDING</code> on the relax dependency.</p>
+    <p>The TiO2 QE setup has also been advanced locally: QE 7.5 was located, the required HPC module stack was recorded, and official PseudoDojo LDA Ti/O UPF files were downloaded into an ignored local pseudopotential directory. After reviewing the reference wording, the production route was switched from a 12-atom conventional cell to a 6-atom primitive anatase cell. Latest check at <code>2026-05-20T14:37:15-04:00</code>: highmem smoke job <code>17524043</code> completed successfully; 128-CPU relax job <code>17524044</code> also completed with Slurm exit code <code>0:0</code>, but QE reported <code>bfgs failed</code> with final total force <code>6.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target. The coordinates are close but should not yet be promoted to production SCF.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>

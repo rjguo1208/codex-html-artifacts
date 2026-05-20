@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T14:23:32-04:00</span>
+        <span>2026-05-20T14:37:15-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Smoke completed; relax pending</span>
+        <span>Relax completed; continuation needed</span>
       </div>
     </div>
   </header>
@@ -365,7 +365,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T14:23:32-04:00</code></td>
+          <td><code>2026-05-20T14:37:15-04:00</code></td>
         </tr>
         <tr>
           <td>Primitive smoke job</td>
@@ -373,11 +373,11 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Primitive relax job</td>
-          <td>Old shared relax jobs were canceled. New highmem relax job <code>17524044</code> has its smoke dependency cleared, remains <code>PENDING</code> with reason <code>None</code>, and requests <code>NumCPUs=128</code>, <code>NumTasks=128</code>, <code>CPUs/Task=1</code>, and memory <code>1017600M</code>. It became eligible at <code>2026-05-20T14:19:44</code>.</td>
+          <td>Highmem relax job <code>17524044</code> completed with Slurm exit code <code>0:0</code>, using <code>128</code> CPUs from <code>2026-05-20T14:25:06</code> to <code>2026-05-20T14:33:36</code>. QE produced <code>JOB DONE.</code>, final energy <code>-370.1719287019 Ry</code>, but BFGS did not meet the force target: final total force <code>0.000062 Ry/Bohr</code> versus target <code>0.000010 Ry/Bohr</code>.</td>
         </tr>
         <tr>
           <td>Primitive post-check job</td>
-          <td>Old shared post-check jobs were canceled. New highmem post-check job <code>17524045</code> depends on <code>afterany:17524044</code>; latest state from <code>squeue</code> and <code>sacct</code>: <code>PENDING</code>.</td>
+          <td>Highmem post-check job <code>17524045</code> has its dependency cleared and is <code>PENDING</code> with reason <code>None</code>; it became eligible at <code>2026-05-20T14:35:57</code>.</td>
         </tr>
         <tr>
           <td>Primitive vectors</td>
@@ -448,12 +448,12 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Relax job submission</td>
-          <td>Primitive relax job <code>17524044</code> is queued after successful smoke completion and requests <code>128</code> CPUs / MPI tasks on one highmem node.</td>
-          <td class="status-pending">PENDING</td>
+          <td>Primitive relax job <code>17524044</code> completed on highmem, but QE reported <code>bfgs failed after 26 scf cycles and 23 bfgs steps, convergence not achieved</code>. The last total force is close but above threshold.</td>
+          <td class="status-pending">NEEDS CONTINUATION</td>
         </tr>
         <tr>
           <td>Completion parser</td>
-          <td>Primitive parser job <code>17524045</code> is queued with dependency on primitive relax job <code>17524044</code>.</td>
+          <td>Primitive parser job <code>17524045</code> is queued after primitive relax job <code>17524044</code> and has not run yet.</td>
           <td class="status-pending">PENDING</td>
         </tr>
         <tr>
@@ -473,8 +473,8 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
       <li>The 12-atom conventional-cell route is retired for production. Its completed outputs remain local sanity checks only.</li>
       <li>The first 12-atom relaxation completed but did not meet the force threshold: final total force was <code>3.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target.</li>
-      <li>The 6-atom primitive relax has not completed yet. Do not promote any coordinates to the SCF production input until primitive job <code>17524044</code> reaches the force target.</li>
-      <li>The primitive smoke output exists and passed the launch/readability check. The production primitive relax output has not been created yet.</li>
+      <li>The 6-atom primitive relax job completed at the Slurm level, but QE did not meet the force threshold. Do not promote these coordinates to the SCF production input until a continuation run reaches <code>1.0e-5 Ry/Bohr</code>.</li>
+      <li>The primitive smoke output exists and passed the launch/readability check. The production primitive relax output also exists, but its final force is still above target.</li>
       <li>All active TiO2 Slurm jobs now use the <code>highmem</code> partition. The production primitive relax requests <code>128</code> CPUs / MPI tasks on one highmem node; this may reduce queue delay relative to <code>shared</code>, but highmem has a higher billing weight and is still controlled by Slurm priority and dependencies.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
@@ -483,7 +483,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to monitor primitive relax job <code>17524044</code>. It is now eligible after the successful smoke job and should start when highmem resources are assigned; if it reaches the <code>1.0e-5 Ry/Bohr</code> force target, then copy the final primitive relaxed coordinates into the primitive SCF input.</p>
+    <p>The next implementation step is to start a primitive relaxation continuation from the final coordinates of job <code>17524044</code>, still using the 6-atom primitive cell. If the continuation reaches the <code>1.0e-5 Ry/Bohr</code> force target, then copy the final primitive relaxed coordinates into the primitive SCF input.</p>
   </section>
 </main>
 </body>
