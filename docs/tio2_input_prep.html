@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T12:28:44-04:00</span>
+        <span>2026-05-20T12:37:27-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Switched to 6-atom primitive cell</span>
+        <span>Primitive jobs pending; no output yet</span>
       </div>
     </div>
   </header>
@@ -365,19 +365,19 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T12:28:44-04:00</code></td>
+          <td><code>2026-05-20T12:37:27-04:00</code></td>
         </tr>
         <tr>
           <td>Primitive smoke job</td>
-          <td>Job <code>17520540</code> submitted on <code>shared</code>; current state from <code>sacct</code>: <code>PENDING</code>.</td>
+          <td>Job <code>17520540</code> submitted on <code>shared</code>; latest state from <code>sacct</code>: <code>PENDING</code>. No primitive smoke output exists yet.</td>
         </tr>
         <tr>
           <td>Primitive relax job</td>
-          <td>Job <code>17520585</code> submitted on <code>shared</code> with dependency <code>afterok:17520540</code>; current state from <code>sacct</code>: <code>PENDING</code>.</td>
+          <td>Job <code>17520585</code> submitted on <code>shared</code> with dependency <code>afterok:17520540</code>; latest state from <code>sacct</code>: <code>PENDING</code>.</td>
         </tr>
         <tr>
           <td>Primitive post-check job</td>
-          <td>Job <code>17520588</code> submitted on <code>shared</code> with dependency <code>afterany:17520585</code>; current state from <code>sacct</code>: <code>PENDING</code>.</td>
+          <td>Job <code>17520588</code> submitted on <code>shared</code> with dependency <code>afterany:17520585</code>; latest state from <code>sacct</code>: <code>PENDING</code>.</td>
         </tr>
         <tr>
           <td>Primitive vectors</td>
@@ -474,6 +474,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
       <li>The 12-atom conventional-cell route is retired for production. Its completed outputs remain local sanity checks only.</li>
       <li>The first 12-atom relaxation completed but did not meet the force threshold: final total force was <code>3.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target.</li>
       <li>The 6-atom primitive relax has not completed yet. Do not promote any coordinates to the SCF production input until primitive job <code>17520585</code> reaches the force target.</li>
+      <li>As of the latest check, no primitive QE output file has been created yet.</li>
       <li>All active TiO2 Slurm jobs now use the <code>shared</code> partition. The shared queue may be substantially slower than the earlier standard/debug submissions.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
