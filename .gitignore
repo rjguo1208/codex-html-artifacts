@@ -35,6 +35,7 @@ figures/
 *.dvscf
 *.dvscf*
 *.mix
+*.mix*
 *.igk
 *.hub
 *.recover/
