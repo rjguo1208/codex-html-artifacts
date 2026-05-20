@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T01:16:54-04:00</span>
+        <span>2026-05-20T01:18:31-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>All active TiO2 Slurm jobs moved to shared</span>
+        <span>Shared relax running; smoke test passed</span>
       </div>
     </div>
   </header>
@@ -356,15 +356,15 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>State at latest check</td>
-          <td><span class="status-pending">PENDING</span>, reason <code>Priority</code></td>
+          <td><span class="status">RUNNING</span> on node <code>a038</code></td>
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T01:16:54-04:00</code></td>
+          <td><code>2026-05-20T01:18:31-04:00</code></td>
         </tr>
         <tr>
-          <td>Estimated start time</td>
-          <td><code>N/A</code> in the latest <code>squeue</code> snapshot. The shared-partition dry-run estimated <code>2026-08-14T07:29:18</code>, so the queue may be long.</td>
+          <td>Start time</td>
+          <td><code>2026-05-20T01:17:42</code>; elapsed time was about 1 minute at the latest check.</td>
         </tr>
         <tr>
           <td>Slurm resources</td>
@@ -384,7 +384,15 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>QE smoke test</td>
-          <td>Slurm job <code>17481860</code> is queued on <code>shared</code> as <code>PENDING (Priority)</code>. It uses an independent prefix/outdir, Gamma k point, and <code>electron_maxstep=1</code> to test QE input and UPF readability without touching the production relax state.</td>
+          <td>Slurm job <code>17481860</code> completed on <code>shared</code> with exit code <code>0:0</code>. It used an independent prefix/outdir, Gamma k point, and <code>electron_maxstep=1</code> to test QE input and UPF readability without touching the production relax state.</td>
+        </tr>
+        <tr>
+          <td>Smoke-test result</td>
+          <td>QE v7.5 started, read Ti/O norm-conserving UPFs, recognized the 12-atom cell and 80 Ry cutoff, entered SCF, then stopped after the intentional single electronic iteration with <code>JOB DONE</code>.</td>
+        </tr>
+        <tr>
+          <td>Relax progress</td>
+          <td>The production output has passed pseudo reading and SCF initialization. Latest parsed marker: electronic iteration <code>#3</code> in the first ionic step.</td>
         </tr>
       </tbody>
     </table>
@@ -438,8 +446,8 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>Relax job submission</td>
-          <td>Old job <code>17481280</code> was cancelled before running. New shared job <code>17481858</code> is submitted and pending on priority.</td>
-          <td class="status-pending">PENDING</td>
+          <td>Old job <code>17481280</code> was cancelled before running. New shared job <code>17481858</code> is running on node <code>a038</code>.</td>
+          <td class="status">RUNNING</td>
         </tr>
         <tr>
           <td>Completion parser</td>
@@ -448,8 +456,8 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
         </tr>
         <tr>
           <td>QE smoke-test submission</td>
-          <td>Old debug smoke job <code>17481834</code> was cancelled before running. New shared smoke job <code>17481860</code> is pending on priority and has no QE output yet.</td>
-          <td class="status-pending">PENDING</td>
+          <td>Old debug smoke job <code>17481834</code> was cancelled before running. New shared smoke job <code>17481860</code> completed successfully and validated launch/input/pseudo readability.</td>
+          <td class="status">PASS</td>
         </tr>
       </tbody>
     </table>
@@ -463,14 +471,14 @@ $QE/ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_ana
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
       <li>The relaxation is queued but not complete yet; force convergence and final coordinates are not available until job <code>17481858</code> finishes.</li>
       <li>All active TiO2 Slurm jobs now use the <code>shared</code> partition. The shared queue may be substantially slower than the earlier standard/debug submissions.</li>
-      <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation.</li>
+      <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to monitor shared smoke job <code>17481860</code>. If it succeeds, the QE executable, module stack, pseudo paths, and TiO2 input syntax are validated; then continue waiting for shared production relax job <code>17481858</code> and parse its output after completion.</p>
+    <p>The next implementation step is to monitor shared production relax job <code>17481858</code>. After it finishes, dependency job <code>17481859</code> should write a local post-check summary; then parse the final force and copy the relaxed coordinates into the SCF input.</p>
   </section>
 </main>
 </body>
