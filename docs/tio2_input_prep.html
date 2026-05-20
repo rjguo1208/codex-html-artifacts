@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T16:09:33-04:00</span>
+        <span>2026-05-20T16:13:41-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Relax converged; SCF submitted</span>
+        <span>SCF completed; DFPT next</span>
       </div>
     </div>
   </header>
@@ -365,7 +365,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T16:09:33-04:00</code></td>
+          <td><code>2026-05-20T16:13:41-04:00</code></td>
         </tr>
         <tr>
           <td>Primitive smoke job</td>
@@ -389,7 +389,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Primitive SCF job</td>
-          <td>The converged <code>cont2</code> coordinates were copied into <code>tio2_anatase_primitive_scf.in</code>. SCF and DFPT templates now use a clean <code>tmp_scf</code> outdir. Highmem SCF job <code>17531226</code> was submitted at <code>2026-05-20T16:09:33-04:00</code>, requests <code>128</code> CPUs / MPI tasks, and is currently <code>PENDING</code> with reason <code>None</code>.</td>
+          <td>Highmem SCF job <code>17531226</code> ran with <code>128</code> CPUs from <code>2026-05-20T16:12:02</code> to <code>2026-05-20T16:12:56</code> and completed with Slurm exit code <code>0:0</code>. QE achieved electronic convergence in <code>45</code> iterations, final energy <code>-370.17192858 Ry</code>, estimated SCF accuracy <code>3.6e-13 Ry</code>, highest occupied level <code>6.9102 eV</code>, and pressure <code>-64.37 kbar</code>. The <code>tmp_scf/tio2_anatase_prim.save</code> directory was written for DFPT use.</td>
         </tr>
         <tr>
           <td>Primitive vectors</td>
@@ -480,8 +480,8 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>SCF submission</td>
-          <td>Primitive SCF job <code>17531226</code> is queued on <code>highmem</code> with <code>128</code> MPI tasks and no dependency.</td>
-          <td class="status-pending">PENDING</td>
+          <td>Primitive SCF job <code>17531226</code> completed on <code>highmem</code>; QE output contains <code>JOB DONE.</code> and <code>convergence has been achieved</code>.</td>
+          <td class="status">PASS</td>
         </tr>
         <tr>
           <td>QE smoke-test submission</td>
@@ -500,8 +500,8 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
       <li>The local UPF files are public pseudopotentials but are still excluded from this Pages artifact to keep the repository limited to the HTML report.</li>
       <li>The 12-atom conventional-cell route is retired for production. Its completed outputs remain local sanity checks only.</li>
       <li>The first 12-atom relaxation completed but did not meet the force threshold: final total force was <code>3.2e-5 Ry/Bohr</code> versus the <code>1.0e-5 Ry/Bohr</code> target.</li>
-      <li>The 6-atom primitive relaxation is now converged according to QE BFGS. The converged coordinates have been copied into the local primitive SCF input, but the SCF output has not completed yet.</li>
-      <li>The primitive smoke, relax, <code>cont1</code>, and <code>cont2</code> outputs exist locally. They remain excluded from GitHub because they are raw calculation outputs.</li>
+      <li>The 6-atom primitive relaxation is converged according to QE BFGS, and the primitive SCF completed successfully. The next outputs will be DFPT dielectric/Born-charge and phonon-grid calculations.</li>
+      <li>The primitive smoke, relax, <code>cont1</code>, <code>cont2</code>, and SCF outputs exist locally. The <code>tmp_scf</code> save directory is about <code>379M</code> and is required for DFPT, but it remains excluded from GitHub as raw calculation data.</li>
       <li>All active TiO2 Slurm jobs now use the <code>highmem</code> partition. The production primitive relax requests <code>128</code> CPUs / MPI tasks on one highmem node; this may reduce queue delay relative to <code>shared</code>, but highmem has a higher billing weight and is still controlled by Slurm priority and dependencies.</li>
       <li>The smoke test is only a launch/readability check and is not a substitute for the 8x8x8 production relaxation. Its deliberate <code>electron_maxstep=1</code> means electronic convergence was not expected.</li>
       <li>The post-check summary and any operational logs are local files, not public result artifacts.</li>
@@ -510,7 +510,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
 
   <section>
     <h2>Next Reproduction Step</h2>
-    <p>The next implementation step is to monitor primitive SCF job <code>17531226</code>. If the SCF converges, then run the Gamma-point dielectric/Born-charge DFPT job using the same <code>tmp_scf</code> outdir; after that, run the 4x4x4 phonon-grid DFPT job.</p>
+    <p>The next implementation step is to submit the Gamma-point dielectric/Born-charge DFPT job using the existing <code>tmp_scf</code> outdir. If that completes cleanly, then submit the 4x4x4 phonon-grid DFPT job.</p>
   </section>
 </main>
 </body>
