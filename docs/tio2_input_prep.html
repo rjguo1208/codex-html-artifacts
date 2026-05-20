@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-20T13:27:36-04:00</span>
+        <span>2026-05-20T13:32:27-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Primitive workflow moved to highmem</span>
+        <span>Highmem jobs still pending</span>
       </div>
     </div>
   </header>
@@ -365,19 +365,19 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
         </tr>
         <tr>
           <td>Latest check time</td>
-          <td><code>2026-05-20T13:27:36-04:00</code></td>
+          <td><code>2026-05-20T13:32:27-04:00</code></td>
         </tr>
         <tr>
           <td>Primitive smoke job</td>
-          <td>Old shared smoke job <code>17520540</code> was canceled. New highmem smoke job <code>17524043</code> is <code>PENDING</code> with reason <code>Priority</code>. No primitive smoke output exists yet.</td>
+          <td>Old shared smoke job <code>17520540</code> was canceled. New highmem smoke job <code>17524043</code> is still <code>PENDING</code> with reason <code>Priority</code>. No primitive smoke output exists yet.</td>
         </tr>
         <tr>
           <td>Primitive relax job</td>
-          <td>Old shared relax jobs were canceled. New highmem relax job <code>17524044</code> depends on <code>afterok:17524043</code>, state <code>PENDING</code>, <code>NumCPUs=128</code>, <code>NumTasks=128</code>, <code>CPUs/Task=1</code>, and requested memory <code>1017600M</code>.</td>
+          <td>Old shared relax jobs were canceled. New highmem relax job <code>17524044</code> depends on <code>afterok:17524043</code>, remains <code>PENDING</code>, and requests <code>NumCPUs=128</code>, <code>NumTasks=128</code>, <code>CPUs/Task=1</code>, and memory <code>1017600M</code>.</td>
         </tr>
         <tr>
           <td>Primitive post-check job</td>
-          <td>Old shared post-check jobs were canceled. New highmem post-check job <code>17524045</code> depends on <code>afterany:17524044</code>; latest state from <code>squeue</code>: <code>PENDING</code>.</td>
+          <td>Old shared post-check jobs were canceled. New highmem post-check job <code>17524045</code> depends on <code>afterany:17524044</code>; latest state from <code>squeue</code> and <code>sacct</code>: <code>PENDING</code>.</td>
         </tr>
         <tr>
           <td>Primitive vectors</td>
