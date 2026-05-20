@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TiO2 Input Preparation</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.35rem;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 14px 0 8px;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+    }
+    code {
+      padding: 2px 5px;
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      background: #f3f6f9;
+    }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+    .warning {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+    .status {
+      color: #166534;
+      font-weight: 700;
+    }
+    ul { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>TiO2 DFT/DFPT Input Preparation</h1>
+    <p>This page documents the local input-template step for the anatase TiO2 undoped baseline. The templates are stored in the HPC working folder, not in the GitHub Pages repository.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-19T23:09:21-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Local directory</strong>
+        <span><code>dft/tio2/</code></span>
+      </div>
+      <div class="metric">
+        <strong>Status</strong>
+        <span>Templates prepared, not run</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Target Computational Setup</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Structure</td>
+          <td>Anatase TiO2, conventional 12-atom cell</td>
+        </tr>
+        <tr>
+          <td>Functional</td>
+          <td>LDA, Perdew-Wang parametrization</td>
+        </tr>
+        <tr>
+          <td>Pseudopotentials</td>
+          <td>Scalar-relativistic norm-conserving PseudoDojo v0.4.1; template filenames are placeholders and must be replaced locally.</td>
+        </tr>
+        <tr>
+          <td>Plane-wave cutoff</td>
+          <td>80 Ry</td>
+        </tr>
+        <tr>
+          <td>SCF grid</td>
+          <td>8x8x8 unshifted</td>
+        </tr>
+        <tr>
+          <td>Lattice constants</td>
+          <td>a = 3.784 Angstrom, c = 9.515 Angstrom</td>
+        </tr>
+        <tr>
+          <td>Relaxation</td>
+          <td>Internal coordinates only, force threshold 1e-5 Ry/bohr</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Local Files Created</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Local file</th>
+          <th>Purpose</th>
+          <th>Public upload?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>dft/tio2/README.md</code></td>
+          <td>Run order, pseudopotential notes, checks before Wannier/EPW.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/relax/tio2_anatase_relax.in</code></td>
+          <td>QE <code>pw.x</code> internal-coordinate relaxation template.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/scf/tio2_anatase_scf.in</code></td>
+          <td>QE <code>pw.x</code> SCF template after inserting relaxed coordinates.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/ph/tio2_anatase_ph_gamma_eps.in</code></td>
+          <td>QE <code>ph.x</code> Gamma-point dielectric and Born-charge template.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in</code></td>
+          <td>QE <code>ph.x</code> 4x4x4 phonon-grid template for later interpolation.</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Run Order</h2>
+    <p>The templates are not run yet. The intended local command order is:</p>
+    <pre><code>pw.x -in dft/tio2/relax/tio2_anatase_relax.in &gt; dft/tio2/relax/tio2_anatase_relax.out
+
+# Copy final relaxed ATOMIC_POSITIONS into the SCF input first.
+pw.x -in dft/tio2/scf/tio2_anatase_scf.in &gt; dft/tio2/scf/tio2_anatase_scf.out
+
+ph.x -in dft/tio2/ph/tio2_anatase_ph_gamma_eps.in &gt; dft/tio2/ph/tio2_anatase_ph_gamma_eps.out
+ph.x -in dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.in &gt; dft/tio2/ph/tio2_anatase_ph_grid_4x4x4.out</code></pre>
+  </section>
+
+  <section>
+    <h2>Template Sanity Checks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Check</th>
+          <th>Result</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Relax input atom count</td>
+          <td><code>nat = 12</code>, 12 positions, Ti = 4, O = 8</td>
+          <td class="status">PASS</td>
+        </tr>
+        <tr>
+          <td>SCF input atom count</td>
+          <td><code>nat = 12</code>, 12 positions, Ti = 4, O = 8</td>
+          <td class="status">PASS</td>
+        </tr>
+        <tr>
+          <td>DFPT template split</td>
+          <td>Separate Gamma dielectric/Born-charge input and 4x4x4 phonon-grid input prepared.</td>
+          <td class="status">PASS</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="warning">
+    <h2>Important Warnings Before Running</h2>
+    <ul>
+      <li>The pseudopotential names in the templates are placeholders. Replace them with exact PseudoDojo v0.4.1 LDA scalar-relativistic norm-conserving filenames available on the HPC filesystem.</li>
+      <li>The SCF template still contains the initial internal coordinates. For production, replace them with final coordinates from the relaxation output.</li>
+      <li>Do not commit raw QE outputs: <code>.out</code>, <code>.save/</code>, <code>.dyn*</code>, <code>.dvscf*</code>, <code>.xml</code>, wavefunction files, or local pseudopotentials.</li>
+      <li>The templates have not been run yet; this step only prepares the local input files.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Next Reproduction Step</h2>
+    <p>The next implementation step is to resolve the exact local pseudopotential filenames and run a lightweight QE availability check, then submit or run the TiO2 internal-coordinate relaxation.</p>
+  </section>
+</main>
+</body>
+</html>

@@ -23,3 +23,20 @@ id_ed25519*
 # GitHub Pages artifact. Public report assets should live under docs/assets/.
 *.pdf
 figures/
+
+# Quantum ESPRESSO / DFPT local outputs and inputs that may be large or
+# installation-specific. Keep small public summaries under docs/.
+*.xml
+*.dyn
+*.dyn*
+*.dvscf
+*.dvscf*
+*.mix
+*.igk
+*.hub
+*.recover/
+*.restart
+*.restart*
+tmp/
+dft/**/tmp/
+pseudos/

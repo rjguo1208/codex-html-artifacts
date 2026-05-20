@@ -238,6 +238,7 @@
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
+    <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>
   </section>
 
   <section>
@@ -294,8 +295,20 @@
           <td>local only</td>
           <td>Implemented locally; summarized on the unit-conventions page but not uploaded as raw workspace file.</td>
         </tr>
+        <tr>
+          <td><code>dft/tio2/</code></td>
+          <td>QE input templates</td>
+          <td>local only</td>
+          <td>Prepared locally for TiO2 relax, SCF, and DFPT; summarized on the TiO2 input-prep page but not uploaded as raw workspace files.</td>
+        </tr>
       </tbody>
     </table>
+  </section>
+
+  <section>
+    <h2>TiO2 DFT/DFPT Input Preparation</h2>
+    <p>The next reproduction stage has been prepared locally: Quantum ESPRESSO templates for anatase TiO2 internal-coordinate relaxation, SCF, Gamma-point dielectric/Born-charge DFPT, and a 4x4x4 phonon grid. These templates are not committed to the Pages repository, but the public-safe setup summary is available in a dedicated subpage.</p>
+    <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
 
   <section>
@@ -483,6 +496,7 @@ python toy_model_plph.py
 python toy_model_plph.py --plot</code></pre>
     <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
     <p>The unit convention baseline was added locally as <code>environment/unit_conventions.md</code>. The public-safe summary is available as <a href="unit_conventions.html">a dedicated unit-conventions page</a>.</p>
+    <p>TiO2 QE input templates were added locally under <code>dft/tio2/</code>. They are excluded from the Pages artifact and summarized in <a href="tio2_input_prep.html">the TiO2 input-prep page</a>.</p>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
