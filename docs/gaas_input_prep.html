@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:25:00-04:00</span>
+        <span>2026-05-21T17:38:39-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Finite-linewidth spectral path complete</span>
+        <span>Fitted-PPM loss path complete</span>
       </div>
     </div>
   </header>
@@ -206,6 +206,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_hybrid_density_sweep.csv</code></td><td>Small derived hybrid table driven by fitted PPM parameters; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_finite_hybrid_density_sweep.csv</code></td><td>Small derived finite-linewidth branch table driven by fitted PPM parameters; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_spectral_function.csv</code></td><td>Small derived fitted-PPM phonon spectral-function curve; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_dielectric_loss.csv</code></td><td>Small derived fitted-PPM inverse-dielectric and loss-function curve; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -272,6 +273,11 @@
           <td>Finite-linewidth fitted-PPM path</td>
           <td class="status-ok">COMPLETED</td>
           <td>The fitted PPM table now drives complex hybrid branches <code>lambda = omega - i gamma</code> and a phonon spectral-function view. The branch table has <code>480</code> rows, the spectral curve has <code>900</code> points, linewidths are non-negative with range <code>0.2000</code>-<code>2.9988 meV</code>, and local regression coverage increased to <code>25</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Fitted-PPM dielectric loss</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The fitted PPM table now drives a toy inverse dielectric response <code>epsilon^{-1}=epsilon_inf^{-1}+Omega^2 G_00</code>, where <code>G_00</code> is the full plasmon coordinate Green-function element. The local CSV has <code>900</code> energy points; at the selected resonance row, the hybrid loss peak is at <code>29.8109 meV</code> while the bare fitted plasmon loss peak is at <code>32.2136 meV</code>. Local regression coverage increased to <code>27</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -444,6 +450,29 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Fitted-PPM Dielectric Loss</h2>
+    <p>The same fitted-PPM finite-linewidth model now also produces a toy inverse dielectric response. The external longitudinal field is assumed to couple directly only to the plasmon coordinate, so the hybrid response is computed from the full Green-function matrix element <code>G_00</code>. This is an interface and sign-convention check before implementing the full q-dependent dielectric expression and the finite-linewidth left/right vertex formula.</p>
+    <pre><code>epsilon_pl-ph^{-1}(omega) = epsilon_inf^{-1} + Omega^2 * G_00(omega)
+loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
+    <figure>
+      <img src="assets/gaas_fitted_ppm_dielectric_loss.svg" alt="GaAs fitted-PPM inverse dielectric loss">
+      <figcaption>The bare fitted plasmon loss peak is centered near <code>32.2136 meV</code>. With plasmon-phonon coupling through the same finite-linewidth matrix, the strongest hybrid loss feature appears at <code>29.8109 meV</code>; dashed vertical lines mark <code>Re(lambda)</code> branch positions.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Selected density</td><td><code>5.4890e17 cm^-3</code></td></tr>
+        <tr><td>Fitted dielectric input</td><td><code>Omega=9.7598 meV</code>, <code>omega_pl=32.2073 meV</code>, <code>gamma=3.0000 meV</code></td></tr>
+        <tr><td>Hybrid loss peak</td><td><code>omega=29.8109 meV</code>, <code>-Im epsilon^{-1}=5.0338e-1</code></td></tr>
+        <tr><td>Bare fitted plasmon loss peak</td><td><code>omega=32.2136 meV</code>, <code>-Im epsilon^{-1}=4.9185e-1</code></td></tr>
+        <tr><td>Regression checks</td><td>Zero coupling and zero linewidth reduce to the bare pole; fitted-PPM GaAs hybrid and bare loss curves are non-negative on the sampled grid.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -455,7 +484,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, implement the finite-linewidth dielectric or loss-function output from the same fitted-PPM branch data. This should start with a zero-linewidth check, then add the finite-linewidth left/right vertex form before trying to reproduce EELS-like inverse dielectric figures.</p>
+    <p>Next, replace the toy <code>G_00</code>-only dielectric response with the full q-dependent expression and add the finite-linewidth left/right vertex form. After that, the same plotting path can be used for EELS-like inverse dielectric figures along a q path.</p>
   </section>
 </main>
 </body>

@@ -173,7 +173,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-19T22:42:35-04:00</span>
+        <span>2026-05-21T17:38:39-04:00</span>
       </div>
       <div class="metric">
         <strong>Implementation</strong>
@@ -570,6 +570,40 @@ B = 1/2 (Phi C_tilde Phi^dagger - I)
 Omega_0 = omega* sqrt(1 - eps_el^{-1}(0))
 eps_el^{-1}(omega) = 1 + Omega_0^2 / (omega^2 - omega*^2)
 eps_el^{-1}(omega << omega*) approximately eps_el^{-1}(0)</code></pre>
+  </section>
+
+  <section>
+    <h2>8. Toy Inverse Dielectric Loss</h2>
+    <p>The fitted-PPM GaAs loss check uses the plasmon coordinate Green-function element. The external longitudinal field is coupled only to the plasmon coordinate in this toy interface; phonons affect the response through the full hybrid Green function.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&epsilon;</mi><mrow><mi>pl</mi><mo>-</mo><mi>ph</mi></mrow><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msubsup><mi>&epsilon;</mi><mi>&infin;</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo>+</mo>
+          <msup><mi>&Omega;</mi><mn>2</mn></msup>
+          <msub><mi>G</mi><mn>00</mn></msub>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>L</mi>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mo>-</mo>
+          <mi>Im</mi>
+          <mspace width="0.2em"/>
+          <msubsup><mi>&epsilon;</mi><mrow><mi>pl</mi><mo>-</mo><mi>ph</mi></mrow><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>eps_plph_inv(omega) = eps_inf^{-1} + Omega^2 * G_00(omega)
+loss(omega) = -Im eps_plph_inv(omega)</code></pre>
+    <p class="note">In the zero-coupling, zero-linewidth limit, <code>G_00 = 1/(omega^2 - omega_pl^2)</code>, so this reduces to the bare plasmon-pole expression.</p>
   </section>
 </main>
 </body>
