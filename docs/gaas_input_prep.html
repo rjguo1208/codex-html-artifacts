@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T15:23:49-04:00</span>
+        <span>2026-05-21T15:33:10-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>LO-TO postprocessing complete</span>
+        <span>GaAs-backed hybrid test complete</span>
       </div>
     </div>
   </header>
@@ -199,6 +199,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/q2r_loto.in</code></td><td>Local q2r input that converts <code>dyn0</code>-<code>dyn8</code> into real-space IFC with long-range terms written.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_loto.in</code></td><td>Local matdyn input for the <code>Gamma -> X</code> interpolation with LO-TO splitting enabled at exact Gamma.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_no_loto.in</code></td><td>Local matdyn control input with <code>loto_disable=.true.</code> for the exact-Gamma comparison.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv</code></td><td>Small derived mode table extracted from <code>matdyn.x</code>; stays local because the webpage already summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -236,6 +237,11 @@
           <td class="status-ok">COMPLETED</td>
           <td><code>q2r.x</code> generated <code>gaas444_lr.fc</code> from the completed <code>4x4x4</code> dynamical matrices using <code>zasr='crystal'</code> and <code>write_lr=.true.</code>. <code>matdyn.x</code> then interpolated a <code>Gamma -> X</code> path with <code>read_lr=.true.</code>. At exact Gamma, LO-TO enabled gives optical frequencies <code>260.2447</code>, <code>260.2447</code>, and <code>263.4405 cm^-1</code>; the control with <code>loto_disable=.true.</code> keeps the optical triplet at <code>260.2447 cm^-1</code>. The extracted exact-Gamma splitting is <code>3.1958 cm^-1</code>.</td>
         </tr>
+        <tr>
+          <td>GaAs-backed toy hybrid test</td>
+          <td class="status-ok">COMPLETED</td>
+          <td><code>toy_model_plph.py</code> now parses <code>matdyn.x</code> frequency files, writes a compact derived mode table, and builds a <code>ToyPlasmonPhononModel</code> from the exact-Gamma optical modes. With the toy plasmon placed at the LO-like phonon energy and a controlled coupling <code>c = 2.0e-5 eV^2</code>, the zero-linewidth hybrid energies are <code>32.2662</code>, <code>32.2662</code>, <code>32.3548</code>, and <code>32.9672 meV</code>. This is a workflow test only; the plasmon parameter is not first-principles yet.</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -260,6 +266,27 @@
     </table>
   </section>
 
+  <section>
+    <h2>GaAs-Backed Hybrid Test</h2>
+    <p>The first DFT-derived input has now been connected to the Green-function toy solver. The phonon energies come from the LO-TO-aware <code>matdyn.x</code> exact-Gamma optical modes; the plasmon energy and coupling are still controlled toy parameters pending a carrier-density-dependent plasmon-pole implementation.</p>
+    <figure>
+      <img src="assets/gaas_backed_hybrid_sweep.svg" alt="GaAs-backed toy plasmon sweep through DFT-derived optical phonons">
+      <figcaption>The bare toy plasmon is swept through the LO-like GaAs phonon. The two TO modes remain decoupled at <code>32.2662 meV</code>, while the LO-like phonon hybridizes with the toy plasmon.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>DFT-derived optical phonons used by the model</td><td><code>32.2662, 32.2662, 32.6625 meV</code></td></tr>
+        <tr><td>Toy plasmon energy</td><td><code>32.6625 meV</code>, placed at the LO-like phonon for the first coupling test.</td></tr>
+        <tr><td>Toy coupling</td><td><code>c = 2.0e-5 eV^2</code>, assigned only to the LO-like mode.</td></tr>
+        <tr><td>Hybrid energies at resonance</td><td><code>32.2662, 32.2662, 32.3548, 32.9672 meV</code></td></tr>
+        <tr><td>Regression tests</td><td><code>14</code> local unittest cases passed, including the new <code>matdyn.x</code> parser and GaAs-backed model checks.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -271,7 +298,7 @@
 
   <section>
     <h2>Next Step</h2>
-    <p>Use the LO-TO-aware GaAs phonon frequencies as the first DFT-derived phonon input for the plasmon-phonon hybridization workflow. The next implementation step is to extract a compact phonon-mode table from the <code>matdyn.x</code> output and connect it to the existing toy-model Green-function code as a GaAs-backed test case.</p>
+    <p>Replace the current artificial plasmon parameter with a low-cost analytic/Drude plasmon-pole surrogate for doped GaAs. That will make the GaAs-backed test carrier-density dependent before moving to the full RPA/Wannier workflow.</p>
   </section>
 </main>
 </body>

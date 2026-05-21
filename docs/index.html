@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T15:23:49-04:00</span>
+        <span>2026-05-21T15:33:10-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, and LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing have completed. At exact Gamma along <code>Gamma -> X</code>, the optical modes split from the disabled-control triplet at <code>260.2447 cm^-1</code> into <code>260.2447</code>, <code>260.2447</code>, and <code>263.4405 cm^-1</code>.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, and the first GaAs-backed toy hybrid test have completed.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -286,6 +286,12 @@
           <td>Generated from local <code>matdyn.x</code> frequency output and displayed as the GaAs LO-TO postprocessing result.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_backed_hybrid_sweep.svg</code></td>
+          <td>SVG figure</td>
+          <td>17 KB</td>
+          <td>Generated from the derived GaAs optical modes and the toy hybrid solver; no raw QE output is embedded.</td>
+        </tr>
+        <tr>
           <td><code>plan.md</code></td>
           <td>Markdown plan</td>
           <td>40 KB</td>
@@ -327,7 +333,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, plus a toy hybrid test that consumes the DFT-derived optical phonons.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -350,6 +356,10 @@
       <figure>
         <img src="assets/gaas_loto_gamma_x.svg" alt="GaAs Gamma to X phonon interpolation with LO-TO splitting">
         <figcaption><strong>GaAs LO-TO postprocessing.</strong> <code>q2r.x</code>/<code>matdyn.x</code> splits the exact-Gamma optical mode into two TO branches at <code>260.2447 cm^-1</code> and one LO branch at <code>263.4405 cm^-1</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_backed_hybrid_sweep.svg" alt="GaAs-backed toy plasmon sweep through DFT-derived optical phonons">
+        <figcaption><strong>GaAs-backed hybrid test.</strong> The solver now consumes exact-Gamma GaAs optical phonons from <code>matdyn.x</code>; only the LO-like mode is coupled to the current toy plasmon.</figcaption>
       </figure>
     </div>
   </section>
@@ -468,7 +478,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 12 tests ran in 0.076 s, all passed.</p>
+    <p><strong>Result:</strong> 14 tests ran in 0.054 s, all passed. The added checks cover the <code>matdyn.x</code> parser and GaAs-backed optical-mode model.</p>
   </section>
 
   <section>
@@ -531,6 +541,16 @@ cd dft/gaas/primitive/post/loto
 /anvil/projects/x-che190065/rjguo/qe-7.5/bin/q2r.x &lt; q2r_loto.in &gt; q2r_loto.out
 /anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_loto.in &gt; matdyn_gamma_x_loto.out
 /anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_no_loto.in &gt; matdyn_gamma_x_no_loto.out</code></pre>
+    <p>The GaAs-backed toy hybrid test was then generated with:</p>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+conda activate Tmat
+python -m unittest -v tests.test_toy_model
+python toy_model_plph.py --quiet \
+  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
+  --write-gaas-mode-table dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv \
+  --gaas-demo \
+  --gaas-plot-svg docs/assets/gaas_backed_hybrid_sweep.svg</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
@@ -541,6 +561,7 @@ cd dft/gaas/primitive/post/loto
       <li><code>PhysRevLett.133.116402.pdf</code>, 1.6 MB: copyrighted paper PDF, not needed for the public report.</li>
       <li><code>supp_revised.pdf</code>, 918 KB: supplemental PDF, not needed for the public report.</li>
       <li><code>dft/tio2/</code>: local QE input templates and future raw QE working directories.</li>
+      <li><code>dft/gaas/</code>: local QE inputs, raw outputs, dynamical matrices, IFC files, and the derived local mode-table CSV.</li>
       <li><code>pseudos/</code>: local PseudoDojo UPF tarball and extracted pseudopotential files.</li>
       <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
       <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>
