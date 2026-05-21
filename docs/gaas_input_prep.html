@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T15:33:10-04:00</span>
+        <span>2026-05-21T16:44:36-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs-backed hybrid test complete</span>
+        <span>Drude density sweep complete</span>
       </div>
     </div>
   </header>
@@ -200,6 +200,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_loto.in</code></td><td>Local matdyn input for the <code>Gamma -> X</code> interpolation with LO-TO splitting enabled at exact Gamma.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_no_loto.in</code></td><td>Local matdyn control input with <code>loto_disable=.true.</code> for the exact-Gamma comparison.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv</code></td><td>Small derived mode table extracted from <code>matdyn.x</code>; stays local because the webpage already summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv</code></td><td>Small derived density-sweep table from the analytic Drude surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -241,6 +242,11 @@
           <td>GaAs-backed toy hybrid test</td>
           <td class="status-ok">COMPLETED</td>
           <td><code>toy_model_plph.py</code> now parses <code>matdyn.x</code> frequency files, writes a compact derived mode table, and builds a <code>ToyPlasmonPhononModel</code> from the exact-Gamma optical modes. With the toy plasmon placed at the LO-like phonon energy and a controlled coupling <code>c = 2.0e-5 eV^2</code>, the zero-linewidth hybrid energies are <code>32.2662</code>, <code>32.2662</code>, <code>32.3548</code>, and <code>32.9672 meV</code>. This is a workflow test only; the plasmon parameter is not first-principles yet.</td>
+        </tr>
+        <tr>
+          <td>GaAs Drude plasmon sweep</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The artificial fixed plasmon energy has been replaced by a low-cost screened Drude surrogate with default parameters <code>m*=0.067 m_e</code>, <code>epsilon_inf=10.89</code>, and <code>gamma=3 meV</code>. The LO-like phonon resonance occurs near <code>5.6453e17 cm^-3</code>. Local regression coverage increased to <code>17</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -287,6 +293,28 @@
     </table>
   </section>
 
+  <section>
+    <h2>Drude Density Sweep</h2>
+    <p>The latest step replaces the fixed toy plasmon energy with an analytic screened Drude plasmon-pole surrogate. The phonons are still the LO-TO-aware exact-Gamma <code>matdyn.x</code> optical modes, while the plasmon varies with carrier density. The coupling <code>c</code> remains a controlled toy parameter until the long-range vertex is implemented.</p>
+    <pre><code>E_pl(n) = hbar * sqrt(n e^2 / (epsilon_0 epsilon_inf m*))
+Omega(n) = E_pl(n) / sqrt(epsilon_inf)
+epsilon_el^{-1}(omega) = epsilon_inf^{-1} + Omega^2 / (omega^2 - E_pl^2 + i gamma omega)</code></pre>
+    <figure>
+      <img src="assets/gaas_drude_hybrid_density_sweep.svg" alt="GaAs Drude density-dependent hybrid sweep">
+      <figcaption>The bare Drude plasmon crosses the LO-like optical phonon near <code>5.6453e17 cm^-3</code>. The hybrid branches show the same avoided-crossing structure as the toy model, now parameterized by carrier density.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Carrier density</th><th>Drude plasmon</th><th>Hybrid energies</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>1.0000e17 cm^-3</code></td><td><code>13.7469 meV</code></td><td><code>13.7304, 32.2662, 32.2662, 32.6694 meV</code></td></tr>
+        <tr><td><code>5.6453e17 cm^-3</code></td><td><code>32.6625 meV</code></td><td><code>32.2662, 32.2662, 32.3548, 32.9672 meV</code></td></tr>
+        <tr><td><code>1.0000e18 cm^-3</code></td><td><code>43.4716 meV</code></td><td><code>32.2662, 32.2662, 32.6550, 43.4772 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -298,7 +326,7 @@
 
   <section>
     <h2>Next Step</h2>
-    <p>Replace the current artificial plasmon parameter with a low-cost analytic/Drude plasmon-pole surrogate for doped GaAs. That will make the GaAs-backed test carrier-density dependent before moving to the full RPA/Wannier workflow.</p>
+    <p>Replace the remaining toy coupling with a long-range coupling surrogate. The practical next implementation is to compute a mode-selective <code>c(n)</code> from the polar LO-TO strength and the Drude plasmon pole, then compare it against the current fixed <code>c = 2.0e-5 eV^2</code> control.</p>
   </section>
 </main>
 </body>
