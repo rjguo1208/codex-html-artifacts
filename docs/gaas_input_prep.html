@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:38:39-04:00</span>
+        <span>2026-05-21T17:48:50-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Fitted-PPM loss path complete</span>
+        <span>Fig.1-like surrogate complete</span>
       </div>
     </div>
   </header>
@@ -278,6 +278,11 @@
           <td>Fitted-PPM dielectric loss</td>
           <td class="status-ok">COMPLETED</td>
           <td>The fitted PPM table now drives a toy inverse dielectric response <code>epsilon^{-1}=epsilon_inf^{-1}+Omega^2 G_00</code>, where <code>G_00</code> is the full plasmon coordinate Green-function element. The local CSV has <code>900</code> energy points; at the selected resonance row, the hybrid loss peak is at <code>29.8109 meV</code> while the bare fitted plasmon loss peak is at <code>32.2136 meV</code>. Local regression coverage increased to <code>27</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Fig.1-like surrogate</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>A public-safe SVG now presents the current GaAs fitted-PPM hybrid-energy data in a Fig. 1-like layout. It includes hybrid branches, bare fitted plasmon, TO/LO reference lines, and the LO resonance density <code>5.6453e17 cm^-3</code>, with explicit <code>SURROGATE ONLY</code> and <code>Not the paper Fig. 1</code> labels. Local regression coverage increased to <code>28</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -473,6 +478,27 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Fig.1-Like Surrogate</h2>
+    <p>The current data can produce a density-dependent GaAs hybrid-energy plot with the same broad visual vocabulary as the paper's Fig. 1: carrier density on the horizontal axis, hybrid mode energies on the vertical axis, a bare plasmon reference, and TO/LO phonon reference lines. This is a workflow baseline only. It still uses exact-Gamma phonons, Drude/mock-RPA fitted PPM parameters, and a polar LO-TO coupling surrogate rather than the paper's <code>q=8e-4 Angstrom^-1</code> [110] first-principles RPA input.</p>
+    <figure>
+      <img src="assets/gaas_fig1_like_surrogate.svg" alt="GaAs Fig. 1-like surrogate hybrid energies">
+      <figcaption>The plot is deliberately labeled as a surrogate. Near the LO resonance density <code>5.6453e17 cm^-3</code>, the fitted-PPM/polar-coupling hybrid branches split around the exact-Gamma LO-like mode.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>TO reference</td><td><code>32.2662 meV</code></td></tr>
+        <tr><td>LO-like reference</td><td><code>32.6625 meV</code></td></tr>
+        <tr><td>LO resonance density</td><td><code>5.6453e17 cm^-3</code></td></tr>
+        <tr><td>Nearest sampled resonance row</td><td><code>5.4890e17 cm^-3</code>, fitted plasmon <code>32.2073 meV</code>, hybrid energies <code>29.8001, 32.2662, 32.2662, 34.8726 meV</code></td></tr>
+        <tr><td>What is still missing for paper Fig. 1</td><td>Real <code>q=[110]</code> RPA/Wannier dielectric input, first-principles long-range vertex, static approximation branch, and Raman data overlay.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -484,7 +510,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, replace the toy <code>G_00</code>-only dielectric response with the full q-dependent expression and add the finite-linewidth left/right vertex form. After that, the same plotting path can be used for EELS-like inverse dielectric figures along a q path.</p>
+    <p>Next, build the real Fig. 1 input path: convert <code>q=8e-4 Angstrom^-1</code> along [110] into the GaAs reciprocal-coordinate convention, then replace the Drude/mock-RPA fitted table with a q-dependent RPA or Lindhard surrogate before moving to Wannier/RPA data.</p>
   </section>
 </main>
 </body>
