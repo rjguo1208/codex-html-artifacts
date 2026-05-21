@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GaAs Input Preparation</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre { background: var(--code-bg); border-radius: 6px; }
+    code { padding: 2px 5px; font-size: 0.95em; }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { color: var(--muted); background: #f3f6f9; }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+    .warning { background: var(--warn-bg); border-color: var(--warn-line); }
+    .status-ok { color: #166534; font-weight: 700; }
+    .status-pending { color: #9a4d00; font-weight: 700; }
+    ul { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>GaAs DFT/DFPT Input Preparation</h1>
+    <p>This page documents the lower-cost zincblende GaAs workflow that replaces the active TiO2 q-grid run. The working inputs, outputs, UPF files, and Slurm logs stay in the HPC folder, not in the GitHub Pages repository.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-20T20:56:50-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Local directory</strong>
+        <span><code>dft/gaas/primitive/</code></span>
+      </div>
+      <div class="metric">
+        <strong>Status</strong>
+        <span>SCF submitted on shared</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Why GaAs</h2>
+    <p>GaAs is a practical low-cost benchmark for the plasmon-phonon workflow because the zincblende primitive cell has only two atoms and six phonon branches. It is also polar, so Gamma dielectric response, Born effective charges, and LO-TO splitting remain relevant. It is not a material-faithful replacement for TiO2; it is a workflow and debugging surrogate.</p>
+  </section>
+
+  <section>
+    <h2>Computational Setup</h2>
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Structure</td><td>Zincblende GaAs, 2-atom primitive cell.</td></tr>
+        <tr><td>Conventional lattice parameter</td><td><code>a = 5.65325 Angstrom</code> for the fixed-cell benchmark.</td></tr>
+        <tr><td>Primitive vectors</td><td><code>(0,a/2,a/2)</code>, <code>(a/2,0,a/2)</code>, <code>(a/2,a/2,0)</code>.</td></tr>
+        <tr><td>Atomic positions</td><td>Ga at <code>(0,0,0)</code>; As at <code>(1/4,1/4,1/4)</code> in primitive crystal coordinates.</td></tr>
+        <tr><td>Functional</td><td>LDA, matching the current PseudoDojo LDA pseudopotential set.</td></tr>
+        <tr><td>Pseudopotentials</td><td>PseudoDojo scalar-relativistic norm-conserving LDA: <code>Ga.upf</code>, <code>As.upf</code>. These were extracted locally from the existing tarball.</td></tr>
+        <tr><td>Cutoffs</td><td><code>ecutwfc=80 Ry</code>, <code>ecutrho=320 Ry</code>.</td></tr>
+        <tr><td>SCF k grid</td><td><code>8x8x8</code> unshifted.</td></tr>
+        <tr><td>DFPT plan</td><td>SCF first, then Gamma dielectric/Born-charge DFPT, then <code>4x4x4</code> phonon-grid DFPT.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Local Files</h2>
+    <table>
+      <thead>
+        <tr><th>Local file</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>dft/gaas/primitive/scf/gaas_zb_prim_scf.in</code></td><td>Fixed-cell GaAs SCF input used by the submitted job.</td></tr>
+        <tr><td><code>dft/gaas/primitive/scf/run_gaas_scf_shared.slurm</code></td><td>Shared-partition SCF job script, <code>32</code> MPI tasks, <code>00:30:00</code> wall time.</td></tr>
+        <tr><td><code>dft/gaas/primitive/ph/gaas_zb_prim_ph_gamma_eps.in</code></td><td>Gamma DFPT input for phonons, dielectric tensor, and Born charges after SCF completes.</td></tr>
+        <tr><td><code>dft/gaas/primitive/ph/gaas_zb_prim_ph_grid_4x4x4.in</code></td><td>4x4x4 phonon-grid DFPT input for interpolation checks.</td></tr>
+        <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Job Status</h2>
+    <table>
+      <thead>
+        <tr><th>Step</th><th>Status</th><th>Details</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TiO2 q-grid DFPT</td>
+          <td class="status-pending">CANCELED</td>
+          <td>Job <code>17535117</code> was canceled by user request at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code>. It completed <code>5/24</code> irreducible q points before cancellation.</td>
+        </tr>
+        <tr>
+          <td>GaAs fixed-cell SCF</td>
+          <td class="status-pending">PENDING</td>
+          <td>Job <code>17548418</code> submitted to <code>shared</code> at <code>2026-05-20T20:54:00-04:00</code> with <code>32</code> MPI tasks. Current pending reason: <code>Priority</code>.</td>
+        </tr>
+        <tr>
+          <td>GaAs Gamma DFPT</td>
+          <td class="status-pending">WAITING</td>
+          <td>Will be submitted after the GaAs SCF save directory is complete.</td>
+        </tr>
+        <tr>
+          <td>GaAs 4x4x4 phonon grid</td>
+          <td class="status-pending">WAITING</td>
+          <td>Will be submitted after the GaAs SCF and Gamma DFPT checks pass.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="warning">
+    <h2>Warning</h2>
+    <ul>
+      <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
+      <li>The GaAs route is currently a computational surrogate for workflow validation, not a replacement for TiO2 material-specific conclusions.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Next Step</h2>
+    <p>Monitor GaAs SCF job <code>17548418</code>. If it completes with <code>JOB DONE</code> and electronic convergence, submit <code>run_gaas_ph_gamma_shared.slurm</code> for Gamma dielectric/Born-charge DFPT.</p>
+  </section>
+</main>
+</body>
+</html>
