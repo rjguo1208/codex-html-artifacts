@@ -129,7 +129,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T02:30:44-04:00</span>
+        <span>2026-05-21T12:11:53-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -137,7 +137,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>SCF pending on shared</span>
+        <span>SCF complete; Gamma DFPT pending</span>
       </div>
     </div>
   </header>
@@ -197,13 +197,13 @@
         </tr>
         <tr>
           <td>GaAs fixed-cell SCF</td>
-          <td class="status-pending">PENDING</td>
-          <td>Job <code>17548418</code> submitted to <code>shared</code> at <code>2026-05-20T20:54:00-04:00</code> with <code>32</code> MPI tasks. Latest check at <code>2026-05-21T02:30:44-04:00</code>: current pending reason is <code>Priority</code>; no SCF output or Slurm stdout/stderr has been written and <code>tmp_scf</code> remains only an empty placeholder directory.</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17548418</code> ran on <code>shared</code> node <code>a024</code> with <code>32</code> MPI tasks from <code>2026-05-21T04:56:47</code> to <code>2026-05-21T04:56:59</code>. Slurm exit code was <code>0:0</code>; QE output contains <code>JOB DONE</code>, electronic convergence in <code>12</code> iterations, total energy <code>-364.69487618 Ry</code>, estimated SCF accuracy <code>4.2e-13 Ry</code>, highest occupied level <code>8.4849 eV</code>, zero total force by symmetry, and pressure <code>-20.81 kbar</code>. The SCF save directory is about <code>33M</code> and remains local.</td>
         </tr>
         <tr>
           <td>GaAs Gamma DFPT</td>
-          <td class="status-pending">WAITING</td>
-          <td>Will be submitted after the GaAs SCF save directory is complete.</td>
+          <td class="status-pending">PENDING</td>
+          <td>Job <code>17582835</code> was submitted to <code>shared</code> at <code>2026-05-21T12:11:53-04:00</code> with <code>32</code> MPI tasks using <code>run_gaas_ph_gamma_shared.slurm</code>. Current pending reason: <code>Priority</code>.</td>
         </tr>
         <tr>
           <td>GaAs 4x4x4 phonon grid</td>
@@ -224,7 +224,7 @@
 
   <section>
     <h2>Next Step</h2>
-    <p>Monitor GaAs SCF job <code>17548418</code>. If it completes with <code>JOB DONE</code> and electronic convergence, submit <code>run_gaas_ph_gamma_shared.slurm</code> for Gamma dielectric/Born-charge DFPT.</p>
+    <p>Monitor GaAs Gamma DFPT job <code>17582835</code>. If it completes with <code>JOB DONE</code>, parse the dielectric tensor, Born effective charges, and Gamma phonon frequencies, then submit the GaAs <code>4x4x4</code> phonon-grid DFPT job.</p>
   </section>
 </main>
 </body>
