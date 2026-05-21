@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T16:49:49-04:00</span>
+        <span>2026-05-21T17:07:51-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Polar coupling sweep complete</span>
+        <span>PPM fit interface complete</span>
       </div>
     </div>
   </header>
@@ -202,6 +202,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv</code></td><td>Small derived mode table extracted from <code>matdyn.x</code>; stays local because the webpage already summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv</code></td><td>Small derived density-sweep table from the analytic Drude surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv</code></td><td>Small derived density-sweep table using the LO-TO-strength coupling surrogate; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv</code></td><td>Small derived fit-parameter table from Drude mock <code>epsilon_el^{-1}</code> data; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -253,6 +254,11 @@
           <td>GaAs polar coupling sweep</td>
           <td class="status-ok">COMPLETED</td>
           <td>The fixed toy coupling has been replaced by a mode-selective LO-TO-strength surrogate <code>c(n)=omega_pl(n)*sqrt(omega_LO^2-omega_TO^2)</code>. Only the LO-like mode is coupled; the two TO modes remain decoupled. At the LO-like resonance density <code>5.6453e17 cm^-3</code>, <code>c=1.656686e-4 eV^2</code> and the hybrid energies are <code>30.0195</code>, <code>32.2662</code>, <code>32.2662</code>, and <code>35.1070 meV</code>. Local regression coverage increased to <code>19</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Plasmon-pole fit interface</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>A one-pole fitting interface now accepts mock/RPA-format complex <code>epsilon_el^{-1}(omega)</code> data and returns fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, residual, and fit status. The Drude mock sweep covered <code>120</code> density points from <code>1e16</code> to <code>1e19 cm^-3</code>; all fits returned <code>status=ok</code>, with maximum relative residual <code>2.29e-13</code>. Local regression coverage increased to <code>21</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -343,6 +349,28 @@ c(n) = omega_pl(n) * sqrt(omega_LO^2 - omega_TO^2)</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Plasmon-Pole Fit Interface</h2>
+    <p>The latest implementation adds the interface that future RPA/Wannier data will use. For validation, the input <code>epsilon_el^{-1}(omega)</code> is generated from the analytic Drude pole and then fitted back with the same one-pole form. The fit uses a linearized relation, so no external nonlinear optimizer is required.</p>
+    <pre><code>y(omega) = epsilon_el^{-1}(omega) - epsilon_inf^{-1}
+1 / y = (omega^2 - omega_pl^2 + i gamma omega) / Omega^2
+fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
+    <figure>
+      <img src="assets/gaas_ppm_fit_validation.svg" alt="GaAs mock RPA inverse dielectric data and fitted plasmon-pole model">
+      <figcaption>At the LO-like resonance density, the fitted one-pole model overlays the Drude-generated mock data for both real and imaginary parts of <code>epsilon_el^{-1}</code>.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Density</th><th>Target / fitted parameters</th><th>Fit quality</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>1.0000e16 cm^-3</code></td><td><code>Omega=1.3173 meV</code>, <code>omega_pl=4.3472 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>relative residual=1.73e-14</code>, <code>status=ok</code></td></tr>
+        <tr><td><code>3.2554e17 cm^-3</code></td><td><code>Omega=7.5161 meV</code>, <code>omega_pl=24.8032 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>relative residual=2.72e-15</code>, <code>status=ok</code></td></tr>
+        <tr><td><code>1.0000e19 cm^-3</code></td><td><code>Omega=41.6574 meV</code>, <code>omega_pl=137.4694 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>relative residual=1.78e-15</code>, <code>status=ok</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -354,7 +382,7 @@ c(n) = omega_pl(n) * sqrt(omega_LO^2 - omega_TO^2)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Start replacing the analytic surrogate pieces with first-principles pieces. The next practical implementation is a lightweight RPA/Drude validation page: compare the analytic <code>epsilon_el^{-1}(omega)</code> pole against the intended plasmon-pole fitting interface and save the fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, residual, and fit status.</p>
+    <p>Use the fitted-parameter interface inside the hybrid solver path instead of passing Drude parameters directly. After that, the same path can consume real RPA/Wannier <code>epsilon_el^{-1}(q,omega)</code> data with minimal changes.</p>
   </section>
 </main>
 </body>
