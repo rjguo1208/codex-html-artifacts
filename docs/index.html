@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T13:50:16-04:00</span>
+        <span>2026-05-21T15:11:04-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF and Gamma dielectric/Born-charge DFPT completed cleanly. The current GaAs <code>4x4x4</code> phonon-grid DFPT job <code>17583524</code> is running on <code>shared</code> node <code>a047</code>; QE reduced the grid to <code>8</code> irreducible q points. Latest check at <code>2026-05-21T13:50:16-04:00</code>: <code>dyn1</code>-<code>dyn7</code> are written, and the eighth/final q point <code>(-0.7071068, 0.3535534, 0)</code> has started with <code>dyn8</code> created but still empty.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, and <code>4x4x4</code> phonon-grid DFPT have completed cleanly. Grid job <code>17583524</code> completed on <code>shared</code> node <code>a047</code> at <code>2026-05-21T13:53:31-04:00</code>, writing all <code>8</code> irreducible q-point dynamical matrices <code>dyn1</code>-<code>dyn8</code>. The sampled frequencies are all positive, spanning approximately <code>9.1</code>-<code>268.3 cm^-1</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>

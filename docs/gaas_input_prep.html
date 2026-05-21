@@ -129,7 +129,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T13:50:16-04:00</span>
+        <span>2026-05-21T15:11:04-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -137,7 +137,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Gamma DFPT complete; 4x4x4 grid running</span>
+        <span>4x4x4 grid complete</span>
       </div>
     </div>
   </header>
@@ -207,8 +207,8 @@
         </tr>
         <tr>
           <td>GaAs 4x4x4 phonon grid</td>
-          <td class="status-pending">RUNNING</td>
-          <td>Job <code>17583524</code> started on <code>shared</code> node <code>a047</code> at <code>2026-05-21T13:13:23-04:00</code> with <code>32</code> MPI tasks using <code>run_gaas_ph_grid_4x4x4_shared.slurm</code>. QE reports <code>8</code> irreducible q points for the <code>4x4x4</code> grid. At the latest check (<code>2026-05-21T13:50:16-04:00</code>), <code>dyn1</code>-<code>dyn7</code> had been written, <code>dyn8</code> had been created but was still empty, and the eighth/final q point <code>(-0.7071068, 0.3535534, 0)</code> had just started.</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17583524</code> ran on <code>shared</code> node <code>a047</code> with <code>32</code> MPI tasks from <code>2026-05-21T13:13:23</code> to <code>2026-05-21T13:53:31</code>. Slurm exit code was <code>0:0</code>; QE output contains <code>JOB DONE</code>. QE reports <code>8</code> irreducible q points for the <code>4x4x4</code> grid, and all dynamical matrices <code>dyn1</code>-<code>dyn8</code> were written. The sampled phonon frequencies are all positive, with a full-grid range of approximately <code>9.1</code>-<code>268.3 cm^-1</code>; the Gamma acoustic triplet remains at <code>9.112 cm^-1</code> and is a QC item.</td>
         </tr>
       </tbody>
     </table>
@@ -225,7 +225,7 @@
 
   <section>
     <h2>Next Step</h2>
-    <p>Monitor GaAs <code>4x4x4</code> phonon-grid DFPT job <code>17583524</code>. If it completes with <code>JOB DONE</code>, parse the generated dynamical matrices and assess whether a relaxed-cell pass is needed before using the data for hybridization analysis.</p>
+    <p>Assess whether this fixed-cell GaAs benchmark is sufficient for workflow testing or whether a short vc-relax / relaxed-cell SCF+DFPT pass is needed before using the data for hybridization analysis. The large dielectric constant and nonzero Gamma acoustic triplet argue for at least one relaxed-cell QC pass.</p>
   </section>
 </main>
 </body>
