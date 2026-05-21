@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:07:51-04:00</span>
+        <span>2026-05-21T17:15:07-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, and the first plasmon-pole fitting interface have completed.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, and a fitted-PPM-driven hybrid path have completed.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -310,6 +310,12 @@
           <td>Generated from Drude mock <code>epsilon_el^{-1}</code> data and the new plasmon-pole fit interface.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_fitted_ppm_hybrid_density_sweep.svg</code></td>
+          <td>SVG figure</td>
+          <td>13 KB</td>
+          <td>Generated from the fitted PPM parameter table and the GaAs-backed hybrid solver.</td>
+        </tr>
+        <tr>
           <td><code>plan.md</code></td>
           <td>Markdown plan</td>
           <td>40 KB</td>
@@ -351,7 +357,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, and a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data, and a hybrid solver path driven by fitted PPM tables.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -390,6 +396,10 @@
       <figure>
         <img src="assets/gaas_ppm_fit_validation.svg" alt="GaAs mock RPA inverse dielectric data and plasmon-pole fit">
         <figcaption><strong>PPM fit validation.</strong> Drude-generated mock <code>epsilon_el^{-1}(omega)</code> is fitted back to <code>Omega</code>, <code>omega_pl</code>, and <code>gamma</code> with maximum relative residual <code>2.29e-13</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_fitted_ppm_hybrid_density_sweep.svg" alt="GaAs fitted plasmon-pole hybrid density sweep">
+        <figcaption><strong>Fitted-PPM hybrid path.</strong> The hybrid solver now consumes fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, and <code>fit_status</code> from the PPM table instead of direct Drude parameters.</figcaption>
       </figure>
     </div>
   </section>
@@ -508,7 +518,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 21 tests ran in 0.067 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, and the one-pole fitting interface.</p>
+    <p><strong>Result:</strong> 23 tests ran in 0.063 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, the one-pole fitting interface, and fitted-PPM-table-driven hybridization.</p>
   </section>
 
   <section>
@@ -596,6 +606,12 @@ python toy_model_plph.py --quiet \
   --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
   --gaas-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
   --gaas-ppm-fit-svg docs/assets/gaas_ppm_fit_validation.svg</code></pre>
+    <p>The fitted-PPM table driven hybrid path was generated with:</p>
+    <pre><code>python toy_model_plph.py --quiet \
+  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
+  --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
+  --gaas-fitted-ppm-hybrid-csv dft/gaas/primitive/post/loto/gaas_fitted_ppm_hybrid_density_sweep.csv \
+  --gaas-fitted-ppm-hybrid-svg docs/assets/gaas_fitted_ppm_hybrid_density_sweep.svg</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 

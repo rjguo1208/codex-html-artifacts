@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:07:51-04:00</span>
+        <span>2026-05-21T17:15:07-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>PPM fit interface complete</span>
+        <span>Fitted-PPM hybrid path complete</span>
       </div>
     </div>
   </header>
@@ -203,6 +203,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv</code></td><td>Small derived density-sweep table from the analytic Drude surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv</code></td><td>Small derived density-sweep table using the LO-TO-strength coupling surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv</code></td><td>Small derived fit-parameter table from Drude mock <code>epsilon_el^{-1}</code> data; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_hybrid_density_sweep.csv</code></td><td>Small derived hybrid table driven by fitted PPM parameters; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -259,6 +260,11 @@
           <td>Plasmon-pole fit interface</td>
           <td class="status-ok">COMPLETED</td>
           <td>A one-pole fitting interface now accepts mock/RPA-format complex <code>epsilon_el^{-1}(omega)</code> data and returns fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, residual, and fit status. The Drude mock sweep covered <code>120</code> density points from <code>1e16</code> to <code>1e19 cm^-3</code>; all fits returned <code>status=ok</code>, with maximum relative residual <code>2.29e-13</code>. Local regression coverage increased to <code>21</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Fitted-PPM hybrid path</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The hybrid solver can now consume <code>gaas_ppm_fit_parameters.csv</code> instead of direct Drude parameters. The path is <code>fit table -> fitted omega_pl/gamma/status -> polar c(n) -> hybrid energies</code>. It generated a <code>480</code>-row local derived table, and the fitted-table path matches the direct Drude/polar path to numerical precision. Local regression coverage increased to <code>23</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -371,6 +377,25 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Fitted-PPM Hybrid Path</h2>
+    <p>The hybrid solver now uses the fitted parameter table as its interface. This is the same data shape expected from a future real RPA/Wannier calculation, so the downstream hybridization step no longer depends on directly calling the analytic Drude formula.</p>
+    <figure>
+      <img src="assets/gaas_fitted_ppm_hybrid_density_sweep.svg" alt="GaAs hybrid sweep driven by fitted plasmon-pole parameters">
+      <figcaption>The fitted-table path gives the same hybrid branches as the direct Drude/polar surrogate, but the inputs are now <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, and <code>fit_status</code> from the PPM table.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Density</th><th>Fitted PPM input</th><th>Hybrid energies</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>1.0000e16 cm^-3</code></td><td><code>Omega=1.3173 meV</code>, <code>omega_pl=4.3472 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>4.2935, 32.2662, 32.2662, 32.6696 meV</code></td></tr>
+        <tr><td><code>3.2554e17 cm^-3</code></td><td><code>Omega=7.5161 meV</code>, <code>omega_pl=24.8032 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>24.1355, 32.2662, 32.2662, 33.1589 meV</code></td></tr>
+        <tr><td><code>1.0000e19 cm^-3</code></td><td><code>Omega=41.6574 meV</code>, <code>omega_pl=137.4694 meV</code>, <code>gamma=3.0000 meV</code></td><td><code>32.2430, 32.2662, 32.2662, 137.5684 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -382,7 +407,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Use the fitted-parameter interface inside the hybrid solver path instead of passing Drude parameters directly. After that, the same path can consume real RPA/Wannier <code>epsilon_el^{-1}(q,omega)</code> data with minimal changes.</p>
+    <p>Add a finite-linewidth hybrid output using fitted <code>gamma</code>. The current fitted-table path stores linewidths but still reports zero-linewidth hybrid energies; the next step is to generate the complex branches <code>lambda = omega - i gamma</code> and a spectral-function view from the same fitted PPM inputs.</p>
   </section>
 </main>
 </body>
