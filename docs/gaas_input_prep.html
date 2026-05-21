@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:15:07-04:00</span>
+        <span>2026-05-21T17:25:00-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Fitted-PPM hybrid path complete</span>
+        <span>Finite-linewidth spectral path complete</span>
       </div>
     </div>
   </header>
@@ -204,6 +204,8 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv</code></td><td>Small derived density-sweep table using the LO-TO-strength coupling surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv</code></td><td>Small derived fit-parameter table from Drude mock <code>epsilon_el^{-1}</code> data; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_hybrid_density_sweep.csv</code></td><td>Small derived hybrid table driven by fitted PPM parameters; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_finite_hybrid_density_sweep.csv</code></td><td>Small derived finite-linewidth branch table driven by fitted PPM parameters; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_spectral_function.csv</code></td><td>Small derived fitted-PPM phonon spectral-function curve; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -265,6 +267,11 @@
           <td>Fitted-PPM hybrid path</td>
           <td class="status-ok">COMPLETED</td>
           <td>The hybrid solver can now consume <code>gaas_ppm_fit_parameters.csv</code> instead of direct Drude parameters. The path is <code>fit table -> fitted omega_pl/gamma/status -> polar c(n) -> hybrid energies</code>. It generated a <code>480</code>-row local derived table, and the fitted-table path matches the direct Drude/polar path to numerical precision. Local regression coverage increased to <code>23</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Finite-linewidth fitted-PPM path</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The fitted PPM table now drives complex hybrid branches <code>lambda = omega - i gamma</code> and a phonon spectral-function view. The branch table has <code>480</code> rows, the spectral curve has <code>900</code> points, linewidths are non-negative with range <code>0.2000</code>-<code>2.9988 meV</code>, and local regression coverage increased to <code>25</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -396,6 +403,47 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Finite-Linewidth Fitted-PPM Branches</h2>
+    <p>The zero-linewidth fitted-table path has been extended to complex damped branches. For each density, the model uses fitted <code>omega_pl</code>, fitted plasmon <code>gamma</code>, a small artificial phonon broadening of <code>0.2 meV</code>, DFT-derived GaAs optical phonons, and the LO-TO-strength coupling surrogate. The output stores <code>Re(lambda)</code> and <code>-Im(lambda)</code> for each hybrid branch.</p>
+    <figure>
+      <img src="assets/gaas_fitted_ppm_finite_hybrid_density_sweep.svg" alt="GaAs finite-linewidth hybrid sweep driven by fitted plasmon-pole parameters">
+      <figcaption>The figure shows <code>Re(lambda)</code> across density. The TO branches keep the imposed <code>0.2 meV</code> phonon linewidth, while the plasmon-like branch carries most of the fitted <code>3 meV</code> damping away from resonance.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Density</th><th>Re(lambda) branches</th><th>Linewidths</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>1.0000e16 cm^-3</code></td><td><code>4.2939, 32.2662, 32.2662, 32.6694 meV</code></td><td><code>2.9988, 0.2000, 0.2000, 0.2012 meV</code></td></tr>
+        <tr><td><code>3.2554e17 cm^-3</code></td><td><code>24.1850, 32.2662, 32.2662, 33.1098 meV</code></td><td><code>2.8365, 0.2000, 0.2000, 0.3635 meV</code></td></tr>
+        <tr><td><code>1.0000e19 cm^-3</code></td><td><code>32.2432, 32.2662, 32.2662, 137.5682 meV</code></td><td><code>0.2043, 0.2000, 0.2000, 2.9957 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Fitted-PPM Spectral Function</h2>
+    <p>The same finite-linewidth model now generates a phonon spectral function. By default the script chooses the density row closest to the LO-like resonance; here that is <code>5.4890e17 cm^-3</code>, close to the analytic resonance target <code>5.6453e17 cm^-3</code>.</p>
+    <figure>
+      <img src="assets/gaas_fitted_ppm_spectral_function.svg" alt="GaAs fitted-PPM phonon spectral function">
+      <figcaption>The spectral peak occurs at <code>32.3026 meV</code>. Vertical dashed lines mark the real parts of the complex hybrid branches at this selected density.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Selected density</td><td><code>5.4890e17 cm^-3</code></td></tr>
+        <tr><td>Fitted plasmon input</td><td><code>omega_pl=32.2073 meV</code>, <code>gamma=3.0000 meV</code></td></tr>
+        <tr><td>Coupling</td><td><code>1.633598e-4 eV^2</code></td></tr>
+        <tr><td>Complex branch real parts</td><td><code>30.2192, 32.2662, 32.2662, 34.4539 meV</code></td></tr>
+        <tr><td>Branch linewidths</td><td><code>1.7509, 0.2000, 0.2000, 1.4491 meV</code></td></tr>
+        <tr><td>Spectral peak</td><td><code>omega=32.3026 meV</code>, <code>A(omega)=3.2187e3</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -407,7 +455,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Add a finite-linewidth hybrid output using fitted <code>gamma</code>. The current fitted-table path stores linewidths but still reports zero-linewidth hybrid energies; the next step is to generate the complex branches <code>lambda = omega - i gamma</code> and a spectral-function view from the same fitted PPM inputs.</p>
+    <p>Next, implement the finite-linewidth dielectric or loss-function output from the same fitted-PPM branch data. This should start with a zero-linewidth check, then add the finite-linewidth left/right vertex form before trying to reproduce EELS-like inverse dielectric figures.</p>
   </section>
 </main>
 </body>
