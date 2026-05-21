@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T15:11:04-04:00</span>
+        <span>2026-05-21T15:23:49-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, and <code>4x4x4</code> phonon-grid DFPT have completed cleanly. Grid job <code>17583524</code> completed on <code>shared</code> node <code>a047</code> at <code>2026-05-21T13:53:31-04:00</code>, writing all <code>8</code> irreducible q-point dynamical matrices <code>dyn1</code>-<code>dyn8</code>. The sampled frequencies are all positive, spanning approximately <code>9.1</code>-<code>268.3 cm^-1</code>.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, and LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing have completed. At exact Gamma along <code>Gamma -> X</code>, the optical modes split from the disabled-control triplet at <code>260.2447 cm^-1</code> into <code>260.2447</code>, <code>260.2447</code>, and <code>263.4405 cm^-1</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -280,6 +280,12 @@
           <td>Copied to <code>docs/assets/</code> and displayed.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_loto_gamma_x.svg</code></td>
+          <td>SVG figure</td>
+          <td>8 KB</td>
+          <td>Generated from local <code>matdyn.x</code> frequency output and displayed as the GaAs LO-TO postprocessing result.</td>
+        </tr>
+        <tr>
           <td><code>plan.md</code></td>
           <td>Markdown plan</td>
           <td>40 KB</td>
@@ -321,7 +327,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. It should be treated as a method/debug surrogate rather than a material-faithful replacement for TiO2.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -340,6 +346,10 @@
       <figure>
         <img src="assets/static_ppm.png" alt="Static plasmon-pole low-energy limit">
         <figcaption><strong>Static PPM limit.</strong> The static plasmon-pole construction stays close to the target low-energy inverse dielectric function.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_loto_gamma_x.svg" alt="GaAs Gamma to X phonon interpolation with LO-TO splitting">
+        <figcaption><strong>GaAs LO-TO postprocessing.</strong> <code>q2r.x</code>/<code>matdyn.x</code> splits the exact-Gamma optical mode into two TO branches at <code>260.2447 cm^-1</code> and one LO branch at <code>263.4405 cm^-1</code>.</figcaption>
       </figure>
     </div>
   </section>
@@ -512,7 +522,15 @@ python toy_model_plph.py --plot</code></pre>
     <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
     <p>The unit convention baseline was added locally as <code>environment/unit_conventions.md</code>. The public-safe summary is available as <a href="unit_conventions.html">a dedicated unit-conventions page</a>.</p>
     <p>TiO2 QE input templates were added locally under <code>dft/tio2/</code>. QE executables are referenced from <code>/anvil/projects/x-che190065/rjguo/qe-7.5/bin</code>, with modules <code>aocc/3.1.0</code>, <code>openmpi/4.1.6</code>, <code>amdblis/3.0</code>, <code>amdlibflame/3.0</code>, <code>amdlibm/3.0</code>, and <code>fftw</code>.</p>
-    <p>Local pseudopotentials were downloaded from the official PseudoDojo LDA standard UPF tarball, with only <code>Ti.upf</code> and <code>O.upf</code> extracted for this baseline. The public-safe details are summarized in <a href="tio2_input_prep.html">the TiO2 input-prep page</a>.</p>
+    <p>Local pseudopotentials were downloaded from the official PseudoDojo LDA standard UPF tarball, with <code>Ti.upf</code>, <code>O.upf</code>, <code>Ga.upf</code>, and <code>As.upf</code> extracted for the current baselines. The public-safe TiO2 and GaAs details are summarized in their dedicated input-prep pages.</p>
+    <p>The GaAs LO-TO postprocessing was run locally with the same QE module stack:</p>
+    <pre><code>module reset
+module load aocc/3.1.0 openmpi/4.1.6
+module load amdblis/3.0 amdlibflame/3.0 amdlibm/3.0 fftw
+cd dft/gaas/primitive/post/loto
+/anvil/projects/x-che190065/rjguo/qe-7.5/bin/q2r.x &lt; q2r_loto.in &gt; q2r_loto.out
+/anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_loto.in &gt; matdyn_gamma_x_loto.out
+/anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_no_loto.in &gt; matdyn_gamma_x_no_loto.out</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 

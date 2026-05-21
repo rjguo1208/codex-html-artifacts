@@ -107,6 +107,24 @@
       margin-top: 4px;
       overflow-wrap: anywhere;
     }
+    figure {
+      margin: 12px 0 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    figcaption {
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--line);
+    }
     .warning { background: var(--warn-bg); border-color: var(--warn-line); }
     .status-ok { color: #166534; font-weight: 700; }
     .status-pending { color: #9a4d00; font-weight: 700; }
@@ -129,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T15:11:04-04:00</span>
+        <span>2026-05-21T15:23:49-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -137,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>4x4x4 grid complete</span>
+        <span>LO-TO postprocessing complete</span>
       </div>
     </div>
   </header>
@@ -162,7 +180,7 @@
         <tr><td>Pseudopotentials</td><td>PseudoDojo scalar-relativistic norm-conserving LDA: <code>Ga.upf</code>, <code>As.upf</code>. These were extracted locally from the existing tarball.</td></tr>
         <tr><td>Cutoffs</td><td><code>ecutwfc=80 Ry</code>, <code>ecutrho=320 Ry</code>.</td></tr>
         <tr><td>SCF k grid</td><td><code>8x8x8</code> unshifted.</td></tr>
-        <tr><td>DFPT plan</td><td>SCF first, then Gamma dielectric/Born-charge DFPT, then <code>4x4x4</code> phonon-grid DFPT.</td></tr>
+        <tr><td>DFPT plan</td><td>SCF first, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, then <code>q2r.x</code>/<code>matdyn.x</code> LO-TO postprocessing.</td></tr>
       </tbody>
     </table>
   </section>
@@ -178,6 +196,9 @@
         <tr><td><code>dft/gaas/primitive/scf/run_gaas_scf_shared.slurm</code></td><td>Shared-partition SCF job script, <code>32</code> MPI tasks, <code>00:30:00</code> wall time.</td></tr>
         <tr><td><code>dft/gaas/primitive/ph/gaas_zb_prim_ph_gamma_eps.in</code></td><td>Gamma DFPT input for phonons, dielectric tensor, and Born charges after SCF completes.</td></tr>
         <tr><td><code>dft/gaas/primitive/ph/gaas_zb_prim_ph_grid_4x4x4.in</code></td><td>4x4x4 phonon-grid DFPT input for interpolation checks.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/q2r_loto.in</code></td><td>Local q2r input that converts <code>dyn0</code>-<code>dyn8</code> into real-space IFC with long-range terms written.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_loto.in</code></td><td>Local matdyn input for the <code>Gamma -> X</code> interpolation with LO-TO splitting enabled at exact Gamma.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_no_loto.in</code></td><td>Local matdyn control input with <code>loto_disable=.true.</code> for the exact-Gamma comparison.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -210,6 +231,31 @@
           <td class="status-ok">COMPLETED</td>
           <td>Job <code>17583524</code> ran on <code>shared</code> node <code>a047</code> with <code>32</code> MPI tasks from <code>2026-05-21T13:13:23</code> to <code>2026-05-21T13:53:31</code>. Slurm exit code was <code>0:0</code>; QE output contains <code>JOB DONE</code>. QE reports <code>8</code> irreducible q points for the <code>4x4x4</code> grid, and all dynamical matrices <code>dyn1</code>-<code>dyn8</code> were written. The sampled phonon frequencies are all positive, with a full-grid range of approximately <code>9.1</code>-<code>268.3 cm^-1</code>; the Gamma acoustic triplet remains at <code>9.112 cm^-1</code> and is a QC item.</td>
         </tr>
+        <tr>
+          <td>GaAs LO-TO postprocessing</td>
+          <td class="status-ok">COMPLETED</td>
+          <td><code>q2r.x</code> generated <code>gaas444_lr.fc</code> from the completed <code>4x4x4</code> dynamical matrices using <code>zasr='crystal'</code> and <code>write_lr=.true.</code>. <code>matdyn.x</code> then interpolated a <code>Gamma -> X</code> path with <code>read_lr=.true.</code>. At exact Gamma, LO-TO enabled gives optical frequencies <code>260.2447</code>, <code>260.2447</code>, and <code>263.4405 cm^-1</code>; the control with <code>loto_disable=.true.</code> keeps the optical triplet at <code>260.2447 cm^-1</code>. The extracted exact-Gamma splitting is <code>3.1958 cm^-1</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>LO-TO Postprocessing Result</h2>
+    <p>The Gamma DFPT run already computed the dielectric tensor and Born effective charges. The new postprocessing step uses those quantities in <code>q2r.x</code>/<code>matdyn.x</code> so that the non-analytic dipole contribution is applied at exact Gamma along the selected <code>Gamma -> X</code> direction.</p>
+    <figure>
+      <img src="assets/gaas_loto_gamma_x.svg" alt="GaAs Gamma to X phonon interpolation with LO-TO splitting">
+      <figcaption>The two transverse optical modes remain at <code>260.2447 cm^-1</code> at Gamma, while the longitudinal optical mode shifts to <code>263.4405 cm^-1</code>. Dashed optical traces indicate the exact-Gamma control with LO-TO disabled.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gamma optical modes with LO-TO</td><td><code>260.2447, 260.2447, 263.4405 cm^-1</code></td></tr>
+        <tr><td>Gamma optical modes with exact-Gamma LO-TO disabled</td><td><code>260.2447, 260.2447, 260.2447 cm^-1</code></td></tr>
+        <tr><td>Extracted exact-Gamma LO-TO splitting</td><td><code>3.1958 cm^-1</code></td></tr>
+        <tr><td>X-like endpoint frequencies on this path</td><td><code>75.8501, 75.8501, 170.0277, 240.9532, 240.9532, 256.3923 cm^-1</code></td></tr>
       </tbody>
     </table>
   </section>
@@ -219,13 +265,13 @@
     <ul>
       <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
       <li>The GaAs route is currently a computational surrogate for workflow validation, not a replacement for TiO2 material-specific conclusions.</li>
-      <li>The Gamma DFPT dielectric constant is very large and the acoustic triplet is not exactly zero; treat these as quality-control items for the fixed-cell benchmark.</li>
+      <li>Fixed-cell benchmark validation is deferred for now; the current page records workflow outputs and LO-TO postprocessing status.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Step</h2>
-    <p>Assess whether this fixed-cell GaAs benchmark is sufficient for workflow testing or whether a short vc-relax / relaxed-cell SCF+DFPT pass is needed before using the data for hybridization analysis. The large dielectric constant and nonzero Gamma acoustic triplet argue for at least one relaxed-cell QC pass.</p>
+    <p>Use the LO-TO-aware GaAs phonon frequencies as the first DFT-derived phonon input for the plasmon-phonon hybridization workflow. The next implementation step is to extract a compact phonon-mode table from the <code>matdyn.x</code> output and connect it to the existing toy-model Green-function code as a GaAs-backed test case.</p>
   </section>
 </main>
 </body>

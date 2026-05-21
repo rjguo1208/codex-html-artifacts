@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" role="img" aria-labelledby="title desc">
+<title id="title">GaAs Gamma-X phonon interpolation with LO-TO splitting</title>
+<desc id="desc">Six phonon branches from Quantum ESPRESSO matdyn, with the exact Gamma optical triplet split into two TO modes and one LO mode when LO-TO is enabled.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="68" y="36" width="890" height="328" fill="#f8fafc" stroke="#cfd8e3"/>
+<line x1="68" x2="958" y1="358.25" y2="358.25" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="362.25" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">0</text>
+<line x1="68" x2="958" y1="300.70" y2="300.70" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="304.70" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">50</text>
+<line x1="68" x2="958" y1="243.16" y2="243.16" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="247.16" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">100</text>
+<line x1="68" x2="958" y1="185.61" y2="185.61" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="189.61" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">150</text>
+<line x1="68" x2="958" y1="128.07" y2="128.07" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="132.07" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">200</text>
+<line x1="68" x2="958" y1="70.53" y2="70.53" stroke="#dce3eb" stroke-width="1"/>
+<text x="58" y="74.53" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">250</text>
+<line x1="68.00" x2="68.00" y1="36" y2="364" stroke="#e4e9ef" stroke-width="1"/>
+<text x="68.00" y="388" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">Γ</text>
+<line x1="958.00" x2="958.00" y1="36" y2="364" stroke="#e4e9ef" stroke-width="1"/>
+<text x="958.00" y="388" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">X-like</text>
+<polyline points="68.00,358.25 89.71,354.96 111.41,351.68 133.12,348.40 154.83,345.14 176.54,341.90 198.24,338.68 219.95,335.48 241.66,332.32 263.37,329.19 285.07,326.11 306.78,323.06 328.49,320.07 350.20,317.13 371.90,314.24 393.61,311.42 415.32,308.67 437.02,305.98 458.73,303.38 480.44,300.85 502.15,298.41 523.85,296.06 545.56,293.80 567.27,291.63 588.98,289.57 610.68,287.62 632.39,285.77 654.10,284.03 675.80,282.40 697.51,280.88 719.22,279.48 740.93,278.19 762.63,277.02 784.34,275.95 806.05,275.00 827.76,274.15 849.46,273.39 871.17,272.74 892.88,272.17 914.59,271.69 936.29,271.29 958.00,270.95" fill="none" stroke="#2f67b1" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,358.25 89.71,354.96 111.41,351.68 133.12,348.40 154.83,345.14 176.54,341.90 198.24,338.68 219.95,335.48 241.66,332.32 263.37,329.19 285.07,326.11 306.78,323.06 328.49,320.07 350.20,317.13 371.90,314.24 393.61,311.42 415.32,308.67 437.02,305.98 458.73,303.38 480.44,300.85 502.15,298.41 523.85,296.06 545.56,293.80 567.27,291.63 588.98,289.57 610.68,287.62 632.39,285.77 654.10,284.03 675.80,282.40 697.51,280.88 719.22,279.48 740.93,278.19 762.63,277.02 784.34,275.95 806.05,275.00 827.76,274.15 849.46,273.39 871.17,272.74 892.88,272.17 914.59,271.69 936.29,271.29 958.00,270.95" fill="none" stroke="#2f67b1" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,358.25 89.71,352.78 111.41,347.33 133.12,341.88 154.83,336.44 176.54,331.02 198.24,325.62 219.95,320.24 241.66,314.88 263.37,309.56 285.07,304.27 306.78,299.01 328.49,293.80 350.20,288.62 371.90,283.48 393.61,278.38 415.32,273.33 437.02,268.32 458.73,263.36 480.44,258.44 502.15,253.58 523.85,248.76 545.56,243.98 567.27,239.26 588.98,234.58 610.68,229.95 632.39,225.38 654.10,220.84 675.80,216.36 697.51,211.93 719.22,207.54 740.93,203.20 762.63,198.91 784.34,194.67 806.05,190.48 827.76,186.34 849.46,182.25 871.17,178.21 892.88,174.22 914.59,170.28 936.29,166.40 958.00,162.56" fill="none" stroke="#33864a" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,58.74 89.71,58.76 111.41,58.82 133.12,58.93 154.83,59.07 176.54,59.27 198.24,59.50 219.95,59.79 241.66,60.12 263.37,60.50 285.07,60.92 306.78,61.40 328.49,61.92 350.20,62.49 371.90,63.11 393.61,63.78 415.32,64.49 437.02,65.24 458.73,66.03 480.44,66.85 502.15,67.71 523.85,68.58 545.56,69.47 567.27,70.37 588.98,71.27 610.68,72.16 632.39,73.05 654.10,73.91 675.80,74.75 697.51,75.55 719.22,76.31 740.93,77.03 762.63,77.69 784.34,78.29 806.05,78.84 827.76,79.32 849.46,79.75 871.17,80.10 892.88,80.40 914.59,80.64 936.29,80.81 958.00,80.94" fill="none" stroke="#b2463b" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,58.74 89.71,58.76 111.41,58.82 133.12,58.93 154.83,59.07 176.54,59.27 198.24,59.50 219.95,59.79 241.66,60.12 263.37,60.50 285.07,60.92 306.78,61.40 328.49,61.92 350.20,62.49 371.90,63.11 393.61,63.78 415.32,64.49 437.02,65.24 458.73,66.03 480.44,66.85 502.15,67.71 523.85,68.58 545.56,69.47 567.27,70.37 588.98,71.27 610.68,72.16 632.39,73.05 654.10,73.91 675.80,74.75 697.51,75.55 719.22,76.31 740.93,77.03 762.63,77.69 784.34,78.29 806.05,78.84 827.76,79.32 849.46,79.75 871.17,80.10 892.88,80.40 914.59,80.64 936.29,80.81 958.00,80.94" fill="none" stroke="#b2463b" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,55.06 89.71,55.02 111.41,54.92 133.12,54.76 154.83,54.53 176.54,54.24 198.24,53.90 219.95,53.51 241.66,53.08 263.37,52.62 285.07,52.13 306.78,51.63 328.49,51.13 350.20,50.62 371.90,50.13 393.61,49.66 415.32,49.22 437.02,48.82 458.73,48.46 480.44,48.16 502.15,47.93 523.85,47.76 545.56,47.66 567.27,47.65 588.98,47.72 610.68,47.88 632.39,48.13 654.10,48.47 675.80,48.91 697.51,49.44 719.22,50.07 740.93,50.80 762.63,51.63 784.34,52.55 806.05,53.56 827.76,54.67 849.46,55.87 871.17,57.16 892.88,58.53 914.59,60.00 936.29,61.54 958.00,63.17" fill="none" stroke="#7350a4" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="68.00,58.74 89.71,58.76 111.41,58.82 133.12,58.93 154.83,59.07 176.54,59.27 198.24,59.50 219.95,59.79" fill="none" stroke="#b2463b" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+<polyline points="68.00,58.74 89.71,58.76 111.41,58.82 133.12,58.93 154.83,59.07 176.54,59.27 198.24,59.50 219.95,59.79" fill="none" stroke="#b2463b" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+<polyline points="68.00,58.74 89.71,55.02 111.41,54.92 133.12,54.76 154.83,54.53 176.54,54.24 198.24,53.90 219.95,53.51" fill="none" stroke="#7350a4" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+<circle cx="68.00" cy="58.74" r="4.0" fill="#b2463b" stroke="#ffffff" stroke-width="1.2"/>
+<circle cx="68.00" cy="58.74" r="4.0" fill="#b2463b" stroke="#ffffff" stroke-width="1.2"/>
+<circle cx="68.00" cy="55.06" r="4.4" fill="#7350a4" stroke="#ffffff" stroke-width="1.2"/>
+<text x="68" y="22" font-family="system-ui,Segoe UI,sans-serif" font-size="16" font-weight="700" fill="#17212b">GaAs Γ → X interpolation after q2r/matdyn</text>
+<text x="68" y="406" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">Frequency (cm⁻¹); dashed optical traces show exact-Γ result with loto_disable=.true. for comparison.</text>
+<text transform="translate(17 200.0) rotate(-90)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">Frequency (cm⁻¹)</text>
+<rect x="705" y="58" width="235" height="76" rx="6" fill="#ffffff" stroke="#d3dbe5"/>
+<line x1="718" x2="738" y1="80" y2="80" stroke="#b2463b" stroke-width="3"/>
+<text x="748" y="84" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">TO at Γ: 260.2447 cm⁻¹</text>
+<line x1="718" x2="738" y1="101" y2="101" stroke="#7350a4" stroke-width="3"/>
+<text x="748" y="105" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">LO at Γ: 263.4405 cm⁻¹</text>
+<line x1="718" x2="738" y1="122" y2="122" stroke="#56616d" stroke-width="3"/>
+<text x="748" y="126" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">ΔLO-TO: 3.1958 cm⁻¹</text>
+</svg>
