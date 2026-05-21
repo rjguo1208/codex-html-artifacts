@@ -129,7 +129,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T12:11:53-04:00</span>
+        <span>2026-05-21T13:11:27-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -137,7 +137,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>SCF complete; Gamma DFPT pending</span>
+        <span>Gamma DFPT complete; 4x4x4 grid pending</span>
       </div>
     </div>
   </header>
@@ -202,13 +202,13 @@
         </tr>
         <tr>
           <td>GaAs Gamma DFPT</td>
-          <td class="status-pending">PENDING</td>
-          <td>Job <code>17582835</code> was submitted to <code>shared</code> at <code>2026-05-21T12:11:53-04:00</code> with <code>32</code> MPI tasks using <code>run_gaas_ph_gamma_shared.slurm</code>. Current pending reason: <code>Priority</code>.</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17582835</code> ran on <code>shared</code> node <code>a228</code> with <code>32</code> MPI tasks from <code>2026-05-21T12:14:02</code> to <code>2026-05-21T12:16:06</code>. Slurm exit code was <code>0:0</code>; QE output contains <code>JOB DONE</code>. The dielectric tensor is isotropic with diagonal value <code>107.110377606</code>. ASR-applied Born effective charges are <code>Ga +2.43775</code> and <code>As -2.43775</code>. Gamma frequencies are an acoustic triplet at <code>9.112 cm^-1</code> and an optical triplet at <code>260.252 cm^-1</code>. The nonzero acoustic value and unusually large dielectric constant are flagged as benchmark-quality checks before drawing material conclusions.</td>
         </tr>
         <tr>
           <td>GaAs 4x4x4 phonon grid</td>
-          <td class="status-pending">WAITING</td>
-          <td>Will be submitted after the GaAs SCF and Gamma DFPT checks pass.</td>
+          <td class="status-pending">PENDING</td>
+          <td>Job <code>17583524</code> was submitted to <code>shared</code> at <code>2026-05-21T13:11:27-04:00</code> with <code>32</code> MPI tasks using <code>run_gaas_ph_grid_4x4x4_shared.slurm</code>. Current pending reason: <code>Priority</code>.</td>
         </tr>
       </tbody>
     </table>
@@ -219,12 +219,13 @@
     <ul>
       <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
       <li>The GaAs route is currently a computational surrogate for workflow validation, not a replacement for TiO2 material-specific conclusions.</li>
+      <li>The Gamma DFPT dielectric constant is very large and the acoustic triplet is not exactly zero; treat these as quality-control items for the fixed-cell benchmark.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Step</h2>
-    <p>Monitor GaAs Gamma DFPT job <code>17582835</code>. If it completes with <code>JOB DONE</code>, parse the dielectric tensor, Born effective charges, and Gamma phonon frequencies, then submit the GaAs <code>4x4x4</code> phonon-grid DFPT job.</p>
+    <p>Monitor GaAs <code>4x4x4</code> phonon-grid DFPT job <code>17583524</code>. If it completes with <code>JOB DONE</code>, parse the generated dynamical matrices and assess whether a relaxed-cell pass is needed before using the data for hybridization analysis.</p>
   </section>
 </main>
 </body>
