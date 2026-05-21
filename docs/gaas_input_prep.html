@@ -147,7 +147,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T16:44:36-04:00</span>
+        <span>2026-05-21T16:49:49-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +155,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Drude density sweep complete</span>
+        <span>Polar coupling sweep complete</span>
       </div>
     </div>
   </header>
@@ -201,6 +201,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/matdyn_gamma_x_no_loto.in</code></td><td>Local matdyn control input with <code>loto_disable=.true.</code> for the exact-Gamma comparison.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv</code></td><td>Small derived mode table extracted from <code>matdyn.x</code>; stays local because the webpage already summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv</code></td><td>Small derived density-sweep table from the analytic Drude surrogate; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv</code></td><td>Small derived density-sweep table using the LO-TO-strength coupling surrogate; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -247,6 +248,11 @@
           <td>GaAs Drude plasmon sweep</td>
           <td class="status-ok">COMPLETED</td>
           <td>The artificial fixed plasmon energy has been replaced by a low-cost screened Drude surrogate with default parameters <code>m*=0.067 m_e</code>, <code>epsilon_inf=10.89</code>, and <code>gamma=3 meV</code>. The LO-like phonon resonance occurs near <code>5.6453e17 cm^-3</code>. Local regression coverage increased to <code>17</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>GaAs polar coupling sweep</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The fixed toy coupling has been replaced by a mode-selective LO-TO-strength surrogate <code>c(n)=omega_pl(n)*sqrt(omega_LO^2-omega_TO^2)</code>. Only the LO-like mode is coupled; the two TO modes remain decoupled. At the LO-like resonance density <code>5.6453e17 cm^-3</code>, <code>c=1.656686e-4 eV^2</code> and the hybrid energies are <code>30.0195</code>, <code>32.2662</code>, <code>32.2662</code>, and <code>35.1070 meV</code>. Local regression coverage increased to <code>19</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -315,6 +321,28 @@ epsilon_el^{-1}(omega) = epsilon_inf^{-1} + Omega^2 / (omega^2 - E_pl^2 + i gamm
     </table>
   </section>
 
+  <section>
+    <h2>Polar Coupling Sweep</h2>
+    <p>The latest implementation replaces the fixed control coupling with a density-dependent surrogate based on the LO-TO splitting. This is still a reduced model, but it moves the coupling in the right direction: it is mode-selective, zero for TO modes, and grows with the Drude plasmon pole.</p>
+    <pre><code>omega_TO = average of the two exact-Gamma TO modes
+omega_LO = exact-Gamma LO-like mode
+c(n) = omega_pl(n) * sqrt(omega_LO^2 - omega_TO^2)</code></pre>
+    <figure>
+      <img src="assets/gaas_polar_coupling_density_sweep.svg" alt="GaAs polar-coupled density-dependent hybrid sweep">
+      <figcaption>Compared with the fixed-c control, the avoided crossing is stronger because <code>c(n)</code> is set by the LO-TO strength. The two TO branches stay flat and uncoupled.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Carrier density</th><th>Coupling</th><th>Hybrid energies</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>1.0000e17 cm^-3</code></td><td><code>6.972640e-5 eV^2</code></td><td><code>13.5453, 32.2662, 32.2662, 32.7466 meV</code></td></tr>
+        <tr><td><code>5.6453e17 cm^-3</code></td><td><code>1.656686e-4 eV^2</code></td><td><code>30.0195, 32.2662, 32.2662, 35.1070 meV</code></td></tr>
+        <tr><td><code>1.0000e18 cm^-3</code></td><td><code>2.204942e-4 eV^2</code></td><td><code>31.8038, 32.2662, 32.2662, 44.1037 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -326,7 +354,7 @@ epsilon_el^{-1}(omega) = epsilon_inf^{-1} + Omega^2 / (omega^2 - E_pl^2 + i gamm
 
   <section>
     <h2>Next Step</h2>
-    <p>Replace the remaining toy coupling with a long-range coupling surrogate. The practical next implementation is to compute a mode-selective <code>c(n)</code> from the polar LO-TO strength and the Drude plasmon pole, then compare it against the current fixed <code>c = 2.0e-5 eV^2</code> control.</p>
+    <p>Start replacing the analytic surrogate pieces with first-principles pieces. The next practical implementation is a lightweight RPA/Drude validation page: compare the analytic <code>epsilon_el^{-1}(omega)</code> pole against the intended plasmon-pole fitting interface and save the fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, residual, and fit status.</p>
   </section>
 </main>
 </body>

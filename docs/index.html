@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T16:44:36-04:00</span>
+        <span>2026-05-21T16:49:49-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, the first GaAs-backed toy hybrid test, and an analytic Drude density sweep have completed.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, a Drude density sweep, and a polar LO-TO coupling sweep have completed.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -298,6 +298,12 @@
           <td>Generated from the analytic Drude plasmon surrogate and the GaAs-backed hybrid solver.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_polar_coupling_density_sweep.svg</code></td>
+          <td>SVG figure</td>
+          <td>13 KB</td>
+          <td>Generated from the LO-TO-strength coupling surrogate and the GaAs-backed hybrid solver.</td>
+        </tr>
+        <tr>
           <td><code>plan.md</code></td>
           <td>Markdown plan</td>
           <td>40 KB</td>
@@ -339,7 +345,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, and a carrier-density-dependent Drude plasmon surrogate.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, a carrier-density-dependent Drude plasmon surrogate, and a mode-selective polar coupling surrogate.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -370,6 +376,10 @@
       <figure>
         <img src="assets/gaas_drude_hybrid_density_sweep.svg" alt="GaAs Drude density-dependent hybrid sweep">
         <figcaption><strong>Drude density sweep.</strong> The fixed toy plasmon energy is replaced by <code>E_pl(n)=hbar sqrt(n e^2/(epsilon_0 epsilon_inf m*))</code>, giving an LO-like resonance near <code>5.6453e17 cm^-3</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_polar_coupling_density_sweep.svg" alt="GaAs polar-coupled density-dependent hybrid sweep">
+        <figcaption><strong>Polar coupling sweep.</strong> The fixed coupling is replaced by <code>c(n)=omega_pl sqrt(omega_LO^2-omega_TO^2)</code>, so only the LO-like branch hybridizes.</figcaption>
       </figure>
     </div>
   </section>
@@ -488,7 +498,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 17 tests ran in 0.045 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, and Drude plasmon-pole density mapping.</p>
+    <p><strong>Result:</strong> 19 tests ran in 0.055 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, and the LO-TO-strength coupling surrogate.</p>
   </section>
 
   <section>
@@ -566,6 +576,11 @@ python toy_model_plph.py --quiet \
   --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
   --gaas-drude-sweep-csv dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv \
   --gaas-drude-sweep-svg docs/assets/gaas_drude_hybrid_density_sweep.svg</code></pre>
+    <p>The polar-coupled density sweep was generated with:</p>
+    <pre><code>python toy_model_plph.py --quiet \
+  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
+  --gaas-polar-coupling-sweep-csv dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv \
+  --gaas-polar-coupling-sweep-svg docs/assets/gaas_polar_coupling_density_sweep.svg</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
@@ -576,7 +591,7 @@ python toy_model_plph.py --quiet \
       <li><code>PhysRevLett.133.116402.pdf</code>, 1.6 MB: copyrighted paper PDF, not needed for the public report.</li>
       <li><code>supp_revised.pdf</code>, 918 KB: supplemental PDF, not needed for the public report.</li>
       <li><code>dft/tio2/</code>: local QE input templates and future raw QE working directories.</li>
-      <li><code>dft/gaas/</code>: local QE inputs, raw outputs, dynamical matrices, IFC files, and the derived local mode-table CSV.</li>
+      <li><code>dft/gaas/</code>: local QE inputs, raw outputs, dynamical matrices, IFC files, and derived local CSV tables.</li>
       <li><code>pseudos/</code>: local PseudoDojo UPF tarball and extracted pseudopotential files.</li>
       <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
       <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>
