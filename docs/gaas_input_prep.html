@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T16:17:23-04:00</span>
+        <span>2026-05-22T16:21:44-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs PH complete; EPW kmaps reuse pending</span>
+        <span>GaAs PH complete; EPW kmaps input rejected</span>
       </div>
     </div>
   </header>
@@ -326,8 +326,8 @@
         </tr>
         <tr>
           <td>GaAs Wannier/EPW input preparation</td>
-          <td class="status-pending">EPW KMAPS PENDING</td>
-          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs. The prepared <code>save_scf_sym</code> directory contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code>. Its EPW stage failed in <code>readin</code> because <code>-nk 8</code> did not satisfy EPW 6.0's <code>nproc=npool*nimage</code> requirement. Job <code>17617148</code> used pool-only <code>-nk 128</code> and passed that check, then failed with <code>inconsistent nscf and elph k-grids</code> because EPW was pointed at symmetry SCF rather than the no-symmetry NSCF save. Job <code>17617158</code> fixed the outdir by using NSCF <code>tmp_scf</code> and <code>save_scf_sym</code>, completed AMN/MMN plus Wannier90 on <code>shared</code> node <code>a153</code> with <code>128</code> CPUs, then hit repeated <code>malloc(): invalid size</code> aborts at/after <code>Calculating kgmap</code>. Diagnostic job <code>17617257</code> requested/allocated <code>128</code> CPUs and ran EPW with <code>64</code> ranks plus <code>-nk 64</code>; it completed AMN/MMN and Wannier90, wrote kgmap-stage files, then hit the same malloc abort at/after <code>Calculating kgmap</code>. The hung job was cancelled at <code>2026-05-22T16:12:40-04:00</code>. Job <code>17617307</code> is pending with <code>128</code> CPUs and <code>-nk 128</code>; it uses the new local <code>gaas_zb_prim_epw_scf_sym_kmaps.in</code> input with <code>kmaps=.true.</code> to reuse the existing <code>gaas_zb_prim.kgmap</code>. Combined local regression coverage remains <code>49</code> passing unittest cases.</td>
+          <td class="status-pending">EPW KMAPS INPUT REJECTED</td>
+          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs. The prepared <code>save_scf_sym</code> directory contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code>. Its EPW stage failed in <code>readin</code> because <code>-nk 8</code> did not satisfy EPW 6.0's <code>nproc=npool*nimage</code> requirement. Job <code>17617148</code> used pool-only <code>-nk 128</code> and passed that check, then failed with <code>inconsistent nscf and elph k-grids</code> because EPW was pointed at symmetry SCF rather than the no-symmetry NSCF save. Job <code>17617158</code> fixed the outdir by using NSCF <code>tmp_scf</code> and <code>save_scf_sym</code>, completed AMN/MMN plus Wannier90 on <code>shared</code> node <code>a153</code> with <code>128</code> CPUs, then hit repeated <code>malloc(): invalid size</code> aborts at/after <code>Calculating kgmap</code>. Diagnostic job <code>17617257</code> requested/allocated <code>128</code> CPUs and ran EPW with <code>64</code> ranks plus <code>-nk 64</code>; it completed AMN/MMN and Wannier90, wrote kgmap-stage files, then hit the same malloc abort at/after <code>Calculating kgmap</code>. The hung job was cancelled at <code>2026-05-22T16:12:40-04:00</code>. Job <code>17617307</code> requested/allocated <code>128</code> CPUs and tested <code>kmaps=.true.</code> with <code>-nk 128</code>, but failed in <code>readin</code> after <code>12</code> seconds because this EPW 6.0 source does not expose <code>kmaps</code> in the input namelist. Combined local regression coverage remains <code>49</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -683,7 +683,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, monitor job <code>17617307</code>. The decisive checkpoint is whether <code>kmaps=.true.</code> prints <code>Using kmap and kgmap from disk</code> and advances past the previous <code>Calculating kgmap</code> abort point with <code>128</code> ranks.</p>
+    <p>Next, prepare a minimal EPW source-side fix before submitting another production-like run. The two targeted checks are to expose <code>kmaps</code> in <code>&amp;inputepw</code> and to avoid the all-rank formatted stdout write immediately after <code>createkmap_pw2</code>, which is the likely AOCC/flang crash point.</p>
   </section>
 </main>
 </body>
