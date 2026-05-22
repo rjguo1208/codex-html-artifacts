@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T23:30:16-04:00</span>
+        <span>2026-05-22T15:00:09-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Fresh PH/EPW continuation queued</span>
+        <span>Fresh PH timed out at q2; EPW not started</span>
       </div>
     </div>
   </header>
@@ -176,7 +176,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
         <tr><td>EPW phonon input</td><td>Corrected</td><td>A separate <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> is generated because the earlier phonon-grid benchmark did not write dvscf files. The invalid <code>epsil=.true.</code> flag was removed from the <code>ldisp</code> PH-grid input. The PH scratch is now a clean <code>tmp_epw_ph</code> directory with <code>recover=.false.</code>, so the run cannot silently reuse old empty dvscf placeholders.</td></tr>
-        <tr><td>Slurm job</td><td>Continuation queued</td><td>Job <code>17591963</code> reached NSCF, <code>pw2wannier90</code>, Wannier90, and PH <code>JOB DONE</code>, then stopped before EPW because <code>python</code> was unavailable and the recovered PH scratch contained empty dvscf files. The new continuation job <code>17593482</code> reruns only PH in clean scratch, requires nonempty <code>save/gaas_zb_prim.dvscf_q*</code>, and then starts EPW.</td></tr>
+        <tr><td>Slurm job</td><td>Timed out in PH</td><td>Job <code>17593482</code> ran on <code>a125</code> and timed out after <code>01:00:13</code>. Fresh PH completed q point 1 and wrote nonempty <code>gaas_zb_prim.dvscf1</code> (<code>8.748 MB</code>). It stopped during q point 2 at <code>solve_lint</code>, <code>CURRENT_Q=2</code>, <code>CURRENT_IU=1</code>; q2 dvscf remains empty and EPW has not started.</td></tr>
       </tbody>
     </table>
   </section>
