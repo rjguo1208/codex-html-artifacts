@@ -173,7 +173,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T21:27:54-04:00</span>
+        <span>2026-05-21T22:21:01-04:00</span>
       </div>
       <div class="metric">
         <strong>Implementation</strong>
@@ -670,6 +670,90 @@ k_F = (3 pi^2 n)^(1/3)
 v_F = hbar k_F / m*
 eps_el^{-1}(q, omega) = eps_inf^{-1} + Omega^2 / (omega^2 - omega_pl(q)^2 + i gamma omega)</code></pre>
     <p class="note">For the current GaAs test at <code>|q|=8e-4 Angstrom^-1</code>, the finite-q shift is <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>.</p>
+  </section>
+
+  <section>
+    <h2>10. Numerical Lindhard Dielectric Source</h2>
+    <p>The direct numerical source evaluates the finite-temperature Lindhard response before any one-pole fit. The current implementation still uses a parabolic GaAs conduction band, but the downstream interface now consumes sampled <code>epsilon_el^{-1}(q,omega)</code> data rather than a pre-imposed analytic pole.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&chi;</mi><mn>0</mn></msub>
+          <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mn>2</mn>
+          <mo>&int;</mo>
+          <mfrac>
+            <mrow><msup><mi>d</mi><mn>3</mn></msup><mi>k</mi></mrow>
+            <msup><mfenced open="(" close=")"><mrow><mn>2</mn><mi>&pi;</mi></mrow></mfenced><mn>3</mn></msup>
+          </mfrac>
+          <mfrac>
+            <mrow>
+              <mi>f</mi><mo stretchy="false">(</mo><msub><mi>&epsilon;</mi><mi>k</mi></msub><mo stretchy="false">)</mo>
+              <mo>-</mo>
+              <mi>f</mi><mo stretchy="false">(</mo><msub><mi>&epsilon;</mi><mrow><mi>k</mi><mo>+</mo><mi>q</mi></mrow></msub><mo stretchy="false">)</mo>
+            </mrow>
+            <mrow>
+              <mi>&hbar;</mi><mi>&omega;</mi>
+              <mo>+</mo><mi>i</mi><mi>&eta;</mi>
+              <mo>+</mo>
+              <msub><mi>&epsilon;</mi><mi>k</mi></msub>
+              <mo>-</mo>
+              <msub><mi>&epsilon;</mi><mrow><mi>k</mi><mo>+</mo><mi>q</mi></mrow></msub>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>f</mi><mo stretchy="false">(</mo><mi>&epsilon;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mfrac>
+            <mn>1</mn>
+            <mrow>
+              <mi>exp</mi>
+              <mo stretchy="false">[</mo>
+              <mrow><mo stretchy="false">(</mo><mi>&epsilon;</mi><mo>-</mo><mi>&mu;</mi><mo stretchy="false">)</mo><mo>/</mo><msub><mi>k</mi><mi>B</mi></msub><mi>T</mi></mrow>
+              <mo stretchy="false">]</mo>
+              <mo>+</mo><mn>1</mn>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>n</mi>
+          <mo>=</mo>
+          <mn>2</mn>
+          <mo>&int;</mo>
+          <mfrac>
+            <mrow><msup><mi>d</mi><mn>3</mn></msup><mi>k</mi></mrow>
+            <msup><mfenced open="(" close=")"><mrow><mn>2</mn><mi>&pi;</mi></mrow></mfenced><mn>3</mn></msup>
+          </mfrac>
+          <mi>f</mi><mo stretchy="false">(</mo><msub><mi>&epsilon;</mi><mi>k</mi></msub><mo stretchy="false">)</mo>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <mi>&epsilon;</mi><mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msub><mi>&epsilon;</mi><mi>&infin;</mi></msub>
+          <mo>-</mo>
+          <mi>v</mi><mo stretchy="false">(</mo><mi>q</mi><mo stretchy="false">)</mo>
+          <msub><mi>&chi;</mi><mn>0</mn></msub>
+          <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>,</mo>
+          <mi>v</mi><mo stretchy="false">(</mo><mi>q</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mfrac><msup><mi>e</mi><mn>2</mn></msup><mrow><msub><mi>&epsilon;</mi><mn>0</mn></msub><msup><mi>q</mi><mn>2</mn></msup></mrow></mfrac>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>chi0(q, omega) = 2 int d^3k/(2 pi)^3 * [f(e_k)-f(e_kq)] / [hbar omega + i eta + e_k - e_kq]
+n = 2 int d^3k/(2 pi)^3 * f(e_k)
+epsilon(q, omega) = eps_inf - e^2 chi0(q, omega)/(epsilon_0 q^2)
+epsilon_inv(q, omega) = 1 / epsilon(q, omega)</code></pre>
+    <p class="note">The current numerical grid uses <code>T=300 K</code>, <code>eta=1.5 meV</code>, <code>n_k=240</code>, and <code>n_mu=40</code>. The fitted PPM damping is about <code>3.0 meV</code> because the oscillator denominator uses <code>i gamma omega</code>.</p>
   </section>
 </main>
 </body>

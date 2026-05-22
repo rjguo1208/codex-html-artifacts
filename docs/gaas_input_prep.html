@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T21:27:54-04:00</span>
+        <span>2026-05-21T22:21:01-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Finite-q Lindhard surrogate complete</span>
+        <span>Numerical Lindhard dielectric source complete</span>
       </div>
     </div>
   </header>
@@ -219,6 +219,8 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fig1_q_geometry.csv</code></td><td>Small derived coordinate conversion for the paper Fig. 1 target q-vector; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_lindhard_fig1_ppm_fit_parameters.csv</code></td><td>Small derived finite-q Lindhard PPM-fit table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived finite-q Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_ppm_fit_parameters.csv</code></td><td>Small derived direct numerical finite-T Lindhard PPM-fit table; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived numerical Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -305,6 +307,11 @@
           <td>Finite-q Lindhard surrogate</td>
           <td class="status-ok">COMPLETED</td>
           <td>The q-&gt;0 Drude/mock-RPA input has been replaced by a finite-q long-wavelength parabolic-band Lindhard surrogate at <code>|q|=8.0e-4 Angstrom^-1</code>. The PPM fit table has <code>120</code> density rows, all <code>status=ok</code>, with maximum relative residual <code>2.33e-13</code>. The finite-q shift is small but positive, <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>; local regression coverage increased to <code>35</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Direct numerical Lindhard dielectric</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The analytic finite-q pole has been replaced by direct k-space integration of finite-T parabolic-band Lindhard <code>epsilon_el^{-1}(q,omega)</code> at <code>T=300 K</code>. The PPM fit table has <code>80</code> density rows, all <code>status=ok</code>, with maximum relative residual <code>1.24e-2</code>. The fitted pole spans <code>5.1798</code>-<code>137.5612 meV</code>, fitted gamma is <code>3.0000 meV</code>, and local regression coverage increased to <code>40</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -570,6 +577,36 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Numerical Finite-T Lindhard Dielectric</h2>
+    <p>This step removes the analytic plasmon-pole assumption from the electronic dielectric input. For each density, the code solves the finite-temperature parabolic-band chemical potential and directly integrates the Lindhard density response over radial k and angular quadrature. The resulting complex <code>epsilon_el^{-1}(q,omega)</code> is then passed into the same PPM fitting and hybridization path.</p>
+    <div class="formula">χ<sub>0</sub>(q,ω) = 2∫d<sup>3</sup>k/(2π)<sup>3</sup> [f(ε<sub>k</sub>) - f(ε<sub>k+q</sub>)] / [ℏω + iη + ε<sub>k</sub> - ε<sub>k+q</sub>]</div>
+    <div class="formula">ε(q,ω) = ε<sub>∞</sub> - v(q)χ<sub>0</sub>(q,ω),  v(q)=e<sup>2</sup>/(ε<sub>0</sub>q<sup>2</sup>),  ε<sup>-1</sup>(q,ω)=1/ε(q,ω)</div>
+    <figure>
+      <img src="assets/gaas_numeric_lindhard_fig1_ppm_fit.svg" alt="GaAs numerical finite-temperature Lindhard PPM fit summary">
+      <figcaption>The fitted numerical Lindhard pole is compared with the previous long-wavelength analytic pole and the sampled loss peak.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/gaas_numeric_lindhard_fig1_hybrid_sweep.svg" alt="GaAs numerical Lindhard fitted-PPM hybrid sweep">
+      <figcaption>The downstream hybrid solver now consumes PPM parameters fitted from directly integrated <code>epsilon_el^{-1}(q,omega)</code>.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Density rows</td><td><code>80</code>, all <code>status=ok</code></td></tr>
+        <tr><td>Quadrature</td><td><code>n_k=240</code>, <code>n_mu=40</code>, <code>eta=1.5 meV</code></td></tr>
+        <tr><td>Maximum PPM fit relative residual</td><td><code>1.24e-2</code></td></tr>
+        <tr><td>Chemical potential range</td><td><code>-0.0973</code> to <code>0.2504 eV</code> from <code>1e16</code> to <code>1e19 cm^-3</code></td></tr>
+        <tr><td>Fitted numerical plasmon range</td><td><code>5.1798</code>-<code>137.5612 meV</code></td></tr>
+        <tr><td>Difference from long-wavelength pole</td><td><code>0.8072 meV</code> at <code>1e16 cm^-3</code>, falling to <code>0.0116 meV</code> at <code>1e19 cm^-3</code></td></tr>
+        <tr><td>Nearest LO row</td><td><code>n=5.5826e17 cm^-3</code>, long-wavelength pole <code>32.5302 meV</code>, fitted numerical pole <code>32.6213 meV</code>, fit residual <code>1.62e-4</code></td></tr>
+        <tr><td>Numerical-Lindhard hybrid energies at nearest LO row</td><td><code>30.0005, 32.2662, 32.2662, 35.0850 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -581,7 +618,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, replace the long-wavelength analytic Lindhard surrogate with a real q-dependent dielectric source: either a direct numerical finite-T Lindhard grid for the GaAs parabolic band, or the full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow that the paper uses.</p>
+    <p>Next, implement the static-approximation branch on the same numerical Lindhard dielectric data. That will make the GaAs Fig. 1 surrogate closer to the paper comparison before moving from the parabolic-band source to the full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow.</p>
   </section>
 </main>
 </body>
