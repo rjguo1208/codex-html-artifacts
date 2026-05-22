@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T15:36:02-04:00</span>
+        <span>2026-05-22T15:43:06-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>PH complete; EPW retry pending</span>
+        <span>PH complete; NSCF EPW running</span>
       </div>
     </div>
   </header>
@@ -176,7 +176,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
         <tr><td>EPW phonon input</td><td>Corrected</td><td>The active PH input reuses the previously calculated <code>4x4x4</code> PH parameters and adds <code>fildvscf='dvscf'</code>. The invalid <code>epsil=.true.</code> flag remains absent from the <code>ldisp</code> PH-grid input. A separate same-parameter SCF step is rerun only to regenerate wavefunctions in <code>tmp_epw_scf_sym</code>, so PH can write dvscf files for EPW.</td></tr>
-        <tr><td>Slurm job</td><td>EPW retry pending</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. Job <code>17617104</code> completed SCF and PH on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs: PH reported <code>8 q-points</code>, finished all q points, and produced nonempty <code>dvscf_q1</code>-<code>dvscf_q8</code>. Its EPW stage failed at input parsing because <code>-nk 8</code> left <code>nproc != npool*nimage</code>. Corrected EPW-only job <code>17617148</code> is pending with pool-only <code>-nk 128</code> and the same <code>128</code> CPUs.</td></tr>
+        <tr><td>Slurm job</td><td>NSCF EPW running</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. Job <code>17617104</code> completed SCF and PH on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs: PH reported <code>8 q-points</code>, finished all q points, and produced nonempty <code>dvscf_q1</code>-<code>dvscf_q8</code>. Its EPW stage failed at input parsing because <code>-nk 8</code> left <code>nproc != npool*nimage</code>. Job <code>17617148</code> with pool-only <code>-nk 128</code> passed read-in, then failed with <code>inconsistent nscf and elph k-grids</code> because EPW was pointed at the symmetry SCF outdir. Active retry <code>17617158</code> is running on <code>a153</code> with <code>-nk 128</code>, NSCF <code>tmp_scf</code>, and the successful <code>save_scf_sym</code> dvscf files; it reads <code>512</code> k points, AMN/MMN are complete, and Wannier90 is active.</td></tr>
       </tbody>
     </table>
   </section>
