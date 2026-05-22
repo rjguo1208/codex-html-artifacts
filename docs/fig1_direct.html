@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T23:19:52-04:00</span>
+        <span>2026-05-21T23:30:16-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Wannier90 fixed locally; retry EPW job queued</span>
+        <span>Fresh PH/EPW continuation queued</span>
       </div>
     </div>
   </header>
@@ -175,15 +175,15 @@ python fig1_direct_reproduction.py \
         <tr><td>Local templates</td><td>Prepared</td><td><code>dft/gaas/primitive/wannier_epw/</code> now contains NSCF, Wannier90, pw2wannier90, PH-with-<code>fildvscf</code>, EPW, Fig. 1 q-point, and Slurm templates.</td></tr>
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
-        <tr><td>EPW phonon input</td><td>Corrected</td><td>A separate <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> is generated because the earlier phonon-grid benchmark did not write dvscf files. The invalid <code>epsil=.true.</code> flag was removed from the <code>ldisp</code> PH-grid input.</td></tr>
-        <tr><td>Slurm job</td><td>Retry queued</td><td>Job <code>17591901</code> failed after <code>00:01:13</code>: NSCF and <code>pw2wannier90</code> completed, then Wannier90 hit the frozen-window constraint and PH rejected <code>epsil</code>. After fixing both issues, job <code>17591963</code> was submitted to <code>shared</code> for <code>32</code> CPUs and <code>02:00:00</code>; current state at update time was pending due to priority.</td></tr>
+        <tr><td>EPW phonon input</td><td>Corrected</td><td>A separate <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> is generated because the earlier phonon-grid benchmark did not write dvscf files. The invalid <code>epsil=.true.</code> flag was removed from the <code>ldisp</code> PH-grid input. The PH scratch is now a clean <code>tmp_epw_ph</code> directory with <code>recover=.false.</code>, so the run cannot silently reuse old empty dvscf placeholders.</td></tr>
+        <tr><td>Slurm job</td><td>Continuation queued</td><td>Job <code>17591963</code> reached NSCF, <code>pw2wannier90</code>, Wannier90, and PH <code>JOB DONE</code>, then stopped before EPW because <code>python</code> was unavailable and the recovered PH scratch contained empty dvscf files. The new continuation job <code>17593482</code> reruns only PH in clean scratch, requires nonempty <code>save/gaas_zb_prim.dvscf_q*</code>, and then starts EPW.</td></tr>
       </tbody>
     </table>
   </section>
 
   <section>
     <h2>Verification</h2>
-    <p>The direct Fig. 1 gate and the revised Wannier/EPW templates are covered by local tests. The combined local regression run now has <code>48</code> passing unittest cases. The template checks specifically verify <code>fildvscf</code>, no PH-grid <code>epsil</code> flag, polar EPW mode, and the Fig. 1 q point.</p>
+    <p>The direct Fig. 1 gate and the revised Wannier/EPW templates are covered by local tests. The combined local regression run now has <code>49</code> passing unittest cases. The template checks specifically verify <code>fildvscf</code>, no PH-grid <code>epsil</code> flag, clean PH scratch, nonempty dvscf guards, polar EPW mode, and the Fig. 1 q point.</p>
   </section>
 
   <section class="warning">
