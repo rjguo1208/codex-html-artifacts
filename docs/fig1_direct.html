@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T15:26:56-04:00</span>
+        <span>2026-05-22T15:28:50-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -176,7 +176,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
         <tr><td>EPW phonon input</td><td>Corrected</td><td>The active PH input reuses the previously calculated <code>4x4x4</code> PH parameters and adds <code>fildvscf='dvscf'</code>. The invalid <code>epsil=.true.</code> flag remains absent from the <code>ldisp</code> PH-grid input. A separate same-parameter SCF step is rerun only to regenerate wavefunctions in <code>tmp_epw_scf_sym</code>, so PH can write dvscf files for EPW.</td></tr>
-        <tr><td>Slurm job</td><td>Corrected job running</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. Corrected job <code>17617104</code> is running on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs for <code>04:00:00</code>. SCF is complete, PH reports <code>8 q-points</code>, and nonempty <code>dvscf</code> files are being written. It runs same-parameter SCF, previous <code>4x4x4</code> PH plus <code>fildvscf</code>, <code>save_scf_sym</code> preparation, and EPW.</td></tr>
+        <tr><td>Slurm job</td><td>Corrected job running</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. Corrected job <code>17617104</code> is running on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs for <code>04:00:00</code>. SCF is complete, PH reports <code>8 q-points</code>, q points 1-4 have converged, q point 5 is active, and nonempty <code>dvscf</code> files are being written. It runs same-parameter SCF, previous <code>4x4x4</code> PH plus <code>fildvscf</code>, <code>save_scf_sym</code> preparation, and EPW.</td></tr>
       </tbody>
     </table>
   </section>
