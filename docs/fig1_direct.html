@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Fig. 1 Reproduction Gate</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.12; letter-spacing: 0; }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre { background: var(--code-bg); border-radius: 6px; }
+    code { padding: 2px 5px; font-size: 0.95em; }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); background: #f3f6f9; }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+    .warning { background: var(--warn-bg); border-color: var(--warn-line); }
+    ul { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>Direct Fig. 1 Reproduction Gate</h1>
+    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles or experimental input tables for the paper Fig. 1 reproduction.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-21T22:57:40-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Local script</strong>
+        <span><code>fig1_direct_reproduction.py</code></span>
+      </div>
+      <div class="metric">
+        <strong>Status</strong>
+        <span>Input gate implemented; real data missing</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Policy</h2>
+    <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and Raman points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
+  </section>
+
+  <section>
+    <h2>Required Inputs</h2>
+    <table>
+      <thead>
+        <tr><th>Input</th><th>Required provenance</th><th>Minimum columns</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nonadiabatic hybrid branches</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, branch_index, energy_meV</code></td></tr>
+        <tr><td>Static approximation branch</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, energy_meV</code></td></tr>
+        <tr><td>Bare plasmon</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, energy_meV</code></td></tr>
+        <tr><td>Raman points</td><td><code>experiment</code>, <code>raman_experiment</code>, or <code>paper_digitized</code></td><td><code>density_cm_minus_3, energy_meV, series</code></td></tr>
+        <tr><td>TO phonon reference</td><td>Scalar CLI value from validated phonon/Raman reference</td><td><code>--to-phonon-mev</code></td></tr>
+      </tbody>
+    </table>
+    <p>Each CSV must declare provenance in a comment line such as <code># provenance: wannier_rpa</code> or in a <code>provenance</code> column.</p>
+  </section>
+
+  <section>
+    <h2>Run Command</h2>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate Tmat
+python fig1_direct_reproduction.py \
+  --nonadiabatic-csv dft/gaas/fig1_direct/gaas_fig1_nonadiabatic.csv \
+  --static-csv dft/gaas/fig1_direct/gaas_fig1_static.csv \
+  --bare-plasmon-csv dft/gaas/fig1_direct/gaas_fig1_bare_plasmon.csv \
+  --raman-csv dft/gaas/fig1_direct/gaas_fig1_raman.csv \
+  --to-phonon-mev &lt;validated_TO_energy_meV&gt; \
+  --out-svg docs/assets/gaas_fig1_direct.svg</code></pre>
+    <p>Until those input files exist with accepted provenance, this command is expected to fail rather than silently draw an approximate model.</p>
+  </section>
+
+  <section>
+    <h2>Current Blocker</h2>
+    <p>The current HPC folder has GaAs SCF/DFPT phonon results and several surrogate interface tables, but it does not yet contain the real Fig. 1 inputs listed above. In particular, no Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> table or Raman point table is present locally.</p>
+  </section>
+
+  <section>
+    <h2>Verification</h2>
+    <p>The new direct Fig. 1 gate is covered by two local tests: one confirms valid real-provenance CSVs render a standalone SVG, and one confirms surrogate provenance is rejected. The combined local regression run now has <code>45</code> passing unittest cases.</p>
+  </section>
+
+  <section class="warning">
+    <h2>Not Uploaded</h2>
+    <p>No paper PDF pages, raw RPA data, raw QE outputs, wavefunctions, private files, or credentials are included in this GitHub Pages report. Future real Fig. 1 CSV inputs should remain local unless they are confirmed public-safe and small.</p>
+  </section>
+</main>
+</body>
+</html>

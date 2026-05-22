@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T22:42:48-04:00</span>
+        <span>2026-05-21T22:57:40-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Static approximation branch complete</span>
+        <span>Direct Fig. 1 input gate implemented; real data missing</span>
       </div>
     </div>
   </header>
@@ -318,6 +318,11 @@
           <td>Static approximation branch</td>
           <td class="status-ok">COMPLETED</td>
           <td>The numerical Lindhard low-energy/static inverse dielectric value now drives a static PPM branch with <code>omega*=5 eV</code>. The static screened LO branch stays close to the TO mode, <code>32.2663</code>-<code>32.2748 meV</code>, while the dynamic fitted-PPM branches show the avoided-crossing split. Local regression coverage increased to <code>43</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Direct Fig. 1 reproduction gate</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Per the current route, approximate Drude/Lindhard surrogate curves are no longer used as the Fig. 1 target. The new local <code>fig1_direct_reproduction.py</code> entry point accepts only real <code>wannier_rpa</code>, <code>first_principles_rpa</code>, <code>experiment</code>, or <code>paper_digitized</code> provenance and rejects toy, surrogate, Drude, mock, analytic, parabolic, and numerical-Lindhard inputs. Combined local regression coverage is now <code>45</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -529,7 +534,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
         <tr><td>LO-like reference</td><td><code>32.6625 meV</code></td></tr>
         <tr><td>LO resonance density</td><td><code>5.6453e17 cm^-3</code></td></tr>
         <tr><td>Nearest sampled resonance row</td><td><code>5.4890e17 cm^-3</code>, fitted plasmon <code>32.2073 meV</code>, hybrid energies <code>29.8001, 32.2662, 32.2662, 34.8726 meV</code></td></tr>
-        <tr><td>What is still missing for paper Fig. 1</td><td>Real <code>q=[110]</code> RPA/Wannier dielectric input, first-principles long-range vertex, static approximation branch, and Raman data overlay.</td></tr>
+        <tr><td>What is still missing for paper Fig. 1</td><td>Real <code>q=[110]</code> Wannier/RPA dielectric input, first-principles long-range vertex/coupling data, first-principles static-approximation branch, bare plasmon curve, and Raman data table.</td></tr>
       </tbody>
     </table>
   </section>
@@ -637,18 +642,43 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Direct Fig. 1 Reproduction Gate</h2>
+    <p>The direct Fig. 1 path has been separated from the surrogate interface checks. The local script <code>fig1_direct_reproduction.py</code> will render the final paper-style GaAs figure only when all required CSV inputs declare real provenance. It does not generate or accept toy, Drude, mock, analytic, parabolic-band, or numerical-Lindhard surrogate data.</p>
+    <table>
+      <thead>
+        <tr><th>Required input</th><th>Accepted provenance</th><th>Current status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nonadiabatic pl-ph hybrid branches</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td>Missing</td></tr>
+        <tr><td>Static approximation branch</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td>Missing</td></tr>
+        <tr><td>Bare plasmon curve</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td>Missing</td></tr>
+        <tr><td>Raman points</td><td><code>experiment</code>, <code>raman_experiment</code>, or <code>paper_digitized</code></td><td>Missing</td></tr>
+        <tr><td>TO phonon reference</td><td>Validated scalar value</td><td>Needs final material-quality validation before use</td></tr>
+      </tbody>
+    </table>
+    <pre><code>python fig1_direct_reproduction.py \
+  --nonadiabatic-csv dft/gaas/fig1_direct/gaas_fig1_nonadiabatic.csv \
+  --static-csv dft/gaas/fig1_direct/gaas_fig1_static.csv \
+  --bare-plasmon-csv dft/gaas/fig1_direct/gaas_fig1_bare_plasmon.csv \
+  --raman-csv dft/gaas/fig1_direct/gaas_fig1_raman.csv \
+  --to-phonon-mev &lt;validated_TO_energy_meV&gt; \
+  --out-svg docs/assets/gaas_fig1_direct.svg</code></pre>
+    <p><a class="nav" href="fig1_direct.html">Open direct Fig. 1 input requirements</a></p>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
       <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
-      <li>The GaAs route is currently a computational surrogate for workflow validation, not a replacement for TiO2 material-specific conclusions.</li>
+      <li>The GaAs route includes historical surrogate interface checks, but direct Fig. 1 reproduction now requires real Wannier/RPA and Raman inputs.</li>
       <li>Fixed-cell benchmark validation is deferred for now; the current page records workflow outputs and LO-TO postprocessing status.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, consolidate the dynamic and static GaAs curves into a single Fig. 1-style surrogate panel with clearer branch labels, then use that interface as the target shape for the later full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow.</p>
+    <p>Next, prepare the real GaAs Wannier/RPA inputs needed by the strict Fig. 1 gate: confirm Wannier90/EPW availability, build the 8-Wannier GaAs workflow on an <code>8x8x8</code> coarse grid, and generate the <code>q=[110]</code>, <code>|q|=8e-4 Angstrom^-1</code>, <code>T=300 K</code> RPA/PPM tables for the density sweep.</p>
   </section>
 </main>
 </body>
