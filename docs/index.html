@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:48:50-04:00</span>
+        <span>2026-05-21T19:59:46-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -227,7 +227,7 @@
       </div>
       <div class="metric">
         <strong>Report scope</strong>
-        <span>Toy model, GaAs PPM interface, and Fig.1-like surrogate</span>
+        <span>Toy model, GaAs PPM interface, and Fig.1 q geometry</span>
       </div>
     </div>
   </header>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, a fitted-PPM-driven hybrid path, finite-linewidth complex branches, a fitted-PPM spectral-function view, a toy inverse-dielectric loss output, and a Fig.1-like surrogate plot have completed.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, a fitted-PPM-driven hybrid path, finite-linewidth complex branches, a fitted-PPM spectral-function view, a toy inverse-dielectric loss output, a Fig.1-like surrogate plot, and the Fig. 1 target q-vector coordinate conversion have completed.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -367,7 +367,7 @@
           <td><code>dft/gaas/</code></td>
           <td>QE input templates</td>
           <td>local only</td>
-          <td>Current lower-cost workflow using 2-atom primitive zincblende GaAs; summarized on the GaAs input-prep page.</td>
+          <td>Current lower-cost workflow using 2-atom primitive zincblende GaAs; includes local derived q geometry CSV for the Fig. 1 target vector and is summarized on the GaAs input-prep page.</td>
         </tr>
         <tr>
           <td><code>pseudos/</code></td>
@@ -381,7 +381,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data, a hybrid solver path driven by fitted PPM tables, finite-linewidth spectral outputs, toy inverse-dielectric loss output, and a Fig.1-like surrogate figure from the same interface.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data, a hybrid solver path driven by fitted PPM tables, finite-linewidth spectral outputs, toy inverse-dielectric loss output, a Fig.1-like surrogate figure, and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -558,7 +558,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 28 tests ran in 0.141 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, the one-pole fitting interface, fitted-PPM-table-driven hybridization, finite-linewidth branch linewidths, fitted-PPM spectral-function positivity, inverse-dielectric loss zero-coupling limit, and Fig.1-like surrogate labeling.</p>
+    <p><strong>Result:</strong> 30 tests ran in 0.289 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, the one-pole fitting interface, fitted-PPM-table-driven hybridization, finite-linewidth branch linewidths, fitted-PPM spectral-function positivity, inverse-dielectric loss zero-coupling limit, Fig.1-like surrogate labeling, and Fig. 1 q-vector coordinate conversion.</p>
   </section>
 
   <section>
@@ -671,6 +671,9 @@ python toy_model_plph.py --quiet \
   --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
   --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
   --gaas-fig1-surrogate-svg docs/assets/gaas_fig1_like_surrogate.svg</code></pre>
+    <p>The Fig. 1 target q-vector conversion was generated with:</p>
+    <pre><code>python toy_model_plph.py --quiet \
+  --gaas-fig1-q-geometry-csv dft/gaas/primitive/post/loto/gaas_fig1_q_geometry.csv</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 
