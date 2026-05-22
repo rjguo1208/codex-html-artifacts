@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T15:16:03-04:00</span>
+        <span>2026-05-22T15:26:56-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Symmetry-preserving PH job queued</span>
+        <span>SCF+PH+EPW job running</span>
       </div>
     </div>
   </header>
@@ -166,7 +166,7 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Wannier/EPW Prep Status</h2>
-    <p>The first real-input preparation step is now local and queued again after one useful failure. QE 7.5 provides <code>wannier90.x</code>, <code>pw2wannier90.x</code>, and <code>epw.x</code>; the standalone module list also includes <code>wannier90/3.1.0</code>. EPW starts as version <code>6.0</code> from the QE tree.</p>
+    <p>The first real-input preparation step is now local and queued again after useful failures. QE 7.5 provides <code>wannier90.x</code>, <code>pw2wannier90.x</code>, and <code>epw.x</code>; the standalone module list also includes <code>wannier90/3.1.0</code>. EPW starts as version <code>6.0</code> from the QE tree.</p>
     <table>
       <thead>
         <tr><th>Item</th><th>Status</th><th>Detail</th></tr>
@@ -175,8 +175,8 @@ python fig1_direct_reproduction.py \
         <tr><td>Local templates</td><td>Prepared</td><td><code>dft/gaas/primitive/wannier_epw/</code> now contains NSCF, Wannier90, pw2wannier90, PH-with-<code>fildvscf</code>, EPW, Fig. 1 q-point, and Slurm templates.</td></tr>
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
-        <tr><td>EPW phonon input</td><td>Corrected</td><td>A separate <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> is generated because the earlier phonon-grid benchmark did not write dvscf files. The invalid <code>epsil=.true.</code> flag was removed from the <code>ldisp</code> PH-grid input. The PH scratch is now a clean <code>tmp_epw_ph</code> directory with <code>recover=.false.</code>, so the run cannot silently reuse old empty dvscf placeholders.</td></tr>
-        <tr><td>Slurm job</td><td>Corrected job queued</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Corrected job <code>17617050</code> is queued on <code>shared</code> with <code>128</code> CPUs for <code>04:00:00</code>. It uses a clean <code>tmp_epw_ph_sym</code> scratch linked to the <code>nsym=24</code> SCF save and writes EPW input files under <code>save_sym</code>.</td></tr>
+        <tr><td>EPW phonon input</td><td>Corrected</td><td>The active PH input reuses the previously calculated <code>4x4x4</code> PH parameters and adds <code>fildvscf='dvscf'</code>. The invalid <code>epsil=.true.</code> flag remains absent from the <code>ldisp</code> PH-grid input. A separate same-parameter SCF step is rerun only to regenerate wavefunctions in <code>tmp_epw_scf_sym</code>, so PH can write dvscf files for EPW.</td></tr>
+        <tr><td>Slurm job</td><td>Corrected job running</td><td>Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it was still reading the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. Corrected job <code>17617104</code> is running on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs for <code>04:00:00</code>. SCF is complete, PH reports <code>8 q-points</code>, and nonempty <code>dvscf</code> files are being written. It runs same-parameter SCF, previous <code>4x4x4</code> PH plus <code>fildvscf</code>, <code>save_scf_sym</code> preparation, and EPW.</td></tr>
       </tbody>
     </table>
   </section>

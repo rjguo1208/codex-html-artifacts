@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T15:16:03-04:00</span>
+        <span>2026-05-22T15:26:56-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs symmetry-preserving PH queued</span>
+        <span>GaAs SCF+PH+EPW running</span>
       </div>
     </div>
   </header>
@@ -326,8 +326,8 @@
         </tr>
         <tr>
           <td>GaAs Wannier/EPW input preparation</td>
-          <td class="status-pending">SYM JOB QUEUED</td>
-          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, a new <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> and no invalid PH-grid <code>epsil</code> flag, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it used the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. New job <code>17617050</code> is queued on <code>shared</code> with <code>128</code> CPUs and <code>04:00:00</code> walltime. It uses clean <code>tmp_epw_ph_sym</code>, the <code>nsym=24</code> SCF save, and <code>save_sym</code> for the EPW dvscf directory. Combined local regression coverage remains <code>49</code> passing unittest cases.</td>
+          <td class="status-pending">SCF+PH+EPW RUNNING</td>
+          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617016</code> was cancelled after <code>00:03:11</code> because it used the no-symmetry NSCF save and expanded to <code>63 / 64</code> q points. Job <code>17617050</code> failed after <code>00:00:11</code> because the linked save lacked collected wavefunctions. New job <code>17617104</code> is running on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs and <code>04:00:00</code> walltime. SCF completed, PH reports <code>8 q-points</code>, and nonempty <code>dvscf</code> files are being written. It reruns same-parameter SCF into <code>tmp_epw_scf_sym</code>, then runs the previous PH setup with <code>fildvscf</code>, prepares <code>save_scf_sym</code>, and starts EPW. Combined local regression coverage remains <code>49</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -683,7 +683,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, monitor job <code>17617050</code>. The immediate check is that PH reports the expected symmetry-reduced q list rather than <code>63 / 64</code> q points. If it does, let it finish the nonempty <code>dvscf_q*</code> files and then inspect the EPW stage. If it still expands to the full q grid, stop and revisit the SCF/NSCF save separation before spending more allocation.</p>
+    <p>Next, keep monitoring job <code>17617104</code> until PH finishes all <code>8</code> symmetry-reduced q points. The SCF and q-count checks have passed. The next decision point is whether <code>save_scf_sym</code> contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code> and whether EPW starts cleanly from that directory.</p>
   </section>
 </main>
 </body>
