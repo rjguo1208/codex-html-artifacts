@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T22:57:40-04:00</span>
+        <span>2026-05-21T23:19:52-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Direct Fig. 1 input gate implemented; real data missing</span>
+        <span>GaAs Wannier90 fixed locally; EPW retry queued</span>
       </div>
     </div>
   </header>
@@ -322,7 +322,12 @@
         <tr>
           <td>Direct Fig. 1 reproduction gate</td>
           <td class="status-ok">COMPLETED</td>
-          <td>Per the current route, approximate Drude/Lindhard surrogate curves are no longer used as the Fig. 1 target. The new local <code>fig1_direct_reproduction.py</code> entry point accepts only real <code>wannier_rpa</code>, <code>first_principles_rpa</code>, <code>experiment</code>, or <code>paper_digitized</code> provenance and rejects toy, surrogate, Drude, mock, analytic, parabolic, and numerical-Lindhard inputs. Combined local regression coverage is now <code>45</code> passing unittest cases.</td>
+          <td>Per the current route, approximate Drude/Lindhard surrogate curves are no longer used as the Fig. 1 target. The new local <code>fig1_direct_reproduction.py</code> entry point accepts only real <code>wannier_rpa</code>, <code>first_principles_rpa</code>, <code>experiment</code>, or <code>paper_digitized</code> provenance and rejects toy, surrogate, Drude, mock, analytic, parabolic, and numerical-Lindhard inputs. Combined local regression coverage is now <code>48</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>GaAs Wannier/EPW input preparation</td>
+          <td class="status-pending">RETRY QUEUED</td>
+          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, a new <code>4x4x4</code> PH input with <code>fildvscf='dvscf'</code> and no invalid PH-grid <code>epsil</code> flag, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. First job <code>17591901</code> failed after <code>00:01:13</code>: NSCF and <code>pw2wannier90</code> completed, but the original frozen window contained 13 states for 8 WFs and PH rejected <code>epsil</code>. After changing <code>dis_froz_min</code> to <code>-5.0 eV</code>, a local <code>wannier90.x</code> retry converged with <code>Omega Total = 30.307169632 Ang^2</code> and generated <code>gaas_zb_prim_hr.dat</code>. Retry job <code>17591963</code> is queued on <code>shared</code> with <code>32</code> CPUs for <code>02:00:00</code>. Combined local regression coverage remains <code>48</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -678,7 +683,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, prepare the real GaAs Wannier/RPA inputs needed by the strict Fig. 1 gate: confirm Wannier90/EPW availability, build the 8-Wannier GaAs workflow on an <code>8x8x8</code> coarse grid, and generate the <code>q=[110]</code>, <code>|q|=8e-4 Angstrom^-1</code>, <code>T=300 K</code> RPA/PPM tables for the density sweep.</p>
+    <p>Next, monitor retry job <code>17591963</code>. If it reaches the PH/EPW checkpoints successfully, inspect the EPW save directory and Wannier band interpolation, then build the real first-principles dielectric-table generator for the <code>q=[110]</code>, <code>|q|=8e-4 Angstrom^-1</code>, <code>T=300 K</code> density sweep. If it fails, triage the first failed PH or EPW stage before changing physics settings.</p>
   </section>
 </main>
 </body>
