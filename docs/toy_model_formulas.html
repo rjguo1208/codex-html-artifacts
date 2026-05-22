@@ -173,7 +173,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T17:38:39-04:00</span>
+        <span>2026-05-21T21:27:54-04:00</span>
       </div>
       <div class="metric">
         <strong>Implementation</strong>
@@ -604,6 +604,72 @@ eps_el^{-1}(omega << omega*) approximately eps_el^{-1}(0)</code></pre>
     <pre><code>eps_plph_inv(omega) = eps_inf^{-1} + Omega^2 * G_00(omega)
 loss(omega) = -Im eps_plph_inv(omega)</code></pre>
     <p class="note">In the zero-coupling, zero-linewidth limit, <code>G_00 = 1/(omega^2 - omega_pl^2)</code>, so this reduces to the bare plasmon-pole expression.</p>
+  </section>
+
+  <section>
+    <h2>9. Finite-q Lindhard Surrogate</h2>
+    <p>The newest GaAs interface test replaces the q-&gt;0 Drude pole with the long-wavelength 3D parabolic-band Lindhard plasmon dispersion. This is used only as a low-cost finite-q PPM fitting surrogate before real Wannier/RPA data are available.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+          <mo stretchy="false">(</mo><mi>q</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+          <mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo>
+          <mo>+</mo>
+          <mfrac><mn>3</mn><mn>5</mn></mfrac>
+          <msubsup><mi>v</mi><mi>F</mi><mn>2</mn></msubsup>
+          <msup><mi>q</mi><mn>2</mn></msup>
+          <mo>+</mo>
+          <mfrac>
+            <mrow><msup><mi>&hbar;</mi><mn>2</mn></msup><msup><mi>q</mi><mn>4</mn></msup></mrow>
+            <mrow><mn>4</mn><msup><mi>m</mi><mrow><mo>*</mo><mn>2</mn></mrow></msup></mrow>
+          </mfrac>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msub><mi>k</mi><mi>F</mi></msub>
+          <mo>=</mo>
+          <msup>
+            <mfenced open="(" close=")">
+              <mrow><mn>3</mn><msup><mi>&pi;</mi><mn>2</mn></msup><mi>n</mi></mrow>
+            </mfenced>
+            <mfrac><mn>1</mn><mn>3</mn></mfrac>
+          </msup>
+          <mo>,</mo>
+          <msub><mi>v</mi><mi>F</mi></msub>
+          <mo>=</mo>
+          <mfrac><mrow><mi>&hbar;</mi><msub><mi>k</mi><mi>F</mi></msub></mrow><msup><mi>m</mi><mo>*</mo></msup></mfrac>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msubsup><mi>&epsilon;</mi><mi>&infin;</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo>+</mo>
+          <mfrac>
+            <msup><mi>&Omega;</mi><mn>2</mn></msup>
+            <mrow>
+              <msup><mi>&omega;</mi><mn>2</mn></msup>
+              <mo>-</mo>
+              <msubsup><mi>&omega;</mi><mi>pl</mi><mn>2</mn></msubsup>
+              <mo stretchy="false">(</mo><mi>q</mi><mo stretchy="false">)</mo>
+              <mo>+</mo>
+              <mi>i</mi><mi>&gamma;</mi><mi>&omega;</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>omega_pl(q)^2 = omega_pl(0)^2 + (3/5) v_F^2 q^2 + hbar^2 q^4 / (4 m*^2)
+k_F = (3 pi^2 n)^(1/3)
+v_F = hbar k_F / m*
+eps_el^{-1}(q, omega) = eps_inf^{-1} + Omega^2 / (omega^2 - omega_pl(q)^2 + i gamma omega)</code></pre>
+    <p class="note">For the current GaAs test at <code>|q|=8e-4 Angstrom^-1</code>, the finite-q shift is <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>.</p>
   </section>
 </main>
 </body>

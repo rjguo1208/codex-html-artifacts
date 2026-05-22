@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T19:59:46-04:00</span>
+        <span>2026-05-21T21:27:54-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -227,7 +227,7 @@
       </div>
       <div class="metric">
         <strong>Report scope</strong>
-        <span>Toy model, GaAs PPM interface, and Fig.1 q geometry</span>
+        <span>Toy model, GaAs PPM/Lindhard interface, and Fig.1 q geometry</span>
       </div>
     </div>
   </header>
@@ -236,7 +236,7 @@
     <h2>Short Summary</h2>
     <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
     <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, a fitted-PPM-driven hybrid path, finite-linewidth complex branches, a fitted-PPM spectral-function view, a toy inverse-dielectric loss output, a Fig.1-like surrogate plot, and the Fig. 1 target q-vector coordinate conversion have completed.</p>
+    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, a fitted-PPM-driven hybrid path, finite-linewidth complex branches, a fitted-PPM spectral-function view, a toy inverse-dielectric loss output, a Fig.1-like surrogate plot, the Fig. 1 target q-vector coordinate conversion, and a finite-q long-wavelength Lindhard surrogate have completed.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -258,8 +258,8 @@
         <tr>
           <td><code>toy_model_plph.py</code></td>
           <td>Python script</td>
-          <td>107 KB</td>
-          <td>Core reproducible toy-model implementation.</td>
+          <td>145 KB</td>
+          <td>Core reproducible toy-model implementation, including the finite-q Lindhard surrogate interface.</td>
         </tr>
         <tr>
           <td><code>figures/toy_model/avoided_crossing.png</code></td>
@@ -340,6 +340,18 @@
           <td>Generated from fitted PPM hybrid data as a clearly labeled Fig.1-like surrogate, not a paper reproduction.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_lindhard_fig1_finite_q_shift.svg</code></td>
+          <td>SVG figure</td>
+          <td>6.5 KB</td>
+          <td>Generated from the finite-q long-wavelength Lindhard plasmon surrogate at the paper Fig. 1 q magnitude.</td>
+        </tr>
+        <tr>
+          <td><code>docs/assets/gaas_lindhard_fig1_hybrid_sweep.svg</code></td>
+          <td>SVG figure</td>
+          <td>14 KB</td>
+          <td>Generated from finite-q Lindhard fitted-PPM parameters and the GaAs-backed hybrid solver.</td>
+        </tr>
+        <tr>
           <td><code>plan.md</code></td>
           <td>Markdown plan</td>
           <td>40 KB</td>
@@ -367,7 +379,7 @@
           <td><code>dft/gaas/</code></td>
           <td>QE input templates</td>
           <td>local only</td>
-          <td>Current lower-cost workflow using 2-atom primitive zincblende GaAs; includes local derived q geometry CSV for the Fig. 1 target vector and is summarized on the GaAs input-prep page.</td>
+          <td>Current lower-cost workflow using 2-atom primitive zincblende GaAs; includes local derived q geometry and finite-q Lindhard CSV tables summarized on the GaAs input-prep page.</td>
         </tr>
         <tr>
           <td><code>pseudos/</code></td>
@@ -381,7 +393,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data, a hybrid solver path driven by fitted PPM tables, finite-linewidth spectral outputs, toy inverse-dielectric loss output, a Fig.1-like surrogate figure, and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma, a toy hybrid test that consumes the DFT-derived optical phonons, carrier-density-dependent Drude and polar-coupling surrogates, a plasmon-pole fitting interface for mock/RPA-format inverse dielectric data, a hybrid solver path driven by fitted PPM tables, finite-linewidth spectral outputs, toy inverse-dielectric loss output, a Fig.1-like surrogate figure, the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion, and a finite-q parabolic-band Lindhard surrogate for the same q magnitude.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -440,6 +452,14 @@
       <figure>
         <img src="assets/gaas_fig1_like_surrogate.svg" alt="GaAs Fig. 1-like surrogate hybrid energies">
         <figcaption><strong>Fig.1-like surrogate.</strong> Current data can generate a density-dependent GaAs hybrid-energy plot with fitted-PPM branches, bare plasmon, TO/LO references, and LO resonance at <code>5.6453e17 cm^-3</code>. It is explicitly not the reproduced paper Fig. 1.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_lindhard_fig1_finite_q_shift.svg" alt="GaAs finite-q Lindhard surrogate plasmon shift">
+        <figcaption><strong>Finite-q Lindhard shift.</strong> At <code>|q|=8e-4 Angstrom^-1</code>, the long-wavelength parabolic-band correction blue-shifts the plasmon by only <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_lindhard_fig1_hybrid_sweep.svg" alt="GaAs finite-q Lindhard fitted-PPM hybrid density sweep">
+        <figcaption><strong>Finite-q fitted-PPM hybrid path.</strong> The mock PPM interface now consumes a q-dependent plasmon pole. Near the LO row <code>5.4890e17 cm^-3</code>, hybrid energies are <code>29.8249</code>, <code>32.2662</code>, <code>32.2662</code>, and <code>34.8971 meV</code>.</figcaption>
       </figure>
     </div>
   </section>
@@ -558,7 +578,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 30 tests ran in 0.289 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, the one-pole fitting interface, fitted-PPM-table-driven hybridization, finite-linewidth branch linewidths, fitted-PPM spectral-function positivity, inverse-dielectric loss zero-coupling limit, Fig.1-like surrogate labeling, and Fig. 1 q-vector coordinate conversion.</p>
+    <p><strong>Result:</strong> 35 tests ran in 0.242 s, all passed. The added checks cover the <code>matdyn.x</code> parser, GaAs-backed optical-mode model, Drude plasmon-pole density mapping, the LO-TO-strength coupling surrogate, the one-pole fitting interface, fitted-PPM-table-driven hybridization, finite-linewidth branch linewidths, fitted-PPM spectral-function positivity, inverse-dielectric loss zero-coupling limit, Fig.1-like surrogate labeling, Fig. 1 q-vector coordinate conversion, q=0 recovery of the Drude limit, finite-q Lindhard blue shift, finite-q PPM fit recovery, finite-q CSV/SVG writers, and the finite-q GaAs hybrid path.</p>
   </section>
 
   <section>
@@ -674,6 +694,13 @@ python toy_model_plph.py --quiet \
     <p>The Fig. 1 target q-vector conversion was generated with:</p>
     <pre><code>python toy_model_plph.py --quiet \
   --gaas-fig1-q-geometry-csv dft/gaas/primitive/post/loto/gaas_fig1_q_geometry.csv</code></pre>
+    <p>The finite-q Lindhard surrogate and fitted-PPM hybrid path were generated with:</p>
+    <pre><code>python toy_model_plph.py --quiet \
+  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
+  --gaas-lindhard-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_lindhard_fig1_ppm_fit_parameters.csv \
+  --gaas-lindhard-shift-svg docs/assets/gaas_lindhard_fig1_finite_q_shift.svg \
+  --gaas-lindhard-hybrid-csv dft/gaas/primitive/post/loto/gaas_lindhard_fig1_hybrid_density_sweep.csv \
+  --gaas-lindhard-hybrid-svg docs/assets/gaas_lindhard_fig1_hybrid_sweep.svg</code></pre>
     <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
   </section>
 

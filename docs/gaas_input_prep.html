@@ -128,6 +128,15 @@
     .warning { background: var(--warn-bg); border-color: var(--warn-line); }
     .status-ok { color: #166534; font-weight: 700; }
     .status-pending { color: #9a4d00; font-weight: 700; }
+    .formula {
+      margin: 10px 0 12px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--code-bg);
+      overflow-x: auto;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
     ul { margin: 8px 0 0 22px; padding: 0; }
     li { margin: 4px 0; }
     @media (max-width: 760px) {
@@ -147,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T19:59:46-04:00</span>
+        <span>2026-05-21T21:27:54-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -155,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Fig.1 q geometry complete</span>
+        <span>Finite-q Lindhard surrogate complete</span>
       </div>
     </div>
   </header>
@@ -208,6 +217,8 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_spectral_function.csv</code></td><td>Small derived fitted-PPM phonon spectral-function curve; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fitted_ppm_dielectric_loss.csv</code></td><td>Small derived fitted-PPM inverse-dielectric and loss-function curve; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_fig1_q_geometry.csv</code></td><td>Small derived coordinate conversion for the paper Fig. 1 target q-vector; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_lindhard_fig1_ppm_fit_parameters.csv</code></td><td>Small derived finite-q Lindhard PPM-fit table; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived finite-q Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -289,6 +300,11 @@
           <td>Fig. 1 q-vector geometry</td>
           <td class="status-ok">COMPLETED</td>
           <td>The paper target <code>|q|=8.0e-4 Angstrom^-1</code> along <code>[110]</code> has been converted for the current primitive GaAs cell. In Cartesian coordinates, <code>q=(5.656854e-4, 5.656854e-4, 0) Angstrom^-1</code>. In conventional <code>2pi/a</code> units, <code>q=(5.089713e-4, 5.089713e-4, 0)</code>. In primitive reciprocal crystal coordinates, <code>q=(2.544857e-4, 2.544857e-4, 5.089713e-4)</code>. Reconstruction error is <code>1.0e-19 Angstrom^-1</code>; local regression coverage increased to <code>30</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Finite-q Lindhard surrogate</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The q-&gt;0 Drude/mock-RPA input has been replaced by a finite-q long-wavelength parabolic-band Lindhard surrogate at <code>|q|=8.0e-4 Angstrom^-1</code>. The PPM fit table has <code>120</code> density rows, all <code>status=ok</code>, with maximum relative residual <code>2.33e-13</code>. The finite-q shift is small but positive, <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>; local regression coverage increased to <code>35</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -524,6 +540,36 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     <p>For the current primitive reciprocal basis, this means future q-dependent RPA or QE-style small-q input should use the primitive crystal coordinate vector above, unless the consuming code explicitly expects conventional <code>2pi/a</code> units.</p>
   </section>
 
+  <section>
+    <h2>Finite-q Lindhard Surrogate</h2>
+    <p>This step replaces the q-&gt;0 Drude/mock-RPA fitted table with a finite-q long-wavelength parabolic-band Lindhard surrogate at the paper Fig. 1 wave vector. It is still an analytic interface test, not the full first-principles RPA/Wannier dielectric response.</p>
+    <div class="formula">ω<sub>pl</sub>(q)<sup>2</sup> = ω<sub>pl</sub>(0)<sup>2</sup> + (3/5)v<sub>F</sub><sup>2</sup>q<sup>2</sup> + ℏ<sup>2</sup>q<sup>4</sup>/(4m<sup>*2</sup>)</div>
+    <p>The fitted inverse dielectric input keeps the same one-pole shape used by the PPM interface:</p>
+    <div class="formula">ε<sub>el</sub><sup>-1</sup>(q,ω) = ε<sub>∞</sub><sup>-1</sup> + Ω(q)<sup>2</sup> / [ω<sup>2</sup> - ω<sub>pl</sub>(q)<sup>2</sup> + iγω]</div>
+    <figure>
+      <img src="assets/gaas_lindhard_fig1_finite_q_shift.svg" alt="GaAs finite-q Lindhard surrogate plasmon shift">
+      <figcaption>The finite-q correction is positive but small for the paper q magnitude: <code>0.0255</code>-<code>0.0802 meV</code> from <code>1e16</code> to <code>1e19 cm^-3</code>.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/gaas_lindhard_fig1_hybrid_sweep.svg" alt="GaAs finite-q Lindhard fitted-PPM hybrid sweep">
+      <figcaption>The downstream hybrid solver now consumes the finite-q fitted pole. The visual change from the q-&gt;0 surrogate is small because the selected q is deep in the long-wavelength regime.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>q magnitude</td><td><code>8.0e-4 Angstrom^-1</code></td></tr>
+        <tr><td>PPM fit rows</td><td><code>120</code>, all <code>status=ok</code></td></tr>
+        <tr><td>Maximum relative residual</td><td><code>2.33e-13</code></td></tr>
+        <tr><td>q/k<sub>F</sub> range</td><td><code>0.1200</code> at <code>1e16 cm^-3</code> down to <code>0.0120</code> at <code>1e19 cm^-3</code></td></tr>
+        <tr><td>ℏqv<sub>F</sub> range</td><td><code>0.6064</code>-<code>6.0642 meV</code></td></tr>
+        <tr><td>Nearest LO row</td><td><code>n=5.4890e17 cm^-3</code>, q=0 plasmon <code>32.2073 meV</code>, finite-q plasmon <code>32.2567 meV</code>, shift <code>0.0495 meV</code></td></tr>
+        <tr><td>Finite-q hybrid energies at nearest LO row</td><td><code>29.8249, 32.2662, 32.2662, 34.8971 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -535,7 +581,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, use this fixed q-vector to replace the current q->0 Drude/mock-RPA fitted table with a q-dependent parabolic-band Lindhard surrogate. That will keep the workflow inexpensive while testing the finite-q PPM fitting path before moving to Wannier/RPA data.</p>
+    <p>Next, replace the long-wavelength analytic Lindhard surrogate with a real q-dependent dielectric source: either a direct numerical finite-T Lindhard grid for the GaAs parabolic band, or the full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow that the paper uses.</p>
   </section>
 </main>
 </body>
