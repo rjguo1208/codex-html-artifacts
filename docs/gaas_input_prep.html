@@ -156,7 +156,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T22:21:01-04:00</span>
+        <span>2026-05-21T22:42:48-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -164,7 +164,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Numerical Lindhard dielectric source complete</span>
+        <span>Static approximation branch complete</span>
       </div>
     </div>
   </header>
@@ -221,6 +221,7 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived finite-q Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_ppm_fit_parameters.csv</code></td><td>Small derived direct numerical finite-T Lindhard PPM-fit table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived numerical Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_static_comparison.csv</code></td><td>Small derived dynamic-vs-static comparison table from numerical Lindhard data; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -312,6 +313,11 @@
           <td>Direct numerical Lindhard dielectric</td>
           <td class="status-ok">COMPLETED</td>
           <td>The analytic finite-q pole has been replaced by direct k-space integration of finite-T parabolic-band Lindhard <code>epsilon_el^{-1}(q,omega)</code> at <code>T=300 K</code>. The PPM fit table has <code>80</code> density rows, all <code>status=ok</code>, with maximum relative residual <code>1.24e-2</code>. The fitted pole spans <code>5.1798</code>-<code>137.5612 meV</code>, fitted gamma is <code>3.0000 meV</code>, and local regression coverage increased to <code>40</code> passing unittest cases.</td>
+        </tr>
+        <tr>
+          <td>Static approximation branch</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>The numerical Lindhard low-energy/static inverse dielectric value now drives a static PPM branch with <code>omega*=5 eV</code>. The static screened LO branch stays close to the TO mode, <code>32.2663</code>-<code>32.2748 meV</code>, while the dynamic fitted-PPM branches show the avoided-crossing split. Local regression coverage increased to <code>43</code> passing unittest cases.</td>
         </tr>
       </tbody>
     </table>
@@ -607,6 +613,30 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
+  <section>
+    <h2>Static Approximation Branch</h2>
+    <p>The static branch uses the same numerical Lindhard data but freezes the electronic screening at the low-energy/static inverse dielectric value. In the current toy interface this is equivalent to a high-energy static PPM pole at <code>omega*=5 eV</code> whose coupling reproduces a statically screened LO-like phonon.</p>
+    <div class="formula">ω<sub>static LO</sub><sup>2</sup>(q,n) = ω<sub>TO</sub><sup>2</sup> + ε<sub>el</sub><sup>-1</sup>(q,0;n)[ω<sub>LO</sub><sup>2</sup> - ω<sub>TO</sub><sup>2</sup>]</div>
+    <div class="formula">c<sub>static</sub> = ω* sqrt{[1 - ε<sub>el</sub><sup>-1</sup>(q,0;n)][ω<sub>LO</sub><sup>2</sup> - ω<sub>TO</sub><sup>2</sup>]}</div>
+    <figure>
+      <img src="assets/gaas_numeric_lindhard_fig1_static_comparison.svg" alt="GaAs numerical Lindhard dynamic versus static approximation">
+      <figcaption>The static branch remains close to the TO reference across the density range, while the dynamic fitted-PPM branches retain the avoided-crossing structure.</figcaption>
+    </figure>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Static PPM pole</td><td><code>omega* = 5.0 eV</code></td></tr>
+        <tr><td>Static inverse dielectric range</td><td><code>8.64e-5</code>-<code>2.14e-2</code></td></tr>
+        <tr><td>Static screened LO range</td><td><code>32.2663</code>-<code>32.2748 meV</code></td></tr>
+        <tr><td>Low-density row</td><td><code>n=1.0000e16 cm^-3</code>, static LO <code>32.2748 meV</code>, dynamic modes <code>5.1154, 32.2662, 32.2662, 32.6726 meV</code></td></tr>
+        <tr><td>Nearest LO row</td><td><code>n=5.5826e17 cm^-3</code>, static LO <code>32.2664 meV</code>, dynamic modes <code>30.0005, 32.2662, 32.2662, 35.0850 meV</code></td></tr>
+        <tr><td>High-density row</td><td><code>n=1.0000e19 cm^-3</code>, static LO <code>32.2663 meV</code>, dynamic modes <code>32.2430, 32.2662, 32.2662, 137.6601 meV</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
   <section class="warning">
     <h2>Warning</h2>
     <ul>
@@ -618,7 +648,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, implement the static-approximation branch on the same numerical Lindhard dielectric data. That will make the GaAs Fig. 1 surrogate closer to the paper comparison before moving from the parabolic-band source to the full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow.</p>
+    <p>Next, consolidate the dynamic and static GaAs curves into a single Fig. 1-style surrogate panel with clearer branch labels, then use that interface as the target shape for the later full Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> workflow.</p>
   </section>
 </main>
 </body>

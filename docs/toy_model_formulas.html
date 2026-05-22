@@ -173,7 +173,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-21T22:21:01-04:00</span>
+        <span>2026-05-21T22:42:48-04:00</span>
       </div>
       <div class="metric">
         <strong>Implementation</strong>
@@ -754,6 +754,61 @@ n = 2 int d^3k/(2 pi)^3 * f(e_k)
 epsilon(q, omega) = eps_inf - e^2 chi0(q, omega)/(epsilon_0 q^2)
 epsilon_inv(q, omega) = 1 / epsilon(q, omega)</code></pre>
     <p class="note">The current numerical grid uses <code>T=300 K</code>, <code>eta=1.5 meV</code>, <code>n_k=240</code>, and <code>n_mu=40</code>. The fitted PPM damping is about <code>3.0 meV</code> because the oscillator denominator uses <code>i gamma omega</code>.</p>
+  </section>
+
+  <section>
+    <h2>11. Static Approximation Branch</h2>
+    <p>The static comparison freezes the electronic response at the low-energy/static inverse dielectric value and represents it with a high-energy static PPM pole. This produces a statically screened LO-like phonon branch rather than a resonant low-energy plasmon branch.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&omega;</mi><mrow><mi>static</mi><mo> </mo><mi>LO</mi></mrow><mn>2</mn></msubsup>
+          <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mi>n</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msubsup><mi>&omega;</mi><mi>TO</mi><mn>2</mn></msubsup>
+          <mo>+</mo>
+          <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mn>0</mn><mo>;</mo><mi>n</mi><mo stretchy="false">)</mo>
+          <mfenced open="[" close="]">
+            <mrow>
+              <msubsup><mi>&omega;</mi><mi>LO</mi><mn>2</mn></msubsup>
+              <mo>-</mo>
+              <msubsup><mi>&omega;</mi><mi>TO</mi><mn>2</mn></msubsup>
+            </mrow>
+          </mfenced>
+        </mrow>
+      </math>
+      <math display="block">
+        <mrow>
+          <msub><mi>c</mi><mi>static</mi></msub>
+          <mo>=</mo>
+          <msup><mi>&omega;</mi><mo>*</mo></msup>
+          <msqrt>
+            <mrow>
+              <mfenced open="[" close="]">
+                <mrow>
+                  <mn>1</mn>
+                  <mo>-</mo>
+                  <msubsup><mi>&epsilon;</mi><mi>el</mi><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+                  <mo stretchy="false">(</mo><mi>q</mi><mo>,</mo><mn>0</mn><mo>;</mo><mi>n</mi><mo stretchy="false">)</mo>
+                </mrow>
+              </mfenced>
+              <mfenced open="[" close="]">
+                <mrow>
+                  <msubsup><mi>&omega;</mi><mi>LO</mi><mn>2</mn></msubsup>
+                  <mo>-</mo>
+                  <msubsup><mi>&omega;</mi><mi>TO</mi><mn>2</mn></msubsup>
+                </mrow>
+              </mfenced>
+            </mrow>
+          </msqrt>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>omega_static_LO^2 = omega_TO^2 + eps_el^{-1}(q,0;n) * (omega_LO^2 - omega_TO^2)
+c_static = omega* sqrt((1 - eps_el^{-1}(q,0;n)) * (omega_LO^2 - omega_TO^2))
+omega* = 5 eV</code></pre>
+    <p class="note">In the current GaAs numerical-Lindhard surrogate, static screening is strong enough that this branch stays near the TO mode, <code>32.2663</code>-<code>32.2748 meV</code>.</p>
   </section>
 </main>
 </body>
