@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T14:45:00-04:00</span>
+        <span>2026-05-23T15:51:15-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>RPA dielectric notes added</span>
+        <span>RPA response core implemented</span>
       </div>
     </div>
   </header>
@@ -125,6 +125,7 @@
     <h2>Policy</h2>
     <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and Raman points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
+    <p>The first RPA implementation step is now local: <code>fig1_rpa_response.py</code> evaluates the supplement-form free-carrier response from supplied band energies, occupations, k weights, cell volume, <code>U_q</code>, and an explicit overlap backend. The current implemented backend is <code>identity_delta</code>; the next backend will read the local GaAs Wannier Hamiltonian and use <code>|C(k+q)^dagger C(k)|^2</code>.</p>
   </section>
 
   <section>
@@ -162,7 +163,7 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Current Blocker</h2>
-    <p>The current HPC folder has GaAs SCF/DFPT phonon results and several surrogate interface tables, but it does not yet contain the real Fig. 1 inputs listed above. In particular, no Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> table or Raman point table is present locally.</p>
+    <p>The current HPC folder has GaAs SCF/DFPT phonon results, stock-EPW/Wannier artifacts including <code>gaas_zb_prim_hr.dat</code>, and the new RPA response core. It still does not contain the final Fig. 1 input CSVs listed above. The immediate blocker is connecting <code>fig1_rpa_response.py</code> to the local Wannier Hamiltonian so the RPA <code>epsilon_el^{-1}(q,omega)</code> table can be generated from first-principles bands; the Raman point table is also still missing.</p>
   </section>
 
   <section>
@@ -185,7 +186,7 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Verification</h2>
-    <p>The direct Fig. 1 gate and the revised Wannier/EPW templates are covered by local tests. The combined local regression run now has <code>49</code> passing unittest cases. The template checks specifically verify <code>fildvscf</code>, no PH-grid <code>epsil</code> flag, clean PH scratch, nonempty dvscf guards, polar EPW mode, and the Fig. 1 q point.</p>
+    <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>56</code> passing unittest cases in the requested Anaconda/Tmat environment. The new RPA tests verify <code>identity_delta</code> overlap, Wannier eigenvector overlap algebra, chemical-potential solving, <code>delta chi0</code>, <code>U_q</code>, <code>epsilon_el^{-1}</code>, and CSV writing.</p>
   </section>
 
   <section class="warning">

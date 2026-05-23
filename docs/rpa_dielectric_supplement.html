@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T15:40:53-04:00</span>
+        <span>2026-05-23T15:51:15-04:00</span>
       </div>
       <div class="metric">
         <strong>Local source read</strong>
@@ -598,6 +598,12 @@ omega_q0_meV
 gamma_q0_meV
 fit_residual</code></pre>
     <p>After this table exists, the phonon side can use DFPT phonon frequencies/eigenvectors, Born effective charges, <code>epsilon_inf</code>, and the analytic long-range polar vertex. The short-range EPW electron-phonon vertex is not needed for the Fig. 1 long-wavelength hybrid-energy target.</p>
+  </section>
+
+  <section>
+    <h2>Implementation Status</h2>
+    <p>The first local implementation step is complete. The new <code>fig1_rpa_response.py</code> module implements the supplement-form RPA response core for supplied band grids and writes compact public-safe CSV tables. It includes carrier-density to chemical-potential solving, spin degeneracy, normalized k weights, primitive-cell volume conversion, <code>identity_delta</code> overlap, direct <code>delta chi0(q,omega)</code>, the screened Coulomb kernel <code>U_q</code>, and <code>epsilon_el^{-1} = [1 - U_q delta chi0]^{-1}</code>.</p>
+    <p>The local tests now include <code>tests/test_fig1_rpa_response.py</code>. The full regression suite has <code>56</code> passing unittest cases in the requested Anaconda/Tmat environment. The next implementation step is to read <code>dft/gaas/primitive/epw_stock_bands/gaas_zb_prim_hr.dat</code>, evaluate the Wannier Hamiltonian on the Fig. 1 dense k grid, and replace synthetic test bands with first-principles band energies and Wannier eigenvector overlaps.</p>
   </section>
 
   <section class="warning">
