@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplement RPA Dielectric Function Notes</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --formula-bg: #fbfcff;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+    h3 { margin: 14px 0 8px; font-size: 1.05rem; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+    }
+    code {
+      padding: 2px 5px;
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    .formula {
+      overflow-x: auto;
+      margin: 12px 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--formula-bg);
+    }
+    math {
+      font-size: 1.08rem;
+      min-width: max-content;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      background: #f3f6f9;
+    }
+    ul { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .warning {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>RPA Response and Dielectric Function from the Supplement</h1>
+    <p>This page records how the supplemental material computes the doped-carrier RPA response, the electronic inverse dielectric function, and the plasmon-pole fit used before plasmon-phonon hybridization. Formulas use browser-native MathML and the page makes no external requests.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-23T14:45:00-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Local source read</strong>
+        <span><code>supp_revised.pdf</code>, Section A and computational details</span>
+      </div>
+      <div class="metric">
+        <strong>Direct use</strong>
+        <span>Real Fig. 1 RPA/PPM input generation</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Scope</h2>
+    <p>The supplemental workflow computes the free-carrier electronic screening caused by doping. It does not include the phonon poles in this dielectric function. The phonons enter later through the long-range polar electron-phonon vertex and the plasmon-phonon hybrid-mode problem.</p>
+    <p>The response is evaluated in the random phase approximation. Local-field effects are neglected, so the object used for the long-wavelength hybridization model is a scalar macroscopic response at the chosen <code>q</code> direction rather than a full <code>G,G'</code> dielectric matrix.</p>
+  </section>
+
+  <section>
+    <h2>Carrier Occupation</h2>
+    <p>The band structure and wavefunctions are taken from the undoped crystal. A carrier density fixes the chemical potential, and the doped-carrier occupation change is denoted by <code>delta f</code>.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <mi>n</mi><mi>V</mi>
+          <mo>=</mo>
+          <mfrac>
+            <mn>2</mn>
+            <msub><mi>N</mi><mi>k</mi></msub>
+          </mfrac>
+          <msub><mo>&sum;</mo><mrow><mi>n</mi><mi mathvariant="bold">k</mi></mrow></msub>
+          <mi>&delta;</mi><msub><mi>f</mi><mrow><mi>n</mi><mi mathvariant="bold">k</mi></mrow></msub>
+        </mrow>
+      </math>
+    </div>
+    <p>Here <code>n</code> is the carrier density, <code>V</code> is the primitive-cell volume, and the factor of <code>2</code> is spin degeneracy. For n-doped GaAs this is the conduction-band free-carrier occupation near the CBM.</p>
+  </section>
+
+  <section>
+    <h2>Bare RPA Response</h2>
+    <p>The bare doped-carrier susceptibility is the doped-carrier Lindhard response evaluated with interpolated band energies and cell-periodic wavefunction overlaps.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msup>
+            <mrow><mi>&delta;</mi><mi>&chi;</mi></mrow>
+            <mn>0</mn>
+          </msup>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mfrac>
+            <mn>2</mn>
+            <msub><mi>N</mi><mi>k</mi></msub>
+          </mfrac>
+          <msub>
+            <mo>&sum;</mo>
+            <mrow><mi>n</mi><mi>m</mi><mi mathvariant="bold">k</mi></mrow>
+          </msub>
+          <mfrac>
+            <mrow>
+              <mo stretchy="false">(</mo>
+              <mi>&delta;</mi><msub><mi>f</mi><mrow><mi>m</mi><mo>,</mo><mi mathvariant="bold">k</mi><mo>+</mo><mi mathvariant="bold">q</mi></mrow></msub>
+              <mo>-</mo>
+              <mi>&delta;</mi><msub><mi>f</mi><mrow><mi>n</mi><mo>,</mo><mi mathvariant="bold">k</mi></mrow></msub>
+              <mo stretchy="false">)</mo>
+              <msup>
+                <mrow>
+                  <mo>|</mo>
+                  <mo>&lang;</mo>
+                  <msub><mi>u</mi><mrow><mi>m</mi><mo>,</mo><mi mathvariant="bold">k</mi><mo>+</mo><mi mathvariant="bold">q</mi></mrow></msub>
+                  <mo>|</mo>
+                  <msub><mi>u</mi><mrow><mi>n</mi><mo>,</mo><mi mathvariant="bold">k</mi></mrow></msub>
+                  <mo>&rang;</mo>
+                  <mo>|</mo>
+                </mrow>
+                <mn>2</mn>
+              </msup>
+            </mrow>
+            <mrow>
+              <msub><mi>&epsilon;</mi><mrow><mi>m</mi><mo>,</mo><mi mathvariant="bold">k</mi><mo>+</mo><mi mathvariant="bold">q</mi></mrow></msub>
+              <mo>-</mo>
+              <msub><mi>&epsilon;</mi><mrow><mi>n</mi><mo>,</mo><mi mathvariant="bold">k</mi></mrow></msub>
+              <mo>+</mo>
+              <mi>&omega;</mi>
+              <mo>+</mo>
+              <mi>i</mi><mi>&eta;</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <p>The supplement evaluates the overlap with Wannier-interpolated eigenvectors. This matters for a direct reproduction: a parabolic-band overlap of one is useful for tests, but it is not the paper-level RPA input.</p>
+  </section>
+
+  <section>
+    <h2>Interacting RPA Response</h2>
+    <p>The interacting response follows from scalar RPA screening by the long-range Coulomb interaction.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <mi>&delta;</mi><mi>&chi;</mi>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <msup><mrow><mi>&delta;</mi><mi>&chi;</mi></mrow><mn>0</mn></msup>
+              <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+            </mrow>
+            <mrow>
+              <mn>1</mn>
+              <mo>-</mo>
+              <msub><mi>U</mi><mi>q</mi></msub>
+              <msup><mrow><mi>&delta;</mi><mi>&chi;</mi></mrow><mn>0</mn></msup>
+              <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&epsilon;</mi><mrow><mi>el</mi></mrow><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mn>1</mn>
+          <mo>+</mo>
+          <msub><mi>U</mi><mi>q</mi></msub>
+          <mi>&delta;</mi><mi>&chi;</mi>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <msup>
+            <mrow>
+              <mo>[</mo>
+              <mn>1</mn>
+              <mo>-</mo>
+              <msub><mi>U</mi><mi>q</mi></msub>
+              <msup><mrow><mi>&delta;</mi><mi>&chi;</mi></mrow><mn>0</mn></msup>
+              <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+              <mo>]</mo>
+            </mrow>
+            <mrow><mo>-</mo><mn>1</mn></mrow>
+          </msup>
+        </mrow>
+      </math>
+    </div>
+  </section>
+
+  <section>
+    <h2>Coulomb Kernel</h2>
+    <p>The Coulomb interaction is screened by the undoped high-frequency dielectric tensor along the selected <code>q</code> direction.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>U</mi><mi>q</mi></msub>
+          <mo>=</mo>
+          <mfrac>
+            <mrow><mn>4</mn><mi>&pi;</mi><msup><mi>e</mi><mn>2</mn></msup></mrow>
+            <mrow>
+              <msup><mi>q</mi><mn>2</mn></msup>
+              <msub><mi>&epsilon;</mi><mover><mi>q</mi><mo>^</mo></mover></msub>
+              <mi>V</mi>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&epsilon;</mi><mover><mi>q</mi><mo>^</mo></mover></msub>
+          <mo>=</mo>
+          <mover><mi>q</mi><mo>^</mo></mover>
+          <mo>&middot;</mo>
+          <msup><mi>&epsilon;</mi><mi>&infin;</mi></msup>
+          <mo>&middot;</mo>
+          <mover><mi>q</mi><mo>^</mo></mover>
+        </mrow>
+      </math>
+    </div>
+    <p>This convention is important for avoiding double counting: <code>epsilon_inf</code> handles the undoped electronic background, while <code>delta chi</code> adds only the doped free-carrier response.</p>
+  </section>
+
+  <section>
+    <h2>Plasmon-Pole Fit</h2>
+    <p>The frequency-dependent RPA inverse dielectric function is compressed into a plasmon-pole model before the phonon hybridization step.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>&epsilon;</mi><mrow><mi>el</mi></mrow><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>-</mo>
+          <mn>1</mn>
+          <mo>=</mo>
+          <msub><mi>U</mi><mi>q</mi></msub>
+          <mi>&delta;</mi><mi>&chi;</mi>
+          <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mi>&omega;</mi><mo stretchy="false">)</mo>
+          <mo>=</mo>
+          <mfrac>
+            <msubsup><mi>&Omega;</mi><mrow><mi>q</mi><mn>0</mn></mrow><mn>2</mn></msubsup>
+            <mrow>
+              <msup>
+                <mrow><mo>(</mo><mi>&omega;</mi><mo>+</mo><mi>i</mi><msub><mi>&gamma;</mi><mrow><mi>q</mi><mn>0</mn></mrow></msub><mo>)</mo></mrow>
+                <mn>2</mn>
+              </msup>
+              <mo>-</mo>
+              <msubsup><mi>&omega;</mi><mrow><mi>q</mi><mn>0</mn></mrow><mn>2</mn></msubsup>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Meaning</th><th>Use in Fig. 1 workflow</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Omega_q0</code></td><td>Oscillator strength of the plasmon-pole representation.</td><td>Enters the hybrid-mode coupling matrix and spectral function normalization.</td></tr>
+        <tr><td><code>omega_q0</code></td><td>Bare plasmon pole energy.</td><td>Green dashed bare-plasmon curve and nonadiabatic hybrid solver input.</td></tr>
+        <tr><td><code>gamma_q0</code></td><td>Plasmon damping from decay into the electron-hole continuum.</td><td>Finite-linewidth branch and spectral-function input.</td></tr>
+        <tr><td><code>fit_residual</code></td><td>Least-squares fit quality against RPA <code>epsilon_el^{-1}</code>.</td><td>Quality gate before accepting a density row as direct Fig. 1 input.</td></tr>
+      </tbody>
+    </table>
+    <p>The finite numerical broadening used in the RPA denominator is subtracted from the fitted plasmon-pole broadening so the reported <code>gamma_q0</code> is not dominated by the artificial <code>eta</code>.</p>
+  </section>
+
+  <section>
+    <h2>Static Approximation Used for the Blue Curve</h2>
+    <p>The supplement's static comparison replaces the dynamic plasmon pole by a high-energy fixed pole that reproduces the static inverse dielectric function.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&omega;</mi><mrow><mi>q</mi><mn>0</mn></mrow></msub>
+          <mo>=</mo>
+          <msup><mi>&omega;</mi><mo>*</mo></msup>
+          <mo>=</mo>
+          <mn>5</mn><mtext>&nbsp;eV</mtext>
+          <mo>,</mo>
+          <mspace width="1em"></mspace>
+          <msub><mi>&gamma;</mi><mrow><mi>q</mi><mn>0</mn></mrow></msub>
+          <mo>=</mo>
+          <mn>0</mn>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>&Omega;</mi><mrow><mi>q</mi><mn>0</mn></mrow></msub>
+          <mo>=</mo>
+          <msup><mi>&omega;</mi><mo>*</mo></msup>
+          <msqrt>
+            <mrow>
+              <mn>1</mn>
+              <mo>-</mo>
+              <msubsup><mi>&epsilon;</mi><mrow><mi>el</mi></mrow><mrow><mo>-</mo><mn>1</mn></mrow></msubsup>
+              <mo stretchy="false">(</mo><mi mathvariant="bold">q</mi><mo>,</mo><mn>0</mn><mo stretchy="false">)</mo>
+            </mrow>
+          </msqrt>
+        </mrow>
+      </math>
+    </div>
+    <p>This is the construction that makes the static screened LO-like branch collapse toward the TO phonon at high density in the paper discussion.</p>
+  </section>
+
+  <section>
+    <h2>Numerical Recipe Reported in the Supplement</h2>
+    <table>
+      <thead>
+        <tr><th>Material</th><th>RPA dielectric setup</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TiO2</td>
+          <td><code>50x50x50</code> k grid, conduction states from CBM to <code>0.5 eV</code>, <code>eta=15 meV</code>, 31 frequency points from <code>0</code> to <code>500 meV</code>.</td>
+          <td>These RPA points are fit by least squares to the plasmon-pole parameters.</td>
+        </tr>
+        <tr>
+          <td>GaAs</td>
+          <td>8 MLWFs from Ga/As <code>sp3</code> orbitals, dense <code>200x200x200</code> k grid for plasmon-pole parameters, energy window from CBM to <code>0.3 eV</code>, <code>eta=3 meV</code>.</td>
+          <td>The supplement specifies the dense grid, window, and broadening for GaAs. The direct implementation should store the exact frequency grid used for each fit.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Implementation Target for the Current Reproduction</h2>
+    <p>The next direct Fig. 1 data product should be a small table per density and q point containing the RPA and fitted plasmon-pole quantities below. Large band, wavefunction, raw QE, Wannier, or dense-grid dump files should stay local.</p>
+    <pre><code>density_cm_minus_3
+temperature_K
+q_cart_angstrom_inv
+chemical_potential_eV
+omega_grid_meV
+chi0_real, chi0_imag
+epsilon_inv_real, epsilon_inv_imag
+Omega_q0_meV
+omega_q0_meV
+gamma_q0_meV
+fit_residual</code></pre>
+    <p>After this table exists, the phonon side can use DFPT phonon frequencies/eigenvectors, Born effective charges, <code>epsilon_inf</code>, and the analytic long-range polar vertex. The short-range EPW electron-phonon vertex is not needed for the Fig. 1 long-wavelength hybrid-energy target.</p>
+  </section>
+
+  <section class="warning">
+    <h2>Not Uploaded</h2>
+    <p>The supplemental PDF, main paper PDF, raw Wannier data, raw RPA grids, QE outputs, wavefunctions, credentials, and large generated fine meshes are not included in this public report. This page contains only a derived methodological summary and formulas.</p>
+  </section>
+</main>
+</body>
+</html>
