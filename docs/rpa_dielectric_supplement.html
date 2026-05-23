@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T15:34:45-04:00</span>
+        <span>2026-05-23T15:40:53-04:00</span>
       </div>
       <div class="metric">
         <strong>Local source read</strong>
@@ -331,13 +331,59 @@ evals_kq, vecs_kq = eigh(H_wannier(k + q))
 
 S = vecs_kq.conj().T @ vecs_k
 overlap2 = abs(S[m, n])**2</code></pre>
+    <h3>Band-Diagonal Identity Approximation</h3>
+    <p>A lower-cost approximation is to replace the wavefunction overlap factor by a band-diagonal Kronecker delta. This is the precise meaning of the <code>identity</code> overlap backend.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msup>
+            <mrow>
+              <mo>|</mo>
+              <mo>&lang;</mo>
+              <msub><mi>u</mi><mrow><mi>m</mi><mo>,</mo><mi mathvariant="bold">k</mi><mo>+</mo><mi mathvariant="bold">q</mi></mrow></msub>
+              <mo>|</mo>
+              <msub><mi>u</mi><mrow><mi>n</mi><mo>,</mo><mi mathvariant="bold">k</mi></mrow></msub>
+              <mo>&rang;</mo>
+              <mo>|</mo>
+            </mrow>
+            <mn>2</mn>
+          </msup>
+          <mo>&approx;</mo>
+          <msub><mi>&delta;</mi><mrow><mi>m</mi><mi>n</mi></mrow></msub>
+        </mrow>
+      </math>
+    </div>
+    <p>For a single isolated conduction band, this further reduces to an intraband matrix element equal to one:</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msup>
+            <mrow>
+              <mo>|</mo>
+              <mo>&lang;</mo>
+              <msub><mi>u</mi><mrow><mi>c</mi><mo>,</mo><mi mathvariant="bold">k</mi><mo>+</mo><mi mathvariant="bold">q</mi></mrow></msub>
+              <mo>|</mo>
+              <msub><mi>u</mi><mrow><mi>c</mi><mo>,</mo><mi mathvariant="bold">k</mi></mrow></msub>
+              <mo>&rang;</mo>
+              <mo>|</mo>
+            </mrow>
+            <mn>2</mn>
+          </msup>
+          <mo>&approx;</mo>
+          <mn>1</mn>
+        </mrow>
+      </math>
+    </div>
+    <pre><code>if overlap_mode == "identity":
+    overlap2 = 1.0 if m == n else 0.0</code></pre>
+    <p>This can be an acceptable controlled approximation for GaAs Fig. 1-style screening when the response is dominated by intraband transitions in the lowest conduction band, <code>q</code> is very small, and the band character changes weakly between <code>k</code> and <code>k+q</code>. It should still be recorded explicitly as <code>overlap_mode=identity_delta</code> and, if possible, benchmarked against the Wannier-eigenvector overlap for representative densities.</p>
     <table>
       <thead>
         <tr><th>Case</th><th>Treatment</th><th>Use in this project</th></tr>
       </thead>
       <tbody>
-        <tr><td>Direct reproduction</td><td>Use <code>|C(k+q)^dagger C(k)|^2</code> from the Wannier-interpolated Hamiltonian.</td><td>Required for accepted Fig. 1 RPA/PPM data.</td></tr>
-        <tr><td>Single-band parabolic test</td><td>Set the intraband overlap to one and drop interband terms.</td><td>Allowed only as a debugging or surrogate mode.</td></tr>
+        <tr><td>Wannier-overlap route</td><td>Use <code>|C(k+q)^dagger C(k)|^2</code> from the Wannier-interpolated Hamiltonian.</td><td>Highest-fidelity route for accepted Fig. 1 RPA/PPM data.</td></tr>
+        <tr><td>Identity-delta route</td><td>Use <code>delta_mn</code>; in a one-band conduction model this means the intraband overlap is one and interband terms are dropped.</td><td>Potentially acceptable controlled approximation for small-<code>q</code>, conduction-band dominated GaAs screening; label provenance clearly.</td></tr>
         <tr><td>Nearly degenerate bands</td><td>Keep all relevant bands in the sum; individual band overlaps may be gauge-sensitive inside a degenerate subspace.</td><td>Important near valence degeneracies; less severe for the lowest GaAs conduction band but still tracked.</td></tr>
         <tr><td><code>k+q</code> outside the BZ</td><td>Fold the point back into the first Brillouin zone before evaluating the periodic Wannier Hamiltonian.</td><td>Needed for dense-grid implementation.</td></tr>
       </tbody>
