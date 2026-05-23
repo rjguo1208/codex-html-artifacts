@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T00:20:00-04:00</span>
+        <span>2026-05-23T00:59:26-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -165,7 +165,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>PH complete; EPW q-grid mismatch</span>
+        <span>EPW file-mesh restart complete</span>
       </div>
     </div>
   </header>
@@ -223,6 +223,10 @@
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_ppm_fit_parameters.csv</code></td><td>Small derived direct numerical finite-T Lindhard PPM-fit table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_hybrid_density_sweep.csv</code></td><td>Small derived numerical Lindhard hybrid table; stays local because the webpage summarizes the values.</td></tr>
         <tr><td><code>dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_static_comparison.csv</code></td><td>Small derived dynamic-vs-static comparison table from numerical Lindhard data; stays local because the webpage summarizes the values.</td></tr>
+        <tr><td><code>dft/gaas/primitive/epw_stock_bands/make_epw_filemesh_restart.py</code></td><td>Local helper that generates the explicit EPW fine-k file, the file-mesh restart input, and the restart Slurm script.</td></tr>
+        <tr><td><code>dft/gaas/primitive/epw_stock_bands/gaas_fine_k_40x40x40.kpt</code></td><td>Generated explicit <code>64000</code>-point fine k mesh for <code>filkf</code>. It remains local and is not uploaded to GitHub Pages.</td></tr>
+        <tr><td><code>dft/gaas/primitive/epw_stock_bands/gaas_zb_prim_epw_filemesh.in</code></td><td>EPW restart input using <code>epwread=.true.</code>, <code>filkf</code>, and <code>filqf</code>, with <code>nkf*/nqf*</code> removed to avoid forcing a homogeneous commensurate fine grid.</td></tr>
+        <tr><td><code>dft/gaas/primitive/epw_stock_bands/run_gaas_epw_filemesh_shared.slurm</code></td><td>EPW-only shared-partition restart job using the completed SCF, bands, PH, <code>save_stock</code>, and Wannier-representation files; completed as job <code>17628159</code> with <code>128</code> CPUs.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -329,6 +333,11 @@
           <td>GaAs Wannier/EPW input preparation</td>
           <td class="status-failed">EPW GRID MISMATCH</td>
           <td>The active workflow was reset under <code>dft/gaas/primitive/epw_stock_bands/</code>. It contains clean SCF, bands, PH, and EPW inputs plus a single Slurm script. The old debug <code>wannier_epw/</code> directory and stale EPW scratch directories were deleted to prevent reuse of failed <code>kmaps</code>, <code>nowan</code>, <code>kgmap</code>, <code>ukk</code>, or old dvscf artifacts. The new bands-stage input uses <code>calculation='bands'</code>, <code>nbnd=24</code>, an explicit <code>512</code>-point <code>8x8x8</code> crystal k mesh, and no <code>nosym</code>/<code>noinv</code> controls. Slurm job <code>17626030</code> ran on node <code>a063</code> with <code>128</code> CPUs. SCF completed in <code>12</code> iterations, bands completed with <code>JOB DONE</code>, and PH completed all <code>8</code> irreducible q points with nonempty <code>dyn1</code>-<code>dyn8</code> and <code>save_stock/gaas_zb_prim.dvscf_q1</code>-<code>dvscf_q8</code>. EPW then completed Wannierization, <code>kgmap</code>, epb writing, and Wannier-representation output, but failed in interpolation with <code>kpmq_map: k+q does not fall on k-grid</code>. The immediate cause is that <code>gaas_fig1_q.qpt</code> contains <code>(2.544856607e-4, 2.544856607e-4, 5.089713214e-4)</code>, which is not commensurate with the current <code>40x40x40</code> fine k mesh.</td>
+        </tr>
+        <tr>
+          <td>GaAs EPW file-mesh restart</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17628159</code> ran on <code>shared</code> node <code>a063</code> with <code>128</code> CPUs and completed with Slurm exit code <code>0:0</code> in <code>00:00:13</code>. It reused the completed SCF, bands, PH/dvscf, and Wannier-representation outputs instead of rerunning them. The restart input sets <code>epwread=.true.</code>, <code>epwwrite=.false.</code>, <code>wannierize=.false.</code>, <code>filkf='gaas_fine_k_40x40x40.kpt'</code>, and <code>filqf='gaas_fig1_q.qpt'</code>, and deliberately removes <code>nkf1</code>, <code>nkf2</code>, <code>nkf3</code>, <code>nqf1</code>, <code>nqf2</code>, and <code>nqf3</code>. EPW output confirms <code>Using q-mesh file: gaas_fig1_q.qpt</code>, <code>Using k-mesh file: gaas_fine_k_40x40x40.kpt</code>, <code>Number selected, total 1 1</code>, <code>Progression iq (fine) = 1/1</code>, and <code>Electron-Phonon interpolation</code> completed in <code>1.03 s</code>. No new fine-matrix data were written because <code>ephwrite</code> and <code>prtgkk</code> were intentionally left off for this file-mesh validation run.</td>
         </tr>
       </tbody>
     </table>
@@ -678,13 +687,14 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     <ul>
       <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
       <li>The GaAs route includes historical surrogate interface checks, but direct Fig. 1 reproduction now requires real Wannier/RPA and Raman inputs.</li>
+      <li>The generated EPW fine k mesh and all EPW/QE raw outputs remain local; they are not uploaded to the GitHub Pages artifact.</li>
       <li>Fixed-cell benchmark validation is deferred for now; the current page records workflow outputs and LO-TO postprocessing status.</li>
     </ul>
   </section>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, rerun only the EPW stage using the completed SCF, bands, PH, and <code>save_stock</code> data, but replace the test q point with a fine-grid-commensurate q vector first. After the standard EPW path is validated, decide how to approach the paper's much smaller Fig. 1 q point without violating EPW's <code>k+q</code> grid requirement.</p>
+    <p>Next, run a focused diagnostic extraction from the validated file-mesh path. The safest next test is a small <code>filkf</code> subset with <code>prtgkk=.true.</code> and a narrow <code>gkk_band_min/gkk_band_max</code> filter, so we can inspect actual interpolated <code>g(k,q)</code>, phonon frequencies, and band energies without producing a huge raw output. After that, decide whether to write a compact parser/table for the quantities needed by the direct Fig. 1 pipeline.</p>
   </section>
 </main>
 </body>
