@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T20:45:00-04:00</span>
+        <span>2026-05-22T22:10:00-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -165,7 +165,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs PH complete; EPW restored to stock source</span>
+        <span>Clean stock EPW workflow submitted</span>
       </div>
     </div>
   </header>
@@ -327,8 +327,8 @@
         </tr>
         <tr>
           <td>GaAs Wannier/EPW input preparation</td>
-          <td class="status-ok">EPW RESTORED</td>
-          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs; <code>save_scf_sym</code> contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code>. The nowan EPW path then reused <code>gaas_zb_prim.ukk</code> and <code>gaas_zb_prim.kgmap</code>, exposing source-level issues one at a time. After the diagnostic attempt, the local EPW patches were removed at user request. The restored files <code>epw.f90</code>, <code>global_var.f90</code>, <code>input.f90</code>, <code>io/io.f90</code>, <code>make.depend</code>, <code>polaron.f90</code>, <code>readin.f90</code>, <code>use_wannier.f90</code>, <code>utilities/bcast_input.f90</code>, <code>utilities/kfold.f90</code>, and <code>utilities/symmetry.f90</code> match <code>EPW_ori/src</code> byte-for-byte, and <code>/anvil/projects/x-che190065/rjguo/qe-7.5/EPW/src/epw.x</code> was rebuilt at <code>2026-05-22T20:44:00-04:00</code>. No EPW job is currently queued or running. Combined local regression coverage remains <code>49</code> passing unittest cases from the last test run.</td>
+          <td class="status-pending">JOB 17626030 PENDING</td>
+          <td>The active workflow has been reset under <code>dft/gaas/primitive/epw_stock_bands/</code>. It contains clean SCF, bands, PH, and EPW inputs plus a single Slurm script. The old debug <code>wannier_epw/</code> directory and stale EPW scratch directories were deleted to prevent reuse of failed <code>kmaps</code>, <code>nowan</code>, <code>kgmap</code>, <code>ukk</code>, or old dvscf artifacts. The new bands-stage input uses <code>calculation='bands'</code>, <code>nbnd=24</code>, an explicit <code>512</code>-point <code>8x8x8</code> crystal k mesh, and no <code>nosym</code>/<code>noinv</code> controls. The PH input keeps the previous <code>4x4x4</code> q grid and includes <code>fildvscf='dvscf'</code>. Slurm job <code>17626030</code> was submitted on <code>shared</code> with <code>128</code> CPUs to run SCF -> bands -> PH -> stock EPW.</td>
         </tr>
       </tbody>
     </table>
@@ -684,7 +684,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, continue from the stock-restored EPW state: either run a clean standard EPW check with the existing GaAs PH/Wannier files, or switch to a separate first-principles dielectric-response route for the real Fig. 1 input tables.</p>
+    <p>Next, monitor Slurm job <code>17626030</code>. If it starts, check sequentially that <code>gaas_zb_prim_scf.out</code>, <code>gaas_zb_prim_bands.out</code>, <code>gaas_zb_prim_ph_4x4x4.out</code>, and <code>gaas_zb_prim_epw.out</code> are produced without falling back to old <code>nosym/noinv</code> or debug <code>kmaps</code> paths.</p>
   </section>
 </main>
 </body>
