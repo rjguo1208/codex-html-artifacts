@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T18:32:00-04:00</span>
+        <span>2026-05-22T20:45:00-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>PH complete; missing-G diagnostic queued</span>
+        <span>PH complete; EPW restored to stock source</span>
       </div>
     </div>
   </header>
@@ -166,7 +166,7 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Wannier/EPW Prep Status</h2>
-    <p>The first real-input preparation step is now local and being debugged through EPW source-level failures. QE 7.5 provides <code>wannier90.x</code>, <code>pw2wannier90.x</code>, and <code>epw.x</code>; the standalone module list also includes <code>wannier90/3.1.0</code>. EPW starts as version <code>6.0</code> from the QE tree.</p>
+    <p>The first real-input preparation step is now local. GaAs PH-with-dvscf has completed, and the earlier local EPW source-debug branch has been stopped. QE 7.5 provides <code>wannier90.x</code>, <code>pw2wannier90.x</code>, and the restored <code>epw.x</code>; the standalone module list also includes <code>wannier90/3.1.0</code>. EPW starts as version <code>6.0</code> from the QE tree.</p>
     <table>
       <thead>
         <tr><th>Item</th><th>Status</th><th>Detail</th></tr>
@@ -176,7 +176,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Wannier setup</td><td>Prechecked</td><td><code>wannier90.x -pp gaas_zb_prim</code> completed and wrote <code>gaas_zb_prim.nnkp</code> from an <code>8x8x8</code> full k grid.</td></tr>
         <tr><td>Target Wannier basis</td><td>Locally verified</td><td><code>num_wann=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands : 1-5</code> for Ga semicore-d removal, and <code>dis_froz_min=-5.0 eV</code>/<code>dis_froz_max=12.2 eV</code>. A local retry of <code>wannier90.x gaas_zb_prim</code> converged and wrote <code>gaas_zb_prim_hr.dat</code>, <code>u.mat</code>, and <code>u_dis.mat</code>; final <code>Omega Total</code> is <code>30.307169632 Ang^2</code>.</td></tr>
         <tr><td>EPW phonon input</td><td>Corrected</td><td>The active PH input reuses the previously calculated <code>4x4x4</code> PH parameters and adds <code>fildvscf='dvscf'</code>. The invalid <code>epsil=.true.</code> flag remains absent from the <code>ldisp</code> PH-grid input. A separate same-parameter SCF step is rerun only to regenerate wavefunctions in <code>tmp_epw_scf_sym</code>, so PH can write dvscf files for EPW.</td></tr>
-        <tr><td>Slurm job</td><td>EPW diagnostic pending</td><td>Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points with nonempty <code>dvscf_q1</code>-<code>dvscf_q8</code>. Subsequent nowan EPW jobs reused <code>gaas_zb_prim.ukk</code> and <code>gaas_zb_prim.kgmap</code>, avoiding repeated Wannierization while exposing source-level failures in <code>kmaps</code>, <code>readgmap</code>, displacement-pattern XML parsing, and <code>gmap_sym</code>. Job <code>17619087</code> used FFT-grid folding and advanced to <code>rotated Miller index missing from global G map</code>. Job <code>17619649</code> reproduced the same missing-G guard after <code>00:00:13</code> on <code>a039</code> with <code>128</code> CPUs, despite the full-G lookup patch. A diagnostic source patch now prints the missing <code>ig,isym,i,j,k</code>, source Miller index, and FFT/G dimensions before aborting; <code>epw.x</code> was rebuilt at <code>2026-05-22T18:32:15-04:00</code>. Diagnostic job <code>17620613</code> has been submitted on <code>shared</code> with <code>128</code> requested CPUs and is pending.</td></tr>
+        <tr><td>Slurm job</td><td>EPW restored; no active job</td><td>Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points with nonempty <code>dvscf_q1</code>-<code>dvscf_q8</code>. Subsequent nowan EPW jobs reused <code>gaas_zb_prim.ukk</code> and <code>gaas_zb_prim.kgmap</code>, avoiding repeated Wannierization while exposing source-level failures in <code>kmaps</code>, <code>readgmap</code>, displacement-pattern XML parsing, and <code>gmap_sym</code>. At user request, that local source-debug branch has been reverted: the touched EPW source files now match <code>EPW_ori/src</code> byte-for-byte, <code>EPW/src/epw.x</code> was rebuilt at <code>2026-05-22T20:44:00-04:00</code>, and no EPW Slurm job is currently queued or running.</td></tr>
       </tbody>
     </table>
   </section>

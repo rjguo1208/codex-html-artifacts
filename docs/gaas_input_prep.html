@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T18:32:00-04:00</span>
+        <span>2026-05-22T20:45:00-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -165,7 +165,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs PH complete; G-map patch reached rotated-index guard</span>
+        <span>GaAs PH complete; EPW restored to stock source</span>
       </div>
     </div>
   </header>
@@ -327,8 +327,8 @@
         </tr>
         <tr>
           <td>GaAs Wannier/EPW input preparation</td>
-          <td class="status-pending">EPW DIAGNOSTIC PENDING</td>
-          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs; <code>save_scf_sym</code> contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code>. The nowan EPW path then reused <code>gaas_zb_prim.ukk</code> and <code>gaas_zb_prim.kgmap</code>, exposing source-level issues one at a time. Job <code>17619087</code> advanced to <code>rotated Miller index missing from global G map</code>. Job <code>17619649</code> reproduced the same guard after <code>00:00:13</code> on <code>a039</code> with <code>128</code> CPUs even after the full-G lookup patch. A diagnostic source patch now prints the missing <code>ig,isym,i,j,k</code>, source Miller index, and FFT/G dimensions before aborting; <code>epw.x</code> was rebuilt at <code>2026-05-22T18:32:15-04:00</code>. Diagnostic job <code>17620613</code> has been submitted on <code>shared</code> with <code>128</code> requested CPUs and is pending. Combined local regression coverage remains <code>49</code> passing unittest cases.</td>
+          <td class="status-ok">EPW RESTORED</td>
+          <td>Local templates were generated and corrected under <code>dft/gaas/primitive/wannier_epw/</code>: <code>8x8x8</code> NSCF with <code>24</code> bands, Wannier90 <code>num_wann=8</code> Ga/As <code>sp3</code> projections, <code>pw2wannier90</code> input, the previous <code>4x4x4</code> PH parameters plus <code>fildvscf='dvscf'</code>, EPW input with <code>lpolar=.true.</code>, and the Fig. 1 q point. Job <code>17617104</code> completed same-parameter SCF and all <code>8</code> PH q points on <code>shared</code> node <code>a056</code> with <code>128</code> CPUs; <code>save_scf_sym</code> contains nonempty <code>dvscf_q1</code> through <code>dvscf_q8</code>. The nowan EPW path then reused <code>gaas_zb_prim.ukk</code> and <code>gaas_zb_prim.kgmap</code>, exposing source-level issues one at a time. After the diagnostic attempt, the local EPW patches were removed at user request. The restored files <code>epw.f90</code>, <code>global_var.f90</code>, <code>input.f90</code>, <code>io/io.f90</code>, <code>make.depend</code>, <code>polaron.f90</code>, <code>readin.f90</code>, <code>use_wannier.f90</code>, <code>utilities/bcast_input.f90</code>, <code>utilities/kfold.f90</code>, and <code>utilities/symmetry.f90</code> match <code>EPW_ori/src</code> byte-for-byte, and <code>/anvil/projects/x-che190065/rjguo/qe-7.5/EPW/src/epw.x</code> was rebuilt at <code>2026-05-22T20:44:00-04:00</code>. No EPW job is currently queued or running. Combined local regression coverage remains <code>49</code> passing unittest cases from the last test run.</td>
         </tr>
       </tbody>
     </table>
@@ -684,7 +684,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
 
   <section>
     <h2>Next Step</h2>
-    <p>Next, monitor job <code>17620613</code> and use its printed missing-G indices to decide whether the failure is from FFT aliasing, symmetry direction/order, or incomplete global G-vector collection.</p>
+    <p>Next, continue from the stock-restored EPW state: either run a clean standard EPW check with the existing GaAs PH/Wannier files, or switch to a separate first-principles dielectric-response route for the real Fig. 1 input tables.</p>
   </section>
 </main>
 </body>
