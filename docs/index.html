@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T17:31:02-04:00</span>
+        <span>2026-05-23T19:47:10-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -227,18 +227,16 @@
       </div>
       <div class="metric">
         <strong>Report scope</strong>
-        <span>Toy checks, GaAs DFPT, RPA implementation, and direct Fig. 1 input gate</span>
+        <span>Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction</span>
       </div>
     </div>
   </header>
 
   <section>
     <h2>Short Summary</h2>
-    <p>The available computational result is a Python toy model for plasmon-phonon hybridization. It validates the algebraic core of the paper before any DFT calculation: direct Dyson inversion, zero-linewidth hybrid diagonalization, finite-linewidth damped-oscillator eigenvalues, the static plasmon-pole limit, and a decoupled phonon mode.</p>
-    <p>All toy model checks passed in the requested environment: <code>ml anaconda/2024.02-py311</code> followed by <code>conda activate Tmat</code>.</p>
-    <p>The TiO2 QE setup reached a useful but expensive checkpoint, then was stopped by user request. TiO2 job <code>17535117</code> was canceled at <code>2026-05-20T20:51:19-04:00</code> after <code>03:10:23</code> on <code>shared</code>, with <code>5/24</code> irreducible q points written. The active replacement is zincblende GaAs in a 2-atom primitive cell. GaAs fixed-cell SCF, Gamma dielectric/Born-charge DFPT, <code>4x4x4</code> phonon-grid DFPT, LO-TO-aware <code>q2r.x</code>/<code>matdyn.x</code> postprocessing, GaAs-backed toy hybrid tests, Drude and polar-coupling density sweeps, a plasmon-pole fitting interface, a fitted-PPM-driven hybrid path, finite-linewidth complex branches, a fitted-PPM spectral-function view, a toy inverse-dielectric loss output, a Fig.1-like surrogate plot, the Fig. 1 target q-vector coordinate conversion, a finite-q long-wavelength Lindhard surrogate, a direct numerical finite-T Lindhard dielectric source, and a static-approximation branch have completed.</p>
-    <p>Per the current direction, direct Fig. 1 reproduction will no longer use approximate Drude/Lindhard surrogate curves as the target. A strict local input gate, <code>fig1_direct_reproduction.py</code>, now requires real Wannier/RPA or experimental provenance and rejects toy, surrogate, Drude, mock, analytic, or parabolic-Lindhard inputs. The supplemental-material RPA dielectric workflow has been summarized on a new subpage: it defines the doped-carrier bare response <code>delta chi0(q,omega)</code>, the scalar RPA inverse dielectric function <code>epsilon_el^{-1}(q,omega)</code>, the screened Coulomb kernel using <code>epsilon_inf</code>, the Wannier-eigenvector treatment of the wavefunction overlap <code>|&lt;u_m,k+q|u_n,k&gt;|^2</code>, and the lower-cost identity-delta overlap approximation <code>delta_mn</code> that may be acceptable for small-<code>q</code>, conduction-band dominated GaAs screening when labeled explicitly. The current blocker is missing real Fig. 1 data: no Wannier/RPA <code>epsilon_el^{-1}(q,omega)</code> table and no Raman point table are present locally. The GaAs EPW setup has been reset to a clean stock-EPW workflow in <code>dft/gaas/primitive/epw_stock_bands/</code>. The old debug <code>wannier_epw/</code> directory and stale EPW scratch were removed. The new bands-stage input uses <code>calculation='bands'</code> with an explicit <code>8x8x8</code>, <code>512</code>-point crystal k mesh and no <code>nosym</code>/<code>noinv</code> controls. Slurm job <code>17626030</code> ran on shared node <code>a063</code> with <code>128</code> CPUs. SCF, bands, and PH completed; PH produced nonempty <code>dyn1</code>-<code>dyn8</code> and <code>save_stock/dvscf_q1</code>-<code>dvscf_q8</code>. Stock EPW then reached Wannierization, kgmap, epb writing, and Wannier-representation output before stopping at <code>kpmq_map: k+q does not fall on k-grid</code>, because the Fig. 1 q point is not commensurate with the <code>40x40x40</code> fine k mesh. The follow-up EPW-only restart used explicit file meshes: <code>filkf='gaas_fine_k_40x40x40.kpt'</code> and <code>filqf='gaas_fig1_q.qpt'</code>, with <code>nkf*/nqf*</code> removed so EPW takes the non-homogeneous interpolation path. Shared-partition job <code>17628159</code> completed on node <code>a063</code> with <code>128</code> CPUs in <code>13 s</code>; EPW read the Wannier-representation files, selected the single Fig. 1 q point, and completed one interpolation pass without the previous <code>kpmq_map</code> error.</p>
-    <p>The Fig. 1 implementation plan is now split out in local <code>plan.md</code> and <code>TODO.md</code>. The first implementation step added <code>fig1_rpa_response.py</code>, a supplement-form RPA response core with carrier-density chemical-potential solving, spin/BZ weight/cell-volume handling, <code>identity_delta</code> overlap, <code>delta chi0</code>, <code>U_q</code>, <code>epsilon_el^{-1}</code>, and compact CSV output. The second implementation step connected this core to the local GaAs Wannier <code>gaas_zb_prim_hr.dat</code>: the module now reads Wannier90 <code>*_hr.dat</code>, evaluates <code>H^W(k)</code>, generates crystal k meshes, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, and computes <code>|C(k+q)^dagger C(k)|^2</code> overlaps. The third step generated a local Gamma-centered GaAs Wannier-RPA smoke table comparing <code>identity_delta</code> and <code>wannier_eigenvector</code>. The next blocker is validating conduction-band tracking before scaling to a production dense-grid RPA table.</p>
+    <p>The direct GaAs Fig. 1 first-pass pipeline is now implemented end to end. It starts from the local GaAs Wannier Hamiltonian, evaluates a Gamma-centered conduction-pocket RPA response at the paper q point, fits plasmon-pole parameters, builds the long-range LO-plasmon two-mode hybrid branches, writes the static and bare-plasmon curves, adds paper-digitized Raman points, and renders <code>docs/assets/gaas_fig1_direct.svg</code>.</p>
+    <p>Current production settings: <code>41x41x41</code> Gamma cube, half-width <code>0.035</code> crystal units, absolute BZ weight sum <code>3.43e-4</code>, <code>81</code> density points uniform in <code>sqrt(n)/10^9</code>, <code>181</code> frequencies from <code>0</code> to <code>180 meV</code>, <code>T=300 K</code>, <code>|q|=8e-4 Angstrom^-1</code>, and <code>eta=3 meV</code>. PPM status is <code>81/81 ok</code>; the 0.3 eV tracking window has <code>20285</code> k points and minimum transition overlap <code>0.9994421923</code>.</p>
+    <p>The generated first-pass result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.608-84.514 meV</code>, and a static approximation branch pinned near <code>32.268-32.651 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
@@ -248,19 +246,20 @@
   </section>
 
   <section>
-    <h2>Fig. 1 Wannier-RPA Smoke Check</h2>
-    <p>A local smoke calculation now exercises the real GaAs Wannier Hamiltonian path: <code>gaas_zb_prim_hr.dat -> H^W(k) -> eigenvectors -> |C(k+q)^dagger C(k)|^2 -> delta chi0 -> epsilon_el^{-1}</code>. It uses the Fig. 1 q vector, a <code>9x9x9</code> Gamma-centered k mesh, Gamma conduction band index <code>4</code>, <code>T=300 K</code>, and <code>eta=3 meV</code>. This is an interface validation, not a converged Fig. 1 input table.</p>
+    <h2>Fig. 1 Direct Wannier-RPA Result</h2>
+    <p>The current Fig. 1 chain exercises the real GaAs Wannier Hamiltonian path: <code>gaas_zb_prim_hr.dat -> H^W(k) -> eigenvectors -> |C(k+q)^dagger C(k)|^2 -> delta chi0 -> epsilon_el^{-1} -> PPM -> hybrid branches</code>. The local CSVs stay under <code>dft/gaas/fig1_direct/</code> and are not uploaded as raw data.</p>
     <table>
       <thead>
-        <tr><th>Density (cm^-3)</th><th>mu (eV)</th><th>Peak |Im eps^-1| (meV)</th><th>Max |Delta eps^-1|</th><th>Overlap summary</th></tr>
+        <tr><th>Quantity</th><th>Value</th><th>Comment</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>1.0e17</code></td><td><code>-0.18795</code></td><td><code>19.789</code></td><td><code>7.71e-4</code></td><td>mean <code>0.9999358</code>, min <code>0.9994422</code></td></tr>
-        <tr><td><code>5.0e17</code></td><td><code>-0.14631</code></td><td><code>41.084</code></td><td><code>2.38e-3</code></td><td>same k/q overlap grid</td></tr>
-        <tr><td><code>1.0e18</code></td><td><code>-0.12835</code></td><td><code>54.863</code></td><td><code>1.01e-2</code></td><td>same k/q overlap grid</td></tr>
+        <tr><td>RPA grid</td><td><code>41^3</code>, Gamma cube half-width <code>0.035</code></td><td>Absolute BZ weight sum <code>3.43e-4</code>; selected because the local Wannier band ordering is only reliable in the Gamma conduction pocket.</td></tr>
+        <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density.</td></tr>
+        <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>, LO <code>32.66245923 meV</code></td><td>Extracted from local LO-TO-aware <code>matdyn.x</code> output.</td></tr>
+        <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>
-    <p>The small difference between the two overlap backends is consistent with the very small q vector and weak change in the Gamma conduction-band eigenvector over this smoke mesh. Before production use, the band selection must be upgraded from a Gamma-centered single-band smoke window to a validated full-BZ or dense near-CBM integration.</p>
+    <p>The remaining scientific task is convergence validation, not missing implementation: scan half-width, k density, and frequency range, then compare with the Supplemental <code>200x200x200</code> RPA protocol if budget permits.</p>
   </section>
 
   <section>
@@ -285,7 +284,13 @@
           <td><code>fig1_direct_reproduction.py</code></td>
           <td>Python script</td>
           <td>16 KB</td>
-          <td>Strict direct Fig. 1 input validator/renderer. It stays local; this report summarizes the input contract and current missing-data blocker.</td>
+          <td>Strict direct Fig. 1 input validator/renderer. It rejects toy/surrogate provenance and rendered the current direct SVG from accepted Wannier-RPA and paper-digitized inputs.</td>
+        </tr>
+        <tr>
+          <td><code>fig1_wannier_direct.py</code></td>
+          <td>Python module</td>
+          <td>local only</td>
+          <td>End-to-end direct Fig. 1 generator: Gamma-pocket Wannier RPA, absolute BZ weights, PPM fits, LO-TO polar coupling, nonadiabatic/static/bare-plasmon/Raman CSVs, and SVG rendering. The raw local code is not uploaded to the Pages artifact repo.</td>
         </tr>
         <tr>
           <td><code>fig1_rpa_response.py</code></td>
@@ -467,7 +472,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now waits for real Wannier/RPA and Raman input tables.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and needs convergence validation next.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="rpa_dielectric_supplement.html">View supplement RPA dielectric formulas</a></p>
     <p><a class="action-link" href="fig1_direct.html">View direct Fig. 1 input requirements</a></p>
@@ -476,8 +481,12 @@
 
   <section>
     <h2>Key Figures</h2>
-    <p class="note">The figures below include historical toy and surrogate interface checks. They are no longer treated as the direct paper Fig. 1 reproduction target. The direct Fig. 1 renderer will publish a new figure only after real Wannier/RPA and Raman input tables are available.</p>
+    <p class="note">The first figure below is the current direct Fig. 1 first-pass result. The remaining figures are historical toy and surrogate interface checks retained for provenance and regression context.</p>
     <div class="grid">
+      <figure>
+        <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction">
+        <figcaption><strong>Direct Fig. 1 first pass.</strong> Wannier-RPA plasmon-pole fit plus LO-TO polar coupling gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and paper-digitized Raman comparison points.</figcaption>
+      </figure>
       <figure>
         <img src="assets/avoided_crossing.png" alt="Toy plasmon-phonon avoided crossing">
         <figcaption><strong>Avoided crossing.</strong> The bare plasmon is swept through a coupled phonon. The hybrid eigenmodes repel instead of crossing, while the intentionally decoupled phonon remains fixed.</figcaption>
@@ -667,7 +676,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 62 tests ran in 0.662 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, chemical-potential solving, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 66 tests ran in 0.693 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>
@@ -837,8 +846,8 @@ sbatch run_gaas_epw_filemesh_shared.slurm</code></pre>
       <li><code>dft/tio2/</code>: local QE input templates and future raw QE working directories.</li>
       <li><code>dft/gaas/</code>: local QE inputs, raw outputs, dynamical matrices, IFC files, and derived local CSV tables.</li>
       <li><code>dft/gaas/primitive/epw_stock_bands/gaas_fine_k_40x40x40.kpt</code>: generated fine k-point mesh for EPW restart, local only.</li>
-      <li><code>dft/gaas/fig1_direct/gaas_fig1_wannier_rpa_smoke_response.csv</code> and <code>gaas_fig1_wannier_rpa_smoke_summary.csv</code>: local derived smoke tables, not final Fig. 1 inputs.</li>
-      <li>Future production direct Fig. 1 Wannier/RPA and Raman CSV inputs: not present yet, and should stay local until confirmed public-safe.</li>
+      <li><code>dft/gaas/fig1_direct/</code>: local derived direct Fig. 1 CSVs, PPM tables, RPA response tables, and smoke tables. The public page uploads only the small rendered SVG summary.</li>
+      <li>Future convergence-scan tables for direct Fig. 1: should stay local until confirmed public-safe and small.</li>
       <li><code>pseudos/</code>: local PseudoDojo UPF tarball and extracted pseudopotential files.</li>
       <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
       <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>

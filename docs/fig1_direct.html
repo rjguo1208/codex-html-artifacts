@@ -104,11 +104,11 @@
   <a class="nav" href="index.html">Back to report</a>
   <header>
     <h1>Direct Fig. 1 Reproduction Gate</h1>
-    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles or experimental input tables for the paper Fig. 1 reproduction.</p>
+    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles or experimental input tables for the paper Fig. 1 reproduction, and a first-pass Wannier-RPA result is now available.</p>
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T17:31:02-04:00</span>
+        <span>2026-05-23T19:47:10-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Wannier-RPA smoke table generated</span>
+        <span>First-pass direct Fig. 1 generated</span>
       </div>
     </div>
   </header>
@@ -125,7 +125,7 @@
     <h2>Policy</h2>
     <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and Raman points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
-    <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_rpa_response.py</code> evaluates the supplement-form free-carrier response from supplied band energies, occupations, k weights, cell volume, <code>U_q</code>, and an explicit overlap backend. It now supports both <code>identity_delta</code> and a Wannier route that reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, and forms <code>|C(k+q)^dagger C(k)|^2</code>. The first local smoke table has been generated with a Gamma-centered conduction-band mesh to verify this path.</p>
+    <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_wannier_direct.py</code> reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, forms <code>|C(k+q)^dagger C(k)|^2</code>, solves the supplement-form free-carrier RPA response with absolute BZ weights, fits plasmon-pole parameters, and writes the direct Fig. 1 CSVs consumed by <code>fig1_direct_reproduction.py</code>.</p>
   </section>
 
   <section>
@@ -147,12 +147,18 @@
 
   <section>
     <h2>Run Command</h2>
-    <p>The current Wannier-RPA smoke validation was generated with:</p>
+    <p>The current first-pass direct result was generated with:</p>
     <pre><code>module reset
 ml anaconda/2024.02-py311
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate Tmat
-python fig1_wannier_rpa_smoke.py</code></pre>
+python fig1_wannier_direct.py \
+  --mesh 41 41 41 \
+  --density-count 81 \
+  --omega-count 181 \
+  --omega-max-mev 180 \
+  --out-dir dft/gaas/fig1_direct \
+  --docs-svg docs/assets/gaas_fig1_direct.svg</code></pre>
     <pre><code>module reset
 ml anaconda/2024.02-py311
 source "$(conda info --base)/etc/profile.d/conda.sh"
@@ -162,25 +168,29 @@ python fig1_direct_reproduction.py \
   --static-csv dft/gaas/fig1_direct/gaas_fig1_static.csv \
   --bare-plasmon-csv dft/gaas/fig1_direct/gaas_fig1_bare_plasmon.csv \
   --raman-csv dft/gaas/fig1_direct/gaas_fig1_raman.csv \
-  --to-phonon-mev &lt;validated_TO_energy_meV&gt; \
+  --to-phonon-mev 32.26623053 \
   --out-svg docs/assets/gaas_fig1_direct.svg</code></pre>
-    <p>Until those input files exist with accepted provenance, this command is expected to fail rather than silently draw an approximate model.</p>
+    <p>The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>22</code> Raman points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
   </section>
 
   <section>
-    <h2>Smoke Result And Next Blocker</h2>
-    <p>The current HPC folder has GaAs SCF/DFPT phonon results, stock-EPW/Wannier artifacts including <code>gaas_zb_prim_hr.dat</code>, and an RPA core that can consume the Wannier Hamiltonian. The local smoke output now lives under <code>dft/gaas/fig1_direct/</code> and compares <code>identity_delta</code> with <code>wannier_eigenvector</code> overlap for the Fig. 1 q point. It still does not contain the final Fig. 1 input CSVs listed above.</p>
+    <h2>First-Pass Result</h2>
+    <p>The current HPC folder has GaAs SCF/DFPT phonon results, stock-EPW/Wannier artifacts including <code>gaas_zb_prim_hr.dat</code>, and a first-pass direct Fig. 1 data chain under <code>dft/gaas/fig1_direct/</code>. These CSVs are summarized here but are not uploaded as raw data.</p>
     <table>
       <thead>
-        <tr><th>Density (cm^-3)</th><th>mu (eV)</th><th>Max |Delta eps^-1|</th><th>Wannier overlap</th><th>Status</th></tr>
+        <tr><th>Item</th><th>Value</th><th>Status</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>1.0e17</code></td><td><code>-0.18795</code></td><td><code>7.71e-4</code></td><td>mean <code>0.9999358</code>, min <code>0.9994422</code></td><td>Smoke only</td></tr>
-        <tr><td><code>5.0e17</code></td><td><code>-0.14631</code></td><td><code>2.38e-3</code></td><td>same k/q grid</td><td>Smoke only</td></tr>
-        <tr><td><code>1.0e18</code></td><td><code>-0.12835</code></td><td><code>1.01e-2</code></td><td>same k/q grid</td><td>Smoke only</td></tr>
+        <tr><td>RPA integration</td><td><code>41^3</code> Gamma cube, half-width <code>0.035</code>, BZ weight sum <code>3.43e-4</code></td><td>Completed</td></tr>
+        <tr><td>Band tracking</td><td><code>20285</code> k points inside <code>0.3 eV</code>; min transition overlap <code>0.9994421923</code></td><td>Validated for first pass</td></tr>
+        <tr><td>PPM</td><td><code>81/81</code> fits with <code>status=ok</code>; bare plasmon <code>4.665-84.336 meV</code></td><td>Completed</td></tr>
+        <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.608-84.514 meV</code>; static <code>32.268-32.651 meV</code></td><td>Completed</td></tr>
       </tbody>
     </table>
-    <p>The immediate blocker is now validating conduction-band selection/tracking for a production RPA integration. The smoke calculation uses Gamma conduction band index <code>4</code> on a <code>9x9x9</code> Gamma-centered mesh; that is appropriate for checking the overlap interface but not enough for the paper Fig. 1 reproduction. The Raman point table is also still missing.</p>
+    <figure>
+      <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <p>The next step is convergence validation: scan Gamma-cube half-width, k density, and frequency range, then compare with the Supplemental <code>200x200x200</code> RPA protocol if compute budget permits.</p>
   </section>
 
   <section>
@@ -203,12 +213,12 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Verification</h2>
-    <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>62</code> passing unittest cases in the requested Anaconda/Tmat environment. The new RPA tests verify <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, chemical-potential solving, <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>66</code> passing unittest cases in the requested Anaconda/Tmat environment. The tests verify <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section class="warning">
     <h2>Not Uploaded</h2>
-    <p>No paper PDF pages, raw RPA data, raw QE outputs, wavefunctions, private files, or credentials are included in this GitHub Pages report. The local smoke CSVs under <code>dft/gaas/fig1_direct/</code> are summarized but not uploaded. Future real Fig. 1 CSV inputs should remain local unless they are confirmed public-safe and small.</p>
+    <p>No paper PDF pages, raw RPA data, raw QE outputs, wavefunctions, private files, or credentials are included in this GitHub Pages report. The local CSVs under <code>dft/gaas/fig1_direct/</code> are summarized but not uploaded; only the small rendered SVG is included. Future convergence-scan tables should remain local unless confirmed public-safe and small.</p>
   </section>
 </main>
 </body>
