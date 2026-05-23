@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T15:51:15-04:00</span>
+        <span>2026-05-23T17:12:25-04:00</span>
       </div>
       <div class="metric">
         <strong>Local source read</strong>
@@ -602,8 +602,9 @@ fit_residual</code></pre>
 
   <section>
     <h2>Implementation Status</h2>
-    <p>The first local implementation step is complete. The new <code>fig1_rpa_response.py</code> module implements the supplement-form RPA response core for supplied band grids and writes compact public-safe CSV tables. It includes carrier-density to chemical-potential solving, spin degeneracy, normalized k weights, primitive-cell volume conversion, <code>identity_delta</code> overlap, direct <code>delta chi0(q,omega)</code>, the screened Coulomb kernel <code>U_q</code>, and <code>epsilon_el^{-1} = [1 - U_q delta chi0]^{-1}</code>.</p>
-    <p>The local tests now include <code>tests/test_fig1_rpa_response.py</code>. The full regression suite has <code>56</code> passing unittest cases in the requested Anaconda/Tmat environment. The next implementation step is to read <code>dft/gaas/primitive/epw_stock_bands/gaas_zb_prim_hr.dat</code>, evaluate the Wannier Hamiltonian on the Fig. 1 dense k grid, and replace synthetic test bands with first-principles band energies and Wannier eigenvector overlaps.</p>
+    <p>The local <code>fig1_rpa_response.py</code> module implements the supplement-form RPA response core for supplied band grids and writes compact public-safe CSV tables. It includes carrier-density to chemical-potential solving, spin degeneracy, normalized k weights, primitive-cell volume conversion, <code>identity_delta</code> overlap, direct <code>delta chi0(q,omega)</code>, the screened Coulomb kernel <code>U_q</code>, and <code>epsilon_el^{-1} = [1 - U_q delta chi0]^{-1}</code>.</p>
+    <p>The second implementation step connected the RPA core to the local GaAs Wannier Hamiltonian. The module now reads Wannier90 <code>*_hr.dat</code> files, evaluates <code>H^W(k)</code> using <code>exp(2*pi*i*k.R)/deg(R)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, and constructs <code>|C(k+q)^dagger C(k)|^2</code>. The local GaAs <code>gaas_zb_prim_hr.dat</code> parses as <code>8</code> Wannier functions and <code>617</code> R points; sampled <code>H(k)</code> Hermiticity error is below <code>1e-10</code>.</p>
+    <p>The full regression suite has <code>60</code> passing unittest cases in the requested Anaconda/Tmat environment. The next implementation step is to generate a small GaAs Wannier-RPA smoke table for the Fig. 1 q point, compare <code>identity_delta</code> and <code>wannier_eigenvector</code> overlap, and then scale the workflow toward the supplement's dense <code>200x200x200</code> GaAs k grid.</p>
   </section>
 
   <section class="warning">
