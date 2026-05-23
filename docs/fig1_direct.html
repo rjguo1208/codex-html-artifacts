@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-22T22:56:00-04:00</span>
+        <span>2026-05-23T00:20:00-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>Clean PH running after SCF/bands</span>
+        <span>PH complete; EPW q-grid mismatch</span>
       </div>
     </div>
   </header>
@@ -176,7 +176,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Bands setup</td><td>Prepared</td><td>The electronic full-k step is now <code>calculation='bands'</code>, not <code>calculation='nscf'</code>. It uses an explicit <code>8x8x8</code>, <code>512</code>-point crystal k mesh with <code>nbnd=24</code> and contains no <code>nosym</code> or <code>noinv</code> keywords.</td></tr>
         <tr><td>Target Wannier basis</td><td>Prepared</td><td>The stock EPW input keeps <code>nbndsub=8</code>, Ga/As <code>sp3</code> projections, <code>exclude_bands = 1-5</code>, <code>dis_froz_min=-5.0 eV</code>, and <code>dis_froz_max=12.2 eV</code>. Wannierization is done inside EPW with <code>wannierize=.true.</code>.</td></tr>
         <tr><td>EPW phonon input</td><td>Prepared</td><td>The clean PH input uses the same <code>4x4x4</code> q grid and explicitly writes <code>fildvscf='dvscf'</code>. SCF/PH use <code>tmp_epw_stock_scf</code>, while bands/EPW use <code>tmp_epw_stock_bands</code> so the PH wavefunctions are not overwritten by the bands calculation.</td></tr>
-        <tr><td>Slurm job</td><td>PH running</td><td>Job <code>17626030</code> is running on shared node <code>a063</code> with <code>128</code> CPUs. SCF and bands have completed with <code>JOB DONE</code>. PH is currently running on the clean <code>4x4x4</code> q grid; local outputs show nonempty <code>dyn1</code>-<code>dyn4</code> and active/incomplete <code>dyn5</code>. EPW has not started yet.</td></tr>
+        <tr><td>Slurm job</td><td>EPW grid mismatch</td><td>Job <code>17626030</code> ran on shared node <code>a063</code> with <code>128</code> CPUs. SCF and bands completed with <code>JOB DONE</code>, and PH completed all <code>8</code> irreducible q points with nonempty <code>dyn1</code>-<code>dyn8</code> and <code>dvscf_q1</code>-<code>dvscf_q8</code>. Stock EPW then reached Wannierization, <code>kgmap</code>, epb writing, and Wannier-representation output before stopping at <code>kpmq_map: k+q does not fall on k-grid</code>. The current Fig. 1 q point is not commensurate with the <code>40x40x40</code> fine k mesh.</td></tr>
       </tbody>
     </table>
   </section>
