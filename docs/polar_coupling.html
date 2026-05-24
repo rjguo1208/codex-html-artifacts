@@ -119,7 +119,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T20:55:52-04:00</span>
+        <span>2026-05-23T22:22:02-04:00</span>
       </div>
       <div class="metric">
         <strong>Coupling source</strong>
@@ -127,7 +127,7 @@
       </div>
       <div class="metric">
         <strong>Verification</strong>
-        <span><code>67/67</code> unittest cases passed</span>
+        <span><code>68/68</code> unittest cases passed</span>
       </div>
     </div>
   </header>
@@ -303,8 +303,27 @@
   </section>
 
   <section>
+    <h2>Direction Scan</h2>
+    <p>The SI Born/eigenvector nonanalytic strength was evaluated for three representative Cartesian q directions. For cubic GaAs, the result should be direction independent. The current benchmark outputs satisfy this to the displayed precision.</p>
+    <table>
+      <thead>
+        <tr><th>Direction</th><th><code>sqrt(S_polar)</code></th><th>Relative to [100]</th><th>Shift from [100]</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>[100]</code></td><td><code>5.071342392659 meV</code></td><td><code>1.000000000000</code></td><td><code>0.000000000000e+00 meV</code></td></tr>
+        <tr><td><code>[110]</code></td><td><code>5.071342392659 meV</code></td><td><code>1.000000000000</code></td><td><code>2.664535259100e-15 meV</code></td></tr>
+        <tr><td><code>[111]</code></td><td><code>5.071342392659 meV</code></td><td><code>1.000000000000</code></td><td><code>1.776356839400e-15 meV</code></td></tr>
+      </tbody>
+    </table>
+    <figure>
+      <img src="assets/gaas_polar_direction_scan.svg" alt="GaAs SI polar coupling direction scan" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <p>The local CSV is <code>dft/gaas/fig1_direct/gaas_fig1_polar_direction_scan.csv</code>. It remains local with the other calculation-derived tables; only the compact SVG is uploaded.</p>
+  </section>
+
+  <section>
     <h2>Code Path</h2>
-    <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. The current source tag is <code>born_epsilon_eigenvector_si</code>.</p>
+    <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and <code>dft/gaas/fig1_direct/gaas_fig1_polar_direction_scan.csv</code>, renders <code>docs/assets/gaas_polar_direction_scan.svg</code>, and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. The current source tag is <code>born_epsilon_eigenvector_si</code>.</p>
     <pre><code>module reset
 ml anaconda/2024.02-py311
 source "$(conda info --base)/etc/profile.d/conda.sh"

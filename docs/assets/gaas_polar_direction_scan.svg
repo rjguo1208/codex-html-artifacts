@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 360" role="img" aria-labelledby="title desc">
+<title id="title">GaAs polar coupling direction scan</title>
+<desc id="desc">The SI Born/eigenvector polar strength is compared for Cartesian [100], [110], and [111] directions.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="78" y="42" width="670" height="248" fill="#f8fafc" stroke="#cfd8e3"/>
+<line x1="78" x2="748" y1="290.00" y2="290.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="68" y="294.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">5.07132889</text>
+<line x1="78" x2="748" y1="228.00" y2="228.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="68" y="232.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">5.07133564</text>
+<line x1="78" x2="748" y1="166.00" y2="166.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="68" y="170.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">5.07134239</text>
+<line x1="78" x2="748" y1="104.00" y2="104.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="68" y="108.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">5.07134914</text>
+<line x1="78" x2="748" y1="42.00" y2="42.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="68" y="46.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">5.07135589</text>
+<rect x="141.67" y="166.00" width="96.00" height="124.00" fill="#2f67b1" opacity="0.88"/>
+<text x="189.67" y="316" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="14" fill="#22313f">[100]</text>
+<text x="189.67" y="158.00" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#22313f">5.071342393</text>
+<text x="189.67" y="336" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="11" fill="#607080">rel 1.000000000000</text>
+<rect x="365.00" y="166.00" width="96.00" height="124.00" fill="#2f67b1" opacity="0.88"/>
+<text x="413.00" y="316" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="14" fill="#22313f">[110]</text>
+<text x="413.00" y="158.00" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#22313f">5.071342393</text>
+<text x="413.00" y="336" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="11" fill="#607080">rel 1.000000000000</text>
+<rect x="588.33" y="166.00" width="96.00" height="124.00" fill="#2f67b1" opacity="0.88"/>
+<text x="636.33" y="316" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="14" fill="#22313f">[111]</text>
+<text x="636.33" y="158.00" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#22313f">5.071342393</text>
+<text x="636.33" y="336" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="11" fill="#607080">rel 1.000000000000</text>
+<line x1="78" x2="748" y1="166.00" y2="166.00" stroke="#b2463b" stroke-width="1.5" stroke-dasharray="5 5"/>
+<text x="24" y="24" font-family="system-ui,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#16202a">GaAs SI polar coupling direction scan</text>
+<text x="24" y="344" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#607080">y axis: sqrt(S_polar) in meV; dashed line is [100]. Cubic GaAs should be direction independent.</text>
+<text transform="translate(18,166.00) rotate(-90)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#344252">sqrt(S_polar) [meV]</text>
+</svg>

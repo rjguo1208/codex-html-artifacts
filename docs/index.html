@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T20:55:52-04:00</span>
+        <span>2026-05-23T22:22:02-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -239,6 +239,7 @@
     <p>The generated first-pass result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.608-84.514 meV</code>, and a static approximation branch pinned near <code>32.268-32.651 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The requested four-step validation pass is also complete. k-mesh, frequency-grid, and eta changes are sub-meV at the representative densities; <code>0.035</code> remains the retained Gamma-pocket half-width; <code>0.040</code> is rejected by band-window diagnostics; final PPM status is <code>81/81 ok</code> with maximum relative residual <code>1.50e-1</code> at the highest-density edge.</p>
     <p>The Fig. 1 hybrid step now uses a stricter long-range polar coupling path. It parses QE Born effective charges, the high-frequency dielectric tensor, masses, cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar oscillator strength from the SI nonanalytic dynamical matrix. The local nonadiabatic CSV now records <code>coupling_source=born_epsilon_eigenvector_si</code>; the absolute strength agrees with the QE LO-TO splitting at ratio <code>0.9996852769256</code>.</p>
+    <p>The new multi-direction polar-coupling scan checks <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>. All three give <code>sqrt(S_polar)=5.071342392659 meV</code> and relative strength <code>1.000000000000</code>, consistent with cubic GaAs symmetry.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
@@ -325,6 +326,12 @@
           <td>HTML subpage</td>
           <td>public-safe notes</td>
           <td>Documents the stricter long-range polar coupling formula, SI nonanalytic dynamical-matrix projection, LO-TO cross-check, current GaAs values, and local CSV provenance.</td>
+        </tr>
+        <tr>
+          <td><code>docs/assets/gaas_polar_direction_scan.svg</code></td>
+          <td>SVG figure</td>
+          <td>public-safe derived figure</td>
+          <td>Generated from local Born/eigenvector SI polar-coupling diagnostics to verify the expected <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction independence for cubic GaAs.</td>
         </tr>
         <tr>
           <td><code>dft/gaas/primitive/epw_stock_bands/</code></td>
@@ -515,6 +522,10 @@
         <figcaption><strong>PPM residuals.</strong> The final <code>81</code>-density run has <code>81/81</code> successful fits; the largest relative residual is at the high-density edge.</figcaption>
       </figure>
       <figure>
+        <img src="assets/gaas_polar_direction_scan.svg" alt="GaAs SI polar coupling direction scan">
+        <figcaption><strong>Polar direction scan.</strong> The SI Born/eigenvector coupling gives identical <code>sqrt(S_polar)</code> for <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>, as expected for cubic GaAs.</figcaption>
+      </figure>
+      <figure>
         <img src="assets/avoided_crossing.png" alt="Toy plasmon-phonon avoided crossing">
         <figcaption><strong>Avoided crossing.</strong> The bare plasmon is swept through a coupled phonon. The hybrid eigenmodes repel instead of crossing, while the intentionally decoupled phonon remains fixed.</figcaption>
       </figure>
@@ -703,7 +714,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 67 tests ran in 0.750 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 68 tests ran in 0.731 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>
