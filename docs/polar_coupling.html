@@ -119,7 +119,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T14:20:13-04:00</span>
+        <span>2026-05-24T17:42:45-04:00</span>
       </div>
       <div class="metric">
         <strong>Coupling source</strong>
@@ -355,6 +355,25 @@
       </tbody>
     </table>
     <p>A local bands diagnostic from the existing <code>8x8x8</code> bands output found a direct Gamma gap of only <code>0.2836 eV</code>. That explains why converging the LDA calculation cannot by itself recover a material-quality optical dielectric constant. The PBE check strongly improves the dielectric value, but fixed-cell PBE still gives <code>epsilon_inf=17.923182183</code>, above the GaAs reference <code>10.89</code>. The next production-grade route should use a band-gap-corrected electronic structure or an externally justified dielectric/Born input before making quantitative claims about branch splitting.</p>
+  </section>
+
+  <section>
+    <h2>Fig. 1 Material Inputs</h2>
+    <p>The latest diagnostic recomputes the two nonadiabatic Fig. 1 branches with the same Wannier-RPA PPM table and same LO eigenvector, changing only <code>epsilon_inf</code> and the isotropic Born charge. This isolates how much of the branch separation is controlled by material dielectric/Born inputs rather than by the RPA plasmon table.</p>
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th><code>epsilon_inf</code></th><th><code>|Z*|</code></th><th><code>sqrt(S_polar)</code></th><th>Nearest-crossing gap</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Reference GaAs</td><td><code>10.89</code></td><td><code>2.18</code></td><td><code>14.22302904168 meV</code></td><td><code>14.48216250595 meV</code></td></tr>
+        <tr><td>Fixed-cell PBE QC</td><td><code>17.923182183</code></td><td><code>2.14057</code></td><td><code>10.886077403604 meV</code></td><td><code>10.96768917748 meV</code></td></tr>
+        <tr><td>LDA QC</td><td><code>41.237178058</code></td><td><code>2.18669</code></td><td><code>7.331490783683 meV</code></td><td><code>7.337685254405 meV</code></td></tr>
+      </tbody>
+    </table>
+    <figure>
+      <img src="assets/gaas_material_input_comparison.svg" alt="GaAs material-input comparison for Fig. 1 branches" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <p>The local CSVs are <code>dft/gaas/fig1_direct/gaas_fig1_material_input_comparison.csv</code> and <code>dft/gaas/fig1_direct/gaas_fig1_material_input_comparison_summary.csv</code>. They remain local; only the compact SVG is uploaded.</p>
   </section>
 
   <section>

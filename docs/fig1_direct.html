@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T13:37:57-04:00</span>
+        <span>2026-05-24T17:42:45-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -127,6 +127,7 @@
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
     <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_wannier_direct.py</code> reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, forms <code>|C(k+q)^dagger C(k)|^2</code>, solves the supplement-form free-carrier RPA response with absolute BZ weights, fits plasmon-pole parameters, and writes the direct Fig. 1 CSVs consumed by <code>fig1_direct_reproduction.py</code>.</p>
     <p>The long-range polar coupling step is now documented on <a href="polar_coupling.html">the polar-coupling page</a>. The implementation parses QE Born effective charges, the high-frequency dielectric tensor, atomic masses, primitive-cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar strength from the SI nonanalytic dynamical matrix. The DFPT LO-TO splitting is retained as an independent validation target.</p>
+    <p>A material-input comparison figure is now available on the polar-coupling page and as <code>docs/assets/gaas_material_input_comparison.svg</code>. It keeps the same Wannier-RPA PPM table and LO eigenvector, then compares reference GaAs, fixed-cell PBE QC, and LDA QC dielectric/Born inputs.</p>
   </section>
 
   <section>
@@ -186,6 +187,7 @@ python fig1_direct_reproduction.py \
         <tr><td>Band tracking</td><td><code>20285</code> k points inside <code>0.3 eV</code>; min transition overlap <code>0.9994421923</code></td><td>Validated for first pass</td></tr>
         <tr><td>PPM</td><td><code>81/81</code> fits with <code>status=ok</code>; bare plasmon <code>4.665-84.336 meV</code></td><td>Completed</td></tr>
         <tr><td>Long-range coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code>; <code>coupling_source=born_epsilon_eigenvector_si</code></td><td>SI nonanalytic projection completed; absolute/LO-TO ratio <code>0.9996852769256</code></td></tr>
+        <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.482 meV</code>; PBE QC <code>10.968 meV</code>; LDA QC <code>7.338 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and LO mode.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.608-84.514 meV</code>; static <code>32.268-32.651 meV</code></td><td>Completed</td></tr>
       </tbody>
     </table>
