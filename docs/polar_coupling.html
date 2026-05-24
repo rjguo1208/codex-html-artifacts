@@ -115,15 +115,15 @@
   <a class="nav" href="index.html">Back to report</a>
   <header>
     <h1>Long-Range Polar Coupling</h1>
-    <p>This page records the stricter Fig. 1 coupling implementation. The previous final-branch step used the LO-TO splitting directly as an equivalent polar strength. The current path parses QE Born effective charges, the high-frequency dielectric tensor, the Gamma LO eigenvector, masses, and the Fig. 1 q direction, then uses the DFPT LO-TO splitting only as the absolute normalization.</p>
+    <p>This page records the stricter Fig. 1 coupling implementation. The previous final-branch step used the LO-TO splitting directly as an equivalent polar strength. The current path parses QE Born effective charges, the high-frequency dielectric tensor, the Gamma LO eigenvector, masses, the cell volume, and the Fig. 1 q direction, then computes the polar strength directly from the SI nonanalytic dynamical matrix. The DFPT LO-TO splitting is now an independent cross-check.</p>
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T20:42:32-04:00</span>
+        <span>2026-05-23T20:55:52-04:00</span>
       </div>
       <div class="metric">
         <strong>Coupling source</strong>
-        <span><code>born_epsilon_eigenvector_loto_calibrated</code></span>
+        <span><code>born_epsilon_eigenvector_si</code></span>
       </div>
       <div class="metric">
         <strong>Verification</strong>
@@ -195,8 +195,8 @@
   </section>
 
   <section>
-    <h2>Implemented Normalization</h2>
-    <p>The local two-mode hybrid solver uses a squared-energy matrix. To avoid a fragile SI-to-Rydberg-to-eV conversion in this first direct reproduction, the absolute oscillator strength is fixed by the DFPT LO-TO splitting, while the Born/eigenvector formula supplies the mode and direction dependence.</p>
+    <h2>SI Projection</h2>
+    <p>The local two-mode hybrid solver uses a squared-energy matrix. The default Fig. 1 polar strength is now the SI projection of the nonanalytic dynamical matrix onto the rotated LO eigenvector.</p>
     <div class="formula">
       <math display="block">
         <mrow>
@@ -219,25 +219,50 @@
     <div class="formula">
       <math display="block">
         <mrow>
-          <msub><mi>S</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub>
+          <msup><mi>Δω</mi><mn>2</mn></msup>
           <mo>=</mo>
-          <mrow>
-            <mo>(</mo>
-            <msubsup><mi>ω</mi><mi>LO</mi><mn>2</mn></msubsup>
-            <mo>-</mo>
-            <msubsup><mi>ω</mi><mi>TO</mi><mn>2</mn></msubsup>
-            <mo>)</mo>
-          </mrow>
           <mfrac>
+            <msup><mi>e</mi><mn>2</mn></msup>
             <mrow>
-              <msup><mrow><mo>|</mo><msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub><mo>|</mo></mrow><mn>2</mn></msup>
-              <mo>/</mo>
-              <mrow><mover><mi>q</mi><mo>^</mo></mover><mo>·</mo><msup><mi>ε</mi><mi>∞</mi></msup><mo>·</mo><mover><mi>q</mi><mo>^</mo></mover></mrow>
+              <msub><mi>ε</mi><mn>0</mn></msub>
+              <mi>V</mi>
+              <mo>(</mo>
+              <mover><mi>q</mi><mo>^</mo></mover>
+              <mo>·</mo>
+              <msup><mi>ε</mi><mi>∞</mi></msup>
+              <mo>·</mo>
+              <mover><mi>q</mi><mo>^</mo></mover>
+              <mo>)</mo>
             </mrow>
+          </mfrac>
+          <msup>
             <mrow>
-              <msup><mrow><mo>|</mo><msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mi>x</mi></mrow></msub><mo>|</mo></mrow><mn>2</mn></msup>
-              <mo>/</mo>
-              <mrow><mi>x</mi><mo>·</mo><msup><mi>ε</mi><mi>∞</mi></msup><mo>·</mo><mi>x</mi></mrow>
+              <mo>|</mo>
+              <msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub>
+              <mo>|</mo>
+            </mrow>
+            <mn>2</mn>
+          </msup>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>S</mi><mi>polar</mi></msub>
+          <mo>=</mo>
+          <msup><mi>ℏ</mi><mn>2</mn></msup>
+          <msup><mi>Δω</mi><mn>2</mn></msup>
+          <mo>,</mo>
+          <mspace width="1em"/>
+          <msub><mi>R</mi><mi>LOTO</mi></msub>
+          <mo>=</mo>
+          <mfrac>
+            <msub><mi>S</mi><mi>polar</mi></msub>
+            <mrow>
+              <msubsup><mi>ω</mi><mi>LO</mi><mn>2</mn></msubsup>
+              <mo>-</mo>
+              <msubsup><mi>ω</mi><mi>TO</mi><mn>2</mn></msubsup>
             </mrow>
           </mfrac>
         </mrow>
@@ -253,7 +278,7 @@
         </mrow>
       </math>
     </div>
-    <p>For cubic zincblende GaAs with one polar LO mode, the direction ratio is exactly one within the current numerical precision. This is why the final plotted hybrid branches are numerically unchanged from the LO-TO-strength expression, but the coupling now has explicit first-principles ingredients and diagnostics.</p>
+    <p>For cubic zincblende GaAs with one polar LO mode, the direction ratio is exactly one within the current numerical precision. The absolute SI strength agrees with the QE LO-TO splitting to <code>0.0315%</code>, which is consistent with the rounded Born charges, eigenvectors, and cell volume available in the text outputs.</p>
   </section>
 
   <section>
@@ -266,17 +291,20 @@
         <tr><td>q direction</td><td><code>(0.7071067812, 0.7071067812, -6.1e-17)</code></td><td>Converted from the Fig. 1 primitive reciprocal coordinate to Cartesian; effectively [110].</td></tr>
         <tr><td><code>epsilon_inf_direction</code></td><td><code>107.110377606</code></td><td>Parsed from the local QE PH benchmark output and used in the direction-ratio diagnostic.</td></tr>
         <tr><td>Born charges</td><td>Ga <code>+2.43775</code>, As <code>-2.43775</code></td><td>ASR-applied diagonal tensors from QE PH.</td></tr>
+        <tr><td>Cell volume</td><td><code>45.16838711093 Angstrom^3</code></td><td>Parsed from the primitive QE SCF cell.</td></tr>
         <tr><td>Mode effective charge</td><td><code>0.4055820745304</code></td><td><code>|sum_k qhat.Z*_k.e_k/sqrt(M_k)|</code> in QE eigenvector and amu-mass convention.</td></tr>
+        <tr><td>SI mode effective charge</td><td><code>9.953004571579e12</code></td><td>Same projection with masses in kg.</td></tr>
         <tr><td>TO / LO</td><td><code>32.26623053 meV</code> / <code>32.66245923 meV</code></td><td>Local LO-TO-aware <code>matdyn.x</code> exact-Gamma output.</td></tr>
-        <tr><td>Polar strength</td><td><code>2.572661042150e-05 eV^2</code></td><td>Calibrated <code>omega_LO^2 - omega_TO^2</code> times the Born/eigenvector direction ratio.</td></tr>
-        <tr><td><code>sqrt(S_polar)</code></td><td><code>5.072140615312 meV</code></td><td>The final C-matrix coupling is <code>c = omega_pl sqrt(S_polar)</code>.</td></tr>
+        <tr><td>Absolute polar strength</td><td><code>2.571851366358e-05 eV^2</code></td><td>Computed from the SI nonanalytic dynamical matrix and used by the Fig. 1 hybrid branches.</td></tr>
+        <tr><td>LO-TO check</td><td><code>absolute / LO-TO = 0.9996852769256</code></td><td>Cross-check against <code>omega_LO^2 - omega_TO^2 = 2.572661042150e-05 eV^2</code>.</td></tr>
+        <tr><td><code>sqrt(S_polar)</code></td><td><code>5.071342392659 meV</code></td><td>The final C-matrix coupling is <code>c = omega_pl sqrt(S_polar)</code>.</td></tr>
       </tbody>
     </table>
   </section>
 
   <section>
     <h2>Code Path</h2>
-    <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>.</p>
+    <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. The current source tag is <code>born_epsilon_eigenvector_si</code>.</p>
     <pre><code>module reset
 ml anaconda/2024.02-py311
 source "$(conda info --base)/etc/profile.d/conda.sh"
@@ -292,7 +320,7 @@ python fig1_wannier_direct.py \
 
   <section class="warning">
     <h2>Normalization Note</h2>
-    <p>The local QE PH dielectric tensor is a benchmark artifact with <code>epsilon_inf≈107</code>, not the physical GaAs value used in the RPA Coulomb kernel. In this coupling step it only affects the Born/eigenvector direction ratio; the absolute polar strength is still anchored to the local DFPT LO-TO splitting. Raw QE outputs and CSVs remain local and are not uploaded to the public Pages artifact.</p>
+    <p>The local QE PH dielectric tensor is a benchmark artifact with <code>epsilon_inf≈107</code>, not the physical GaAs value used in the RPA Coulomb kernel. In the SI coupling step it enters the absolute nonanalytic strength together with the same Born charges that generated the local LO-TO splitting, so the internal QE cross-check is meaningful. A production material-faithful GaAs run should replace these benchmark dielectric/Born inputs with converged physical values. Raw QE outputs and CSVs remain local and are not uploaded to the public Pages artifact.</p>
   </section>
 </main>
 </body>

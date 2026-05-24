@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T20:42:32-04:00</span>
+        <span>2026-05-23T20:55:52-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -126,7 +126,7 @@
     <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and Raman points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
     <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_wannier_direct.py</code> reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, forms <code>|C(k+q)^dagger C(k)|^2</code>, solves the supplement-form free-carrier RPA response with absolute BZ weights, fits plasmon-pole parameters, and writes the direct Fig. 1 CSVs consumed by <code>fig1_direct_reproduction.py</code>.</p>
-    <p>The long-range polar coupling step is now documented on <a href="polar_coupling.html">the polar-coupling page</a>. The implementation parses QE Born effective charges, the high-frequency dielectric tensor, atomic masses, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction before normalizing to the DFPT LO-TO splitting.</p>
+    <p>The long-range polar coupling step is now documented on <a href="polar_coupling.html">the polar-coupling page</a>. The implementation parses QE Born effective charges, the high-frequency dielectric tensor, atomic masses, primitive-cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar strength from the SI nonanalytic dynamical matrix. The DFPT LO-TO splitting is retained as an independent validation target.</p>
   </section>
 
   <section>
@@ -185,7 +185,7 @@ python fig1_direct_reproduction.py \
         <tr><td>RPA integration</td><td><code>41^3</code> Gamma cube, half-width <code>0.035</code>, BZ weight sum <code>3.43e-4</code></td><td>Completed</td></tr>
         <tr><td>Band tracking</td><td><code>20285</code> k points inside <code>0.3 eV</code>; min transition overlap <code>0.9994421923</code></td><td>Validated for first pass</td></tr>
         <tr><td>PPM</td><td><code>81/81</code> fits with <code>status=ok</code>; bare plasmon <code>4.665-84.336 meV</code></td><td>Completed</td></tr>
-        <tr><td>Long-range coupling</td><td><code>S_polar=2.572661042150e-05 eV^2</code>; <code>coupling_source=born_epsilon_eigenvector_loto_calibrated</code></td><td>Born/eigenvector path completed and normalized to LO-TO splitting</td></tr>
+        <tr><td>Long-range coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code>; <code>coupling_source=born_epsilon_eigenvector_si</code></td><td>SI nonanalytic projection completed; absolute/LO-TO ratio <code>0.9996852769256</code></td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.608-84.514 meV</code>; static <code>32.268-32.651 meV</code></td><td>Completed</td></tr>
       </tbody>
     </table>
@@ -197,7 +197,7 @@ python fig1_direct_reproduction.py \
 
   <section>
     <h2>Long-Range Polar Coupling Update</h2>
-    <p>The final nonadiabatic CSV now records the first-principles coupling ingredients used for the hybrid branches: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. For the current cubic GaAs [110] run, the Born/eigenvector direction ratio is <code>1.000000000000</code>, so the plotted hybrid energies remain numerically equivalent to the LO-TO-strength expression while the provenance is stricter and auditable.</p>
+    <p>The final nonadiabatic CSV now records the first-principles coupling ingredients used for the hybrid branches: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. For the current cubic GaAs [110] run, the Born/eigenvector direction ratio is <code>1.000000000000</code>. The SI absolute strength is <code>0.0315%</code> lower than the LO-TO splitting check, a small difference consistent with rounded QE text-output inputs.</p>
     <table>
       <thead>
         <tr><th>Diagnostic</th><th>Value</th><th>Meaning</th></tr>
@@ -206,7 +206,7 @@ python fig1_direct_reproduction.py \
         <tr><td>q direction</td><td><code>(0.7071067812, 0.7071067812, -6.1e-17)</code></td><td>Fig. 1 q converted from primitive reciprocal coordinates to Cartesian [110].</td></tr>
         <tr><td>ASR Born charges</td><td>Ga <code>+2.43775</code>, As <code>-2.43775</code></td><td>Parsed from local QE PH output.</td></tr>
         <tr><td>Mode effective charge</td><td><code>0.4055820745304</code></td><td><code>|sum_k qhat.Z*_k.e_k/sqrt(M_k)|</code>.</td></tr>
-        <tr><td><code>sqrt(S_polar)</code></td><td><code>5.072140615312 meV</code></td><td>Coupling uses <code>c = omega_pl sqrt(S_polar)</code>.</td></tr>
+        <tr><td><code>sqrt(S_polar)</code></td><td><code>5.071342392659 meV</code></td><td>Coupling uses <code>c = omega_pl sqrt(S_polar)</code>.</td></tr>
       </tbody>
     </table>
     <p><a href="polar_coupling.html">Open the full polar-coupling formula and diagnostics page</a>.</p>
