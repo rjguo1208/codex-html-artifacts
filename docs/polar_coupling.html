@@ -119,7 +119,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T22:31:48-04:00</span>
+        <span>2026-05-24T13:37:57-04:00</span>
       </div>
       <div class="metric">
         <strong>Coupling source</strong>
@@ -340,6 +340,23 @@
   </section>
 
   <section>
+    <h2>Material-Quality Check</h2>
+    <p>An independent QE dielectric/Born check was run after the sensitivity test to separate numerical convergence from the known small-gap LDA issue. The run used <code>12x12x12</code> SCF k points, <code>ecutwfc=100 Ry</code>, <code>ecutrho=400 Ry</code>, <code>conv_thr=1d-13</code>, Gamma DFPT <code>tr2_ph=1d-15</code>, and <code>128</code> CPUs on the shared partition as Slurm job <code>17654132</code>.</p>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Earlier benchmark</th><th>Quality check</th><th>Interpretation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>epsilon_inf</code></td><td><code>107.110377606</code></td><td><code>41.237178058</code></td><td>The tighter setting strongly reduces the dielectric constant, but it remains much larger than the physical GaAs value because LDA gives a very small gap.</td></tr>
+        <tr><td>ASR Born charge</td><td><code>Ga +2.43775</code>, <code>As -2.43775</code></td><td><code>Ga +2.18669</code>, <code>As -2.18669</code></td><td>The Born tensor changes moderately and stays physically plausible for a polar zincblende benchmark.</td></tr>
+        <tr><td>Gamma optical frequency</td><td><code>260.252 cm^-1</code></td><td><code>260.121154 cm^-1</code></td><td>The optical frequency is stable at this level of convergence.</td></tr>
+        <tr><td>Diagnostic <code>sqrt(S_polar)</code></td><td><code>5.071342392659 meV</code></td><td><code>7.331490783683 meV</code></td><td>Computed by combining the quality-check dielectric/Born output with the same LO eigenvector; this is diagnostic only and is not substituted into the main Fig. 1 curve.</td></tr>
+      </tbody>
+    </table>
+    <p>A local bands diagnostic from the existing <code>8x8x8</code> bands output found a direct Gamma gap of only <code>0.2836 eV</code>. That explains why converging the LDA calculation cannot by itself recover a material-quality optical dielectric constant. The next production-grade route should use a band-gap-corrected electronic structure or an externally justified dielectric/Born input before making quantitative claims about branch splitting.</p>
+  </section>
+
+  <section>
     <h2>Code Path</h2>
     <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and <code>dft/gaas/fig1_direct/gaas_fig1_polar_direction_scan.csv</code>, renders <code>docs/assets/gaas_polar_direction_scan.svg</code>, and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. The current source tag is <code>born_epsilon_eigenvector_si</code>.</p>
     <pre><code>module reset
@@ -357,7 +374,7 @@ python fig1_wannier_direct.py \
 
   <section class="warning">
     <h2>Normalization Note</h2>
-    <p>The local QE PH dielectric tensor is a benchmark artifact with <code>epsilon_inf≈107</code>, not the physical GaAs value used in the RPA Coulomb kernel. In the SI coupling step it enters the absolute nonanalytic strength together with the same Born charges that generated the local LO-TO splitting, so the internal QE cross-check is meaningful. A production material-faithful GaAs run should replace these benchmark dielectric/Born inputs with converged physical values. Raw QE outputs and CSVs remain local and are not uploaded to the public Pages artifact.</p>
+    <p>The local QE PH dielectric tensor used in the current main Fig. 1 branch remains the earlier benchmark artifact with <code>epsilon_inf≈107</code>, not the physical GaAs value used in the RPA Coulomb kernel. The new quality check lowers this to <code>41.237178058</code> but does not make LDA GaAs material-faithful. Raw QE outputs, scratch wavefunctions, and diagnostic CSVs remain local and are not uploaded to the public Pages artifact.</p>
   </section>
 </main>
 </body>

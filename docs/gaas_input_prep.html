@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T00:59:26-04:00</span>
+        <span>2026-05-24T13:37:57-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -165,7 +165,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>EPW file-mesh restart complete</span>
+        <span>GaAs dielectric/Born QC complete</span>
       </div>
     </div>
   </header>
@@ -227,6 +227,9 @@
         <tr><td><code>dft/gaas/primitive/epw_stock_bands/gaas_fine_k_40x40x40.kpt</code></td><td>Generated explicit <code>64000</code>-point fine k mesh for <code>filkf</code>. It remains local and is not uploaded to GitHub Pages.</td></tr>
         <tr><td><code>dft/gaas/primitive/epw_stock_bands/gaas_zb_prim_epw_filemesh.in</code></td><td>EPW restart input using <code>epwread=.true.</code>, <code>filkf</code>, and <code>filqf</code>, with <code>nkf*/nqf*</code> removed to avoid forcing a homogeneous commensurate fine grid.</td></tr>
         <tr><td><code>dft/gaas/primitive/epw_stock_bands/run_gaas_epw_filemesh_shared.slurm</code></td><td>EPW-only shared-partition restart job using the completed SCF, bands, PH, <code>save_stock</code>, and Wannier-representation files; completed as job <code>17628159</code> with <code>128</code> CPUs.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_eps/gaas_zb_prim_scf_12x12x12_100ry.in</code></td><td>Independent SCF quality-check input using <code>12x12x12</code> k mesh, <code>ecutwfc=100 Ry</code>, <code>ecutrho=400 Ry</code>, and <code>conv_thr=1d-13</code>. It remains local with its scratch wavefunctions.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_eps/gaas_zb_prim_ph_gamma_eps_12x12x12_100ry.in</code></td><td>Gamma DFPT dielectric/Born quality-check input using the same SCF save directory, <code>tr2_ph=1d-15</code>, <code>epsil=.true.</code>, and <code>alpha_mix(1)=0.3</code>. Output is summarized here but not uploaded.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_eps/run_gaas_quality_eps_shared_128.slurm</code></td><td>Shared-partition 128-CPU QE job script for the quality check; raw outputs and <code>.wfc*</code> files stay in the HPC folder.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -253,6 +256,11 @@
           <td>GaAs Gamma DFPT</td>
           <td class="status-ok">COMPLETED</td>
           <td>Job <code>17582835</code> ran on <code>shared</code> node <code>a228</code> with <code>32</code> MPI tasks from <code>2026-05-21T12:14:02</code> to <code>2026-05-21T12:16:06</code>. Slurm exit code was <code>0:0</code>; QE output contains <code>JOB DONE</code>. The dielectric tensor is isotropic with diagonal value <code>107.110377606</code>. ASR-applied Born effective charges are <code>Ga +2.43775</code> and <code>As -2.43775</code>. Gamma frequencies are an acoustic triplet at <code>9.112 cm^-1</code> and an optical triplet at <code>260.252 cm^-1</code>. The nonzero acoustic value and unusually large dielectric constant are flagged as benchmark-quality checks before drawing material conclusions.</td>
+        </tr>
+        <tr>
+          <td>GaAs dielectric/Born quality check</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17654132</code> ran on <code>shared</code> node <code>a032</code> with <code>128</code> CPUs and completed with Slurm exit code <code>0:0</code>. The SCF step used <code>12x12x12</code> k points, <code>100/400 Ry</code>, and converged in <code>13</code> iterations to total energy <code>-364.69544512 Ry</code> with estimated accuracy <code>2.4e-14 Ry</code>. The Gamma PH step used <code>tr2_ph=1d-15</code> and completed in about <code>1m08s</code>. It gives isotropic <code>epsilon_inf=41.237178058</code>, ASR Born charges <code>Ga +2.18669</code> and <code>As -2.18669</code>, acoustic frequencies <code>-8.858540 cm^-1</code>, and optical triplet <code>260.121154 cm^-1</code>. A separate 512-point bands diagnostic found a small LDA Gamma gap of <code>0.2836 eV</code> (<code>VBM=8.4849 eV</code>, <code>CBM=8.7685 eV</code>), so the remaining large dielectric constant is expected to be a material/model limitation, not merely loose numerical settings.</td>
         </tr>
         <tr>
           <td>GaAs 4x4x4 phonon grid</td>
