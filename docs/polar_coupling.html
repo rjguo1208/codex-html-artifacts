@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Long-Range Polar Coupling</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --formula-bg: #fbfcff;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.12; letter-spacing: 0; }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    code, pre { background: var(--code-bg); border-radius: 6px; }
+    code { padding: 2px 5px; font-size: 0.95em; }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); background: #f3f6f9; }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+    .formula {
+      overflow-x: auto;
+      margin: 12px 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--formula-bg);
+      font-size: 1.04rem;
+    }
+    math { font-family: "Cambria Math", "STIX Two Math", "Times New Roman", serif; }
+    .warning { background: var(--warn-bg); border-color: var(--warn-line); }
+    ul { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>Long-Range Polar Coupling</h1>
+    <p>This page records the stricter Fig. 1 coupling implementation. The previous final-branch step used the LO-TO splitting directly as an equivalent polar strength. The current path parses QE Born effective charges, the high-frequency dielectric tensor, the Gamma LO eigenvector, masses, and the Fig. 1 q direction, then uses the DFPT LO-TO splitting only as the absolute normalization.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-23T20:42:32-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Coupling source</strong>
+        <span><code>born_epsilon_eigenvector_loto_calibrated</code></span>
+      </div>
+      <div class="metric">
+        <strong>Verification</strong>
+        <span><code>67/67</code> unittest cases passed</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Supplement Formula</h2>
+    <p>The long-range polar phonon vertex is controlled by the Born effective charge projected onto the phonon eigenvector and the field direction.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>g</mi><mrow><mi>q</mi><mi>ν</mi></mrow><mi>lr</mi></msubsup>
+          <mo>=</mo>
+          <mi>i</mi>
+          <mfrac>
+            <mrow><mn>4</mn><mi>π</mi><mi>e</mi></mrow>
+            <mrow><mi>V</mi><mi>q</mi></mrow>
+          </mfrac>
+          <mfrac>
+            <mrow>
+              <munderover><mo>∑</mo><mi>κ</mi><mrow></mrow></munderover>
+              <mfrac>
+                <mrow>
+                  <mover><mi>q</mi><mo>^</mo></mover>
+                  <mo>·</mo>
+                  <msubsup><mi>Z</mi><mi>κ</mi><mo>*</mo></msubsup>
+                  <mo>·</mo>
+                  <msub><mi>e</mi><mrow><mi>κ</mi><mi>ν</mi></mrow></msub>
+                </mrow>
+                <msqrt><msub><mi>M</mi><mi>κ</mi></msub></msqrt>
+              </mfrac>
+            </mrow>
+            <mrow>
+              <mover><mi>q</mi><mo>^</mo></mover>
+              <mo>·</mo>
+              <msup><mi>ε</mi><mi>∞</mi></msup>
+              <mo>·</mo>
+              <mover><mi>q</mi><mo>^</mo></mover>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <p>The plasmon vertex and the phonon-plasmon coupling entering the dynamical matrix are then</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msubsup><mi>g</mi><mrow><mi>q</mi><mn>0</mn></mrow><mi>lr</mi></msubsup>
+          <mo>=</mo>
+          <msub><mi>Ω</mi><mrow><mi>q</mi><mn>0</mn></mrow></msub>
+          <msqrt><msub><mi>U</mi><mi>q</mi></msub></msqrt>
+          <mo>,</mo>
+          <mspace width="1em"/>
+          <msub><mi>c</mi><mrow><mi>q</mi><mi>ν</mi></mrow></msub>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <msubsup><mi>g</mi><mrow><mi>q</mi><mn>0</mn></mrow><mi>lr</mi></msubsup>
+              <msubsup><mi>g</mi><mrow><mi>q</mi><mi>ν</mi></mrow><mi>lr</mi></msubsup>
+            </mrow>
+            <msub><mi>U</mi><mi>q</mi></msub>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+  </section>
+
+  <section>
+    <h2>Implemented Normalization</h2>
+    <p>The local two-mode hybrid solver uses a squared-energy matrix. To avoid a fragile SI-to-Rydberg-to-eV conversion in this first direct reproduction, the absolute oscillator strength is fixed by the DFPT LO-TO splitting, while the Born/eigenvector formula supplies the mode and direction dependence.</p>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub>
+          <mo>=</mo>
+          <munderover><mo>∑</mo><mi>κ</mi><mrow></mrow></munderover>
+          <mfrac>
+            <mrow>
+              <mover><mi>q</mi><mo>^</mo></mover>
+              <mo>·</mo>
+              <msubsup><mi>Z</mi><mi>κ</mi><mo>*</mo></msubsup>
+              <mo>·</mo>
+              <msub><mi>e</mi><mrow><mi>κ</mi><mi>ν</mi></mrow></msub>
+            </mrow>
+            <msqrt><msub><mi>M</mi><mi>κ</mi></msub></msqrt>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>S</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub>
+          <mo>=</mo>
+          <mrow>
+            <mo>(</mo>
+            <msubsup><mi>ω</mi><mi>LO</mi><mn>2</mn></msubsup>
+            <mo>-</mo>
+            <msubsup><mi>ω</mi><mi>TO</mi><mn>2</mn></msubsup>
+            <mo>)</mo>
+          </mrow>
+          <mfrac>
+            <mrow>
+              <msup><mrow><mo>|</mo><msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub><mo>|</mo></mrow><mn>2</mn></msup>
+              <mo>/</mo>
+              <mrow><mover><mi>q</mi><mo>^</mo></mover><mo>·</mo><msup><mi>ε</mi><mi>∞</mi></msup><mo>·</mo><mover><mi>q</mi><mo>^</mo></mover></mrow>
+            </mrow>
+            <mrow>
+              <msup><mrow><mo>|</mo><msub><mi>Z</mi><mrow><mi>ν</mi><mo>,</mo><mi>x</mi></mrow></msub><mo>|</mo></mrow><mn>2</mn></msup>
+              <mo>/</mo>
+              <mrow><mi>x</mi><mo>·</mo><msup><mi>ε</mi><mi>∞</mi></msup><mo>·</mo><mi>x</mi></mrow>
+            </mrow>
+          </mfrac>
+        </mrow>
+      </math>
+    </div>
+    <div class="formula">
+      <math display="block">
+        <mrow>
+          <msub><mi>c</mi><mrow><mi>q</mi><mi>ν</mi></mrow></msub>
+          <mo>=</mo>
+          <msub><mi>ω</mi><mrow><mi>pl</mi></mrow></msub>
+          <msqrt><msub><mi>S</mi><mrow><mi>ν</mi><mo>,</mo><mover><mi>q</mi><mo>^</mo></mover></mrow></msub></msqrt>
+        </mrow>
+      </math>
+    </div>
+    <p>For cubic zincblende GaAs with one polar LO mode, the direction ratio is exactly one within the current numerical precision. This is why the final plotted hybrid branches are numerically unchanged from the LO-TO-strength expression, but the coupling now has explicit first-principles ingredients and diagnostics.</p>
+  </section>
+
+  <section>
+    <h2>Current GaAs Values</h2>
+    <table>
+      <thead>
+        <tr><th>Quantity</th><th>Value</th><th>Source or meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>q direction</td><td><code>(0.7071067812, 0.7071067812, -6.1e-17)</code></td><td>Converted from the Fig. 1 primitive reciprocal coordinate to Cartesian; effectively [110].</td></tr>
+        <tr><td><code>epsilon_inf_direction</code></td><td><code>107.110377606</code></td><td>Parsed from the local QE PH benchmark output and used in the direction-ratio diagnostic.</td></tr>
+        <tr><td>Born charges</td><td>Ga <code>+2.43775</code>, As <code>-2.43775</code></td><td>ASR-applied diagonal tensors from QE PH.</td></tr>
+        <tr><td>Mode effective charge</td><td><code>0.4055820745304</code></td><td><code>|sum_k qhat.Z*_k.e_k/sqrt(M_k)|</code> in QE eigenvector and amu-mass convention.</td></tr>
+        <tr><td>TO / LO</td><td><code>32.26623053 meV</code> / <code>32.66245923 meV</code></td><td>Local LO-TO-aware <code>matdyn.x</code> exact-Gamma output.</td></tr>
+        <tr><td>Polar strength</td><td><code>2.572661042150e-05 eV^2</code></td><td>Calibrated <code>omega_LO^2 - omega_TO^2</code> times the Born/eigenvector direction ratio.</td></tr>
+        <tr><td><code>sqrt(S_polar)</code></td><td><code>5.072140615312 meV</code></td><td>The final C-matrix coupling is <code>c = omega_pl sqrt(S_polar)</code>.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Code Path</h2>
+    <p>The updated local implementation is in <code>fig1_wannier_direct.py</code>. It writes <code>dft/gaas/fig1_direct/gaas_fig1_polar_coupling_reference.csv</code> and adds the following nonadiabatic CSV columns: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>.</p>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate Tmat
+python fig1_wannier_direct.py \
+  --mesh 41 41 41 \
+  --density-count 81 \
+  --omega-count 181 \
+  --omega-max-mev 180 \
+  --out-dir dft/gaas/fig1_direct \
+  --docs-svg docs/assets/gaas_fig1_direct.svg</code></pre>
+  </section>
+
+  <section class="warning">
+    <h2>Normalization Note</h2>
+    <p>The local QE PH dielectric tensor is a benchmark artifact with <code>epsilon_inf≈107</code>, not the physical GaAs value used in the RPA Coulomb kernel. In this coupling step it only affects the Born/eigenvector direction ratio; the absolute polar strength is still anchored to the local DFPT LO-TO splitting. Raw QE outputs and CSVs remain local and are not uploaded to the public Pages artifact.</p>
+  </section>
+</main>
+</body>
+</html>

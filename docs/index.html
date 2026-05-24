@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T20:06:43-04:00</span>
+        <span>2026-05-23T20:42:32-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -238,9 +238,11 @@
     <p>Current production settings: <code>41x41x41</code> Gamma cube, half-width <code>0.035</code> crystal units, absolute BZ weight sum <code>3.43e-4</code>, <code>81</code> density points uniform in <code>sqrt(n)/10^9</code>, <code>181</code> frequencies from <code>0</code> to <code>180 meV</code>, <code>T=300 K</code>, <code>|q|=8e-4 Angstrom^-1</code>, and <code>eta=3 meV</code>. PPM status is <code>81/81 ok</code>; the 0.3 eV tracking window has <code>20285</code> k points and minimum transition overlap <code>0.9994421923</code>.</p>
     <p>The generated first-pass result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.608-84.514 meV</code>, and a static approximation branch pinned near <code>32.268-32.651 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The requested four-step validation pass is also complete. k-mesh, frequency-grid, and eta changes are sub-meV at the representative densities; <code>0.035</code> remains the retained Gamma-pocket half-width; <code>0.040</code> is rejected by band-window diagnostics; final PPM status is <code>81/81 ok</code> with maximum relative residual <code>1.50e-1</code> at the highest-density edge.</p>
+    <p>The Fig. 1 hybrid step now uses a stricter long-range polar coupling path. It parses QE Born effective charges, the high-frequency dielectric tensor, masses, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then normalizes the resulting polar oscillator strength to the DFPT LO-TO splitting. The local nonadiabatic CSV now records <code>coupling_source=born_epsilon_eigenvector_loto_calibrated</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
+    <a class="action-link" href="polar_coupling.html">Open the polar-coupling page</a>
     <a class="action-link" href="fig1_direct.html">Open the direct Fig. 1 gate page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
     <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>
@@ -257,6 +259,7 @@
         <tr><td>RPA grid</td><td><code>41^3</code>, Gamma cube half-width <code>0.035</code></td><td>Absolute BZ weight sum <code>3.43e-4</code>; selected because the local Wannier band ordering is only reliable in the Gamma conduction pocket.</td></tr>
         <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density. The diagnostic pass gives mean relative residual <code>1.87e-2</code> and maximum <code>1.50e-1</code>.</td></tr>
         <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>, LO <code>32.66245923 meV</code></td><td>Extracted from local LO-TO-aware <code>matdyn.x</code> output.</td></tr>
+        <tr><td>Long-range polar coupling</td><td><code>S_polar=2.572661042150e-05 eV^2</code></td><td>Born/eigenvector direction ratio is <code>1.000000000000</code> for cubic GaAs [110], with <code>|Z_mode|=0.4055820745304</code> and <code>sqrt(S_polar)=5.072140615312 meV</code>.</td></tr>
         <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>
@@ -291,7 +294,7 @@
           <td><code>fig1_wannier_direct.py</code></td>
           <td>Python module</td>
           <td>local only</td>
-          <td>End-to-end direct Fig. 1 generator: Gamma-pocket Wannier RPA, absolute BZ weights, PPM fits, LO-TO polar coupling, nonadiabatic/static/bare-plasmon/Raman CSVs, and SVG rendering. The raw local code is not uploaded to the Pages artifact repo.</td>
+          <td>End-to-end direct Fig. 1 generator: Gamma-pocket Wannier RPA, absolute BZ weights, PPM fits, Born/eigenvector-calibrated long-range polar coupling, nonadiabatic/static/bare-plasmon/Raman CSVs, and SVG rendering. The raw local code is not uploaded to the Pages artifact repo.</td>
         </tr>
         <tr>
           <td><code>fig1_rpa_response.py</code></td>
@@ -316,6 +319,12 @@
           <td>HTML subpage</td>
           <td>public-safe notes</td>
           <td>New supplement-derived summary of the RPA response function, electronic dielectric function, Coulomb kernel, plasmon-pole fit, static approximation, and GaAs/TiO2 numerical settings.</td>
+        </tr>
+        <tr>
+          <td><code>docs/polar_coupling.html</code></td>
+          <td>HTML subpage</td>
+          <td>public-safe notes</td>
+          <td>Documents the stricter long-range polar coupling formula, Born/eigenvector normalization, current GaAs values, and local CSV provenance.</td>
         </tr>
         <tr>
           <td><code>dft/gaas/primitive/epw_stock_bands/</code></td>
@@ -476,6 +485,7 @@
     <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and a completed first convergence/diagnostic pass.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="rpa_dielectric_supplement.html">View supplement RPA dielectric formulas</a></p>
+    <p><a class="action-link" href="polar_coupling.html">View long-range polar coupling details</a></p>
     <p><a class="action-link" href="fig1_direct.html">View direct Fig. 1 input requirements</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
   </section>
@@ -486,7 +496,7 @@
     <div class="grid">
       <figure>
         <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction">
-        <figcaption><strong>Direct Fig. 1 first pass.</strong> Wannier-RPA plasmon-pole fit plus LO-TO polar coupling gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and paper-digitized Raman comparison points.</figcaption>
+        <figcaption><strong>Direct Fig. 1 first pass.</strong> Wannier-RPA plasmon-pole fit plus Born/eigenvector-calibrated long-range polar coupling gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and paper-digitized Raman comparison points.</figcaption>
       </figure>
       <figure>
         <img src="assets/gaas_fig1_convergence_scan.svg" alt="Direct GaAs Fig. 1 convergence scans">
@@ -693,7 +703,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 66 tests ran in 0.693 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 67 tests ran in 0.715 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>
