@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T19:47:10-04:00</span>
+        <span>2026-05-23T20:06:43-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -237,6 +237,7 @@
     <p>The direct GaAs Fig. 1 first-pass pipeline is now implemented end to end. It starts from the local GaAs Wannier Hamiltonian, evaluates a Gamma-centered conduction-pocket RPA response at the paper q point, fits plasmon-pole parameters, builds the long-range LO-plasmon two-mode hybrid branches, writes the static and bare-plasmon curves, adds paper-digitized Raman points, and renders <code>docs/assets/gaas_fig1_direct.svg</code>.</p>
     <p>Current production settings: <code>41x41x41</code> Gamma cube, half-width <code>0.035</code> crystal units, absolute BZ weight sum <code>3.43e-4</code>, <code>81</code> density points uniform in <code>sqrt(n)/10^9</code>, <code>181</code> frequencies from <code>0</code> to <code>180 meV</code>, <code>T=300 K</code>, <code>|q|=8e-4 Angstrom^-1</code>, and <code>eta=3 meV</code>. PPM status is <code>81/81 ok</code>; the 0.3 eV tracking window has <code>20285</code> k points and minimum transition overlap <code>0.9994421923</code>.</p>
     <p>The generated first-pass result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.608-84.514 meV</code>, and a static approximation branch pinned near <code>32.268-32.651 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
+    <p>The requested four-step validation pass is also complete. k-mesh, frequency-grid, and eta changes are sub-meV at the representative densities; <code>0.035</code> remains the retained Gamma-pocket half-width; <code>0.040</code> is rejected by band-window diagnostics; final PPM status is <code>81/81 ok</code> with maximum relative residual <code>1.50e-1</code> at the highest-density edge.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
@@ -254,12 +255,12 @@
       </thead>
       <tbody>
         <tr><td>RPA grid</td><td><code>41^3</code>, Gamma cube half-width <code>0.035</code></td><td>Absolute BZ weight sum <code>3.43e-4</code>; selected because the local Wannier band ordering is only reliable in the Gamma conduction pocket.</td></tr>
-        <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density.</td></tr>
+        <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density. The diagnostic pass gives mean relative residual <code>1.87e-2</code> and maximum <code>1.50e-1</code>.</td></tr>
         <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>, LO <code>32.66245923 meV</code></td><td>Extracted from local LO-TO-aware <code>matdyn.x</code> output.</td></tr>
         <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>
-    <p>The remaining scientific task is convergence validation, not missing implementation: scan half-width, k density, and frequency range, then compare with the Supplemental <code>200x200x200</code> RPA protocol if budget permits.</p>
+    <p>The first convergence/diagnostic pass is complete. The remaining scientific task is a heavier validation against the Supplemental <code>200x200x200</code> RPA protocol if budget permits.</p>
   </section>
 
   <section>
@@ -472,7 +473,7 @@
 
   <section>
     <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and needs convergence validation next.</p>
+    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and a completed first convergence/diagnostic pass.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="rpa_dielectric_supplement.html">View supplement RPA dielectric formulas</a></p>
     <p><a class="action-link" href="fig1_direct.html">View direct Fig. 1 input requirements</a></p>
@@ -486,6 +487,22 @@
       <figure>
         <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction">
         <figcaption><strong>Direct Fig. 1 first pass.</strong> Wannier-RPA plasmon-pole fit plus LO-TO polar coupling gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and paper-digitized Raman comparison points.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_fig1_convergence_scan.svg" alt="Direct GaAs Fig. 1 convergence scans">
+        <figcaption><strong>Convergence scan.</strong> Half-width is the dominant sensitivity; k-mesh, frequency-grid, and eta scans are sub-meV at the representative densities.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_fig1_band_window.svg" alt="Direct GaAs Fig. 1 conduction-pocket window diagnostics">
+        <figcaption><strong>Band-window diagnostic.</strong> The retained <code>0.035</code> Gamma cube has enough capacity and stable overlaps; <code>0.040</code> is rejected because the local band character breaks down.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_fig1_rpa_ppm_examples.svg" alt="RPA inverse dielectric loss and plasmon-pole fit examples">
+        <figcaption><strong>RPA/PPM overlays.</strong> Representative <code>-Im epsilon_el^{-1}</code> spectra and fitted plasmon-pole curves show that the PPM tracks the computed loss peaks.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_fig1_ppm_residuals.svg" alt="PPM residuals for final direct Fig. 1 run">
+        <figcaption><strong>PPM residuals.</strong> The final <code>81</code>-density run has <code>81/81</code> successful fits; the largest relative residual is at the high-density edge.</figcaption>
       </figure>
       <figure>
         <img src="assets/avoided_crossing.png" alt="Toy plasmon-phonon avoided crossing">

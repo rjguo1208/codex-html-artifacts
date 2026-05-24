@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-23T19:47:10-04:00</span>
+        <span>2026-05-23T20:06:43-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -191,6 +191,35 @@ python fig1_direct_reproduction.py \
       <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
     <p>The next step is convergence validation: scan Gamma-cube half-width, k density, and frequency range, then compare with the Supplemental <code>200x200x200</code> RPA protocol if compute budget permits.</p>
+  </section>
+
+  <section>
+    <h2>Steps 1-4 Validation</h2>
+    <p>The requested convergence and diagnostic pass is complete. It covers RPA convergence, conduction-band window validation, RPA dielectric-function inspection, and PPM fit quality. The compact CSV outputs remain local under <code>dft/gaas/fig1_convergence/</code>; the public page includes only small SVG summaries.</p>
+    <table>
+      <thead>
+        <tr><th>Step</th><th>Result</th><th>Conclusion</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. RPA convergence</td><td>Half-width, k-mesh, frequency-grid, and eta scans at five representative densities.</td><td>k-mesh changes from <code>31^3</code> to <code>51^3</code> move representative plasmon energies by at most <code>0.232 meV</code>; frequency-grid changes are below <code>0.003 meV</code>; eta <code>2-5 meV</code> changes are below <code>0.463 meV</code>.</td></tr>
+        <tr><td>2. Band window</td><td>Gamma cube half-widths <code>0.025, 0.030, 0.035, 0.040</code> tested.</td><td><code>0.035</code> is retained. It has two-spin capacity <code>4.96x</code> the highest-density target, positive band energies in the pocket, and min transition overlap <code>0.999442</code>. <code>0.040</code> is rejected because the selected band dips below the Gamma CBM and the seed-overlap diagnostic collapses.</td></tr>
+        <tr><td>3. RPA dielectric function</td><td>Four representative <code>-Im epsilon_el^{-1}</code> spectra are plotted against their PPM fits.</td><td>The loss peaks are smooth and the fitted PPM peak tracks the RPA peak from the crossing region through the high-density end.</td></tr>
+        <tr><td>4. PPM fit</td><td>Final <code>81</code>-density run has <code>81/81</code> fits with <code>status=ok</code>.</td><td>Mean relative residual is <code>1.87e-2</code>; maximum is <code>1.50e-1</code> at <code>sqrt(n)/10^9=1.75</code>, the high-density edge.</td></tr>
+      </tbody>
+    </table>
+    <figure>
+      <img src="assets/gaas_fig1_convergence_scan.svg" alt="GaAs Fig. 1 RPA and PPM convergence scans" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <figure>
+      <img src="assets/gaas_fig1_band_window.svg" alt="GaAs Fig. 1 conduction-pocket window diagnostics" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <figure>
+      <img src="assets/gaas_fig1_rpa_ppm_examples.svg" alt="RPA inverse dielectric loss and plasmon-pole fit examples" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <figure>
+      <img src="assets/gaas_fig1_ppm_residuals.svg" alt="PPM residuals for final direct Fig. 1 run" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <p>The next planned step is a heavier validation against the supplemental dense-grid protocol, or a larger production run if the full <code>200x200x200</code> RPA workflow is affordable.</p>
   </section>
 
   <section>
