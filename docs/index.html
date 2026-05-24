@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T13:37:57-04:00</span>
+        <span>2026-05-24T14:20:13-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -242,6 +242,7 @@
     <p>The new multi-direction polar-coupling scan checks <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>. All three give <code>sqrt(S_polar)=5.071342392659 meV</code> and relative strength <code>1.000000000000</code>, consistent with cubic GaAs symmetry.</p>
     <p>A new dielectric-input sensitivity check shows why the current benchmark <code>epsilon_inf≈107</code> must be isolated before production claims. Replacing only <code>epsilon_inf</code> by <code>10.89</code> while keeping the same Born tensor scales <code>S_polar</code> by <code>9.835663692011</code> and increases the nearest-crossing hybrid gap from about <code>5.07 meV</code> to <code>16.31 meV</code>.</p>
     <p>The first material-quality dielectric/Born check is complete. A 128-CPU shared-node QE run with <code>12x12x12</code> SCF k mesh and <code>100/400 Ry</code> cutoffs finished as Slurm job <code>17654132</code>. The tighter DFPT result gives <code>epsilon_inf=41.237178058</code>, ASR Born charges <code>Ga +2.18669</code> and <code>As -2.18669</code>, and Gamma optical frequency <code>260.121154 cm^-1</code>. This confirms the previous <code>epsilon_inf≈107</code> was not production-quality, but the remaining large value is still consistent with small-gap LDA GaAs rather than a fully material-faithful dielectric input.</p>
+    <p>The GGA/PBE comparison is complete. Using PseudoDojo PBE scalar-relativistic norm-conserving Ga/As UPF files, the same fixed GaAs cell, <code>12x12x12</code> SCF k mesh, <code>100/400 Ry</code> cutoffs, and Gamma DFPT <code>epsil=.true.</code>, Slurm job <code>17654576</code> completed on <code>shared</code> with <code>128</code> CPUs. The result is <code>epsilon_inf=17.923182183</code>, ASR Born charges <code>Ga +2.14057</code> and <code>As -2.14057</code>, and Gamma optical frequency <code>267.913498 cm^-1</code>. PBE is much closer to reference than LDA for <code>epsilon_inf</code>, but still above the reference <code>10.89</code>.</p>
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
@@ -264,6 +265,7 @@
         <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>, LO <code>32.66245923 meV</code></td><td>Extracted from local LO-TO-aware <code>matdyn.x</code> output.</td></tr>
         <tr><td>Long-range polar coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code></td><td>Computed from the SI nonanalytic dynamical matrix. Born/eigenvector direction ratio is <code>1.000000000000</code> for cubic GaAs [110], with <code>|Z_mode|=0.4055820745304</code>, <code>sqrt(S_polar)=5.071342392659 meV</code>, and absolute/LO-TO ratio <code>0.9996852769256</code>.</td></tr>
         <tr><td>Dielectric/Born QC</td><td><code>epsilon_inf=41.237178058</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654132</code> completed. Combining this QC dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=7.331490783683 meV</code>; it is not yet substituted into the main Fig. 1 curve.</td></tr>
+        <tr><td>GGA/PBE QC</td><td><code>epsilon_inf=17.923182183</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654576</code> completed. ASR Born charges are <code>Ga +2.14057</code> and <code>As -2.14057</code>. Combining this PBE dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=10.886077403604 meV</code>; this remains a diagnostic, not a replacement for a fully self-consistent Fig. 1 curve.</td></tr>
         <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>

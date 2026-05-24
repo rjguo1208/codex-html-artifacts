@@ -157,7 +157,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T13:37:57-04:00</span>
+        <span>2026-05-24T14:20:13-04:00</span>
       </div>
       <div class="metric">
         <strong>Local directory</strong>
@@ -165,7 +165,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>GaAs dielectric/Born QC complete</span>
+        <span>GGA/PBE dielectric/Born QC complete</span>
       </div>
     </div>
   </header>
@@ -230,6 +230,10 @@
         <tr><td><code>dft/gaas/primitive/quality_eps/gaas_zb_prim_scf_12x12x12_100ry.in</code></td><td>Independent SCF quality-check input using <code>12x12x12</code> k mesh, <code>ecutwfc=100 Ry</code>, <code>ecutrho=400 Ry</code>, and <code>conv_thr=1d-13</code>. It remains local with its scratch wavefunctions.</td></tr>
         <tr><td><code>dft/gaas/primitive/quality_eps/gaas_zb_prim_ph_gamma_eps_12x12x12_100ry.in</code></td><td>Gamma DFPT dielectric/Born quality-check input using the same SCF save directory, <code>tr2_ph=1d-15</code>, <code>epsil=.true.</code>, and <code>alpha_mix(1)=0.3</code>. Output is summarized here but not uploaded.</td></tr>
         <tr><td><code>dft/gaas/primitive/quality_eps/run_gaas_quality_eps_shared_128.slurm</code></td><td>Shared-partition 128-CPU QE job script for the quality check; raw outputs and <code>.wfc*</code> files stay in the HPC folder.</td></tr>
+        <tr><td><code>pseudos/pseudodojo_pbe_nc_sr_0.4_standard_upf/Ga.upf</code>, <code>As.upf</code></td><td>PseudoDojo PBE scalar-relativistic norm-conserving standard UPF files downloaded from the official PseudoDojo <code>nc-sr-04_pbe_standard_upf.tgz</code> archive. These stay local and are not uploaded to Pages.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_gga/gaas_zb_prim_pbe_scf_12x12x12_100ry.in</code></td><td>GGA/PBE SCF comparison input. It keeps the same fixed zincblende primitive cell, <code>12x12x12</code> k mesh, <code>100/400 Ry</code>, and <code>conv_thr=1d-13</code> as the LDA quality check.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_gga/gaas_zb_prim_pbe_ph_gamma_eps_12x12x12_100ry.in</code></td><td>GGA/PBE Gamma DFPT dielectric/Born input using <code>tr2_ph=1d-15</code>, <code>epsil=.true.</code>, and the PBE SCF save directory.</td></tr>
+        <tr><td><code>dft/gaas/primitive/quality_gga/run_gaas_pbe_quality_eps_shared_128.slurm</code></td><td>Shared-partition 128-CPU QE script for the PBE SCF plus Gamma dielectric/Born comparison.</td></tr>
         <tr><td><code>dft/gaas/primitive/relax/gaas_zb_prim_vc_relax.in</code></td><td>Optional vc-relax input retained for a later geometry-consistency pass.</td></tr>
       </tbody>
     </table>
@@ -261,6 +265,11 @@
           <td>GaAs dielectric/Born quality check</td>
           <td class="status-ok">COMPLETED</td>
           <td>Job <code>17654132</code> ran on <code>shared</code> node <code>a032</code> with <code>128</code> CPUs and completed with Slurm exit code <code>0:0</code>. The SCF step used <code>12x12x12</code> k points, <code>100/400 Ry</code>, and converged in <code>13</code> iterations to total energy <code>-364.69544512 Ry</code> with estimated accuracy <code>2.4e-14 Ry</code>. The Gamma PH step used <code>tr2_ph=1d-15</code> and completed in about <code>1m08s</code>. It gives isotropic <code>epsilon_inf=41.237178058</code>, ASR Born charges <code>Ga +2.18669</code> and <code>As -2.18669</code>, acoustic frequencies <code>-8.858540 cm^-1</code>, and optical triplet <code>260.121154 cm^-1</code>. A separate 512-point bands diagnostic found a small LDA Gamma gap of <code>0.2836 eV</code> (<code>VBM=8.4849 eV</code>, <code>CBM=8.7685 eV</code>), so the remaining large dielectric constant is expected to be a material/model limitation, not merely loose numerical settings.</td>
+        </tr>
+        <tr>
+          <td>GaAs GGA/PBE dielectric/Born check</td>
+          <td class="status-ok">COMPLETED</td>
+          <td>Job <code>17654576</code> ran on <code>shared</code> node <code>a014</code> with <code>128</code> CPUs and completed with Slurm exit code <code>0:0</code>. It used PseudoDojo PBE scalar-relativistic norm-conserving Ga/As UPF files, <code>input_dft='PBE'</code>, the same fixed primitive cell, <code>12x12x12</code> SCF k mesh, <code>100/400 Ry</code> cutoffs, <code>conv_thr=1d-13</code>, and Gamma DFPT <code>tr2_ph=1d-15</code>. The SCF step converged in <code>14</code> iterations to total energy <code>-365.12934386 Ry</code> with estimated accuracy <code>9.2e-14 Ry</code>. The PH step completed in <code>1m09s</code> and gives isotropic <code>epsilon_inf=17.923182183</code>, ASR Born charges <code>Ga +2.14057</code> and <code>As -2.14057</code>, acoustic frequencies <code>-12.668285 cm^-1</code>, and optical triplet <code>267.913498 cm^-1</code>. Compared with the LDA quality check, PBE reduces the dielectric constant from <code>41.237178058</code> to <code>17.923182183</code> while leaving the Born charge close to the reference magnitude <code>2.18</code>.</td>
         </tr>
         <tr>
           <td>GaAs 4x4x4 phonon grid</td>
