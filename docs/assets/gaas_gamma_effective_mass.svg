@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 520" role="img">
+<title>GaAs Gamma effective-mass diagnostic</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="84" y="42" width="804" height="400" fill="#fbfcfe" stroke="#ccd3dd"/>
+<line x1="84.00" y1="42" x2="84.00" y2="442" stroke="#e6eaf0"/>
+<text x="84.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.000</text>
+<line x1="218.00" y1="42" x2="218.00" y2="442" stroke="#e6eaf0"/>
+<text x="218.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.010</text>
+<line x1="352.00" y1="42" x2="352.00" y2="442" stroke="#e6eaf0"/>
+<text x="352.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.020</text>
+<line x1="486.00" y1="42" x2="486.00" y2="442" stroke="#e6eaf0"/>
+<text x="486.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.030</text>
+<line x1="620.00" y1="42" x2="620.00" y2="442" stroke="#e6eaf0"/>
+<text x="620.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.040</text>
+<line x1="754.00" y1="42" x2="754.00" y2="442" stroke="#e6eaf0"/>
+<text x="754.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.050</text>
+<line x1="888.00" y1="42" x2="888.00" y2="442" stroke="#e6eaf0"/>
+<text x="888.00" y="478" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.060</text>
+<line x1="84" y1="442.00" x2="888" y2="442.00" stroke="#e6eaf0"/>
+<text x="74" y="446.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.012</text>
+<line x1="84" y1="362.00" x2="888" y2="362.00" stroke="#e6eaf0"/>
+<text x="74" y="366.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.025</text>
+<line x1="84" y1="282.00" x2="888" y2="282.00" stroke="#e6eaf0"/>
+<text x="74" y="286.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.039</text>
+<line x1="84" y1="202.00" x2="888" y2="202.00" stroke="#e6eaf0"/>
+<text x="74" y="206.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.052</text>
+<line x1="84" y1="122.00" x2="888" y2="122.00" stroke="#e6eaf0"/>
+<text x="74" y="126.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.066</text>
+<line x1="84" y1="42.00" x2="888" y2="42.00" stroke="#e6eaf0"/>
+<text x="74" y="46.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0.079</text>
+<line x1="84" y1="113.63" x2="888" y2="113.63" stroke="#b42318" stroke-width="2" stroke-dasharray="8 5"/>
+<text x="882" y="105.63" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#b42318">reference m*=0.067 m_e</text>
+<line x1="686.01" y1="42" x2="686.01" y2="442" stroke="#475467" stroke-width="1.6" stroke-dasharray="5 4"/>
+<text x="692.01" y="60" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#475467">kF at max density</text>
+<polyline points="151.00,418.82 218.00,414.36 285.00,407.77 352.00,399.76 486.00,381.24 620.00,360.96 888.00,318.12" fill="none" stroke="#1f5ea8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="151.00" cy="418.82" r="3.8" fill="#1f5ea8"/>
+<circle cx="218.00" cy="414.36" r="3.8" fill="#1f5ea8"/>
+<circle cx="285.00" cy="407.77" r="3.8" fill="#1f5ea8"/>
+<circle cx="352.00" cy="399.76" r="3.8" fill="#1f5ea8"/>
+<circle cx="486.00" cy="381.24" r="3.8" fill="#1f5ea8"/>
+<circle cx="620.00" cy="360.96" r="3.8" fill="#1f5ea8"/>
+<circle cx="888.00" cy="318.12" r="3.8" fill="#1f5ea8"/>
+<polyline points="151.00,417.06 218.00,412.17 285.00,404.90 352.00,395.98 486.00,375.00 620.00,351.30 888.00,297.78" fill="none" stroke="#24824d" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="151.00" cy="417.06" r="3.8" fill="#24824d"/>
+<circle cx="218.00" cy="412.17" r="3.8" fill="#24824d"/>
+<circle cx="285.00" cy="404.90" r="3.8" fill="#24824d"/>
+<circle cx="352.00" cy="395.98" r="3.8" fill="#24824d"/>
+<circle cx="486.00" cy="375.00" r="3.8" fill="#24824d"/>
+<circle cx="620.00" cy="351.30" r="3.8" fill="#24824d"/>
+<circle cx="888.00" cy="297.78" r="3.8" fill="#24824d"/>
+<polyline points="151.00,415.36 218.00,410.38 285.00,402.97 352.00,393.87 486.00,372.39 620.00,348.09 888.00,293.29" fill="none" stroke="#9b4a1b" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="151.00" cy="415.36" r="3.8" fill="#9b4a1b"/>
+<circle cx="218.00" cy="410.38" r="3.8" fill="#9b4a1b"/>
+<circle cx="285.00" cy="402.97" r="3.8" fill="#9b4a1b"/>
+<circle cx="352.00" cy="393.87" r="3.8" fill="#9b4a1b"/>
+<circle cx="486.00" cy="372.39" r="3.8" fill="#9b4a1b"/>
+<circle cx="620.00" cy="348.09" r="3.8" fill="#9b4a1b"/>
+<circle cx="888.00" cy="293.29" r="3.8" fill="#9b4a1b"/>
+<text x="84" y="26" font-family="system-ui,Segoe UI,sans-serif" font-size="18" font-weight="700" fill="#17212b">GaAs Gamma conduction-band curvature from local Wannier HR</text>
+<text x="486.00" y="508" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#344054">quadratic fit window kmax (1/Angstrom)</text>
+<text x="18" y="242.00" transform="rotate(-90 18 242.00)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#344054">m*/m_e from E(k)=E0+a2 k^2</text>
+<line x1="102" y1="60" x2="130" y2="60" stroke="#1f5ea8" stroke-width="3"/>
+<text x="140" y="64" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#17212b">[100]</text>
+<line x1="102" y1="84" x2="130" y2="84" stroke="#24824d" stroke-width="3"/>
+<text x="140" y="88" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#17212b">[110]</text>
+<line x1="102" y1="108" x2="130" y2="108" stroke="#9b4a1b" stroke-width="3"/>
+<text x="140" y="112" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#17212b">[111]</text>
+</svg>
