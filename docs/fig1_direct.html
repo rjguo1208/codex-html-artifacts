@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T21:36:23-04:00</span>
+        <span>2026-05-24T21:45:06-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -194,6 +194,7 @@ python fig1_material_input_comparison.py</code></pre>
         <tr><td>Long-range coupling</td><td>Reference <code>sqrt(S_polar)=14.22302904168 meV</code>; <code>LOeff=35.26193680836 meV</code></td><td>Built from reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, the same local TO mode, and the same Wannier-RPA PPM table.</td></tr>
         <tr><td>Gamma effective mass</td><td><code>0.0159 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; <code>0.0266 m_e</code> near max-density <code>kF=0.0449 Angstrom^-1</code></td><td>The local Wannier conduction band is much lighter than reference GaAs <code>0.067 m_e</code>, giving a likely high-density plasmon-scale overestimate of about <code>1.59x</code>.</td></tr>
         <tr><td>Mass-scaled diagnostic</td><td>Guide RMSE <code>9.287120 -> 4.573280 meV</code></td><td>Scaling the PPM pole by <code>sqrt(m*_W(kF)/0.067)</code> confirms effective mass is important, but it overcorrects the highest-density upper branch from <code>+14.929752</code> to <code>-12.851112 meV</code>.</td></tr>
+        <tr><td>QE/Wannier band check</td><td>Gamma CBM diff <code>0.113 meV</code>; nearest-CBM RMS <code>0.052 meV</code></td><td>The local HR file contains the QE CBM on the coarse grid, but fixed band index <code>4</code> stops tracking it outside the Gamma pocket because of band crossing.</td></tr>
         <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
         <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code>; lower <code>4.149068 meV</code>; upper <code>11.947152 meV</code></td><td>The plotted circles are approximate visual digitization points. The main-panel axes were calibrated from printed ticks, and the low-density upper-branch points were read from the inset because the main panel is covered there.</td></tr>
@@ -208,7 +209,10 @@ python fig1_material_input_comparison.py</code></pre>
     <figure>
       <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The mass-scaled diagnostic indicates that the current high-density mismatch should be attacked at the electronic-structure level, but that simple mass rescaling is too blunt. The next step is to prepare a material-faithful electronic input check that fixes both the GaAs band gap/curvature and the RPA response, rather than only scaling the current PPM pole.</p>
+    <figure>
+      <img src="assets/gaas_qe_wannier_band_check.svg" alt="GaAs QE bands versus Wannier HR check" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <p>The mass-scaled diagnostic indicates that the current high-density mismatch should be attacked at the electronic-structure level, but that simple mass rescaling is too blunt. The latest QE/Wannier check also shows that the HR file contains the QE CBM but fixed band index tracking is only reliable inside the Gamma pocket. The next step is a direct small-k QE bands calculation to validate the Gamma curvature before rebuilding the material-faithful RPA input.</p>
   </section>
 
   <section>
@@ -277,7 +281,7 @@ python fig1_material_input_comparison.py</code></pre>
 
   <section>
     <h2>Verification</h2>
-    <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>70</code> passing unittest cases in the requested Anaconda/Tmat environment. The tests verify <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, Born/eigenvector polar coupling normalization, polar direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, final two-branch hybrid CSV generation, <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>71</code> passing unittest cases in the requested Anaconda/Tmat environment. The tests verify <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, Born/eigenvector polar coupling normalization, polar direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, QE/Wannier band checks, final two-branch hybrid CSV generation, <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section class="warning">

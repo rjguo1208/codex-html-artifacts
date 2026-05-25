@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" role="img">
+<title>GaAs QE bands versus Wannier HR check</title>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="88" y="44" width="808" height="296" fill="#fbfcfe" stroke="#ccd3dd"/>
+<line x1="88" y1="340.00" x2="896" y2="340.00" stroke="#e6eaf0"/>
+<text x="78" y="344.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">0</text>
+<line x1="88" y1="280.80" x2="896" y2="280.80" stroke="#e6eaf0"/>
+<text x="78" y="284.80" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">2807</text>
+<line x1="88" y1="221.60" x2="896" y2="221.60" stroke="#e6eaf0"/>
+<text x="78" y="225.60" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">5615</text>
+<line x1="88" y1="162.40" x2="896" y2="162.40" stroke="#e6eaf0"/>
+<text x="78" y="166.40" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">8422</text>
+<line x1="88" y1="103.20" x2="896" y2="103.20" stroke="#e6eaf0"/>
+<text x="78" y="107.20" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">11230</text>
+<line x1="88" y1="44.00" x2="896" y2="44.00" stroke="#e6eaf0"/>
+<text x="78" y="48.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">14037</text>
+<rect x="130.02" y="211.78" width="77.57" height="128.22" fill="#1f5ea8"/>
+<text x="168.80" y="375" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">8-band RMS</text>
+<text x="168.80" y="203.78" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#17212b">6080.8</text>
+<rect x="291.62" y="103.20" width="77.57" height="236.80" fill="#1f5ea8"/>
+<text x="330.40" y="375" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">8-band max</text>
+<text x="330.40" y="95.20" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#17212b">11229.8</text>
+<rect x="453.22" y="193.39" width="77.57" height="146.61" fill="#b42318"/>
+<text x="492.00" y="375" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">fixed CBM RMS</text>
+<text x="492.00" y="185.39" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#17212b">6952.9</text>
+<rect x="614.82" y="340.00" width="77.57" height="0.00" fill="#24824d"/>
+<text x="653.60" y="375" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">nearest CBM RMS</text>
+<text x="653.60" y="332.00" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#17212b">0.1</text>
+<rect x="776.42" y="339.99" width="77.57" height="0.01" fill="#24824d"/>
+<text x="815.20" y="375" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#344054">nearest CBM max</text>
+<text x="815.20" y="331.99" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#17212b">0.4</text>
+<text x="88" y="28" font-family="system-ui,Segoe UI,sans-serif" font-size="18" font-weight="700" fill="#17212b">QE 8x8x8 bands vs 8-band Wannier HR</text>
+<text x="88" y="405" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#344054">bar units: meV; fixed-index errors are affected by band crossing outside the Gamma pocket</text>
+<text x="24" y="192.00" transform="rotate(-90 24 192.00)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#344054">error (meV)</text>
+<text x="892" y="62" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#475467">Gamma gap=0.2836 eV; nearest-grid QE mass=0.191 m_e</text>
+</svg>

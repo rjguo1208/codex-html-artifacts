@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T21:36:23-04:00</span>
+        <span>2026-05-24T21:45:06-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -241,6 +241,7 @@
     <p>The requested four-step validation pass is also complete. k-mesh, frequency-grid, and eta changes are sub-meV at the representative densities; <code>0.035</code> remains the retained Gamma-pocket half-width; <code>0.040</code> is rejected by band-window diagnostics; final PPM status is <code>81/81 ok</code> with maximum relative residual <code>1.50e-1</code> at the highest-density edge.</p>
     <p>The latest diagnostic checks the local Wannier conduction-band curvature directly. A symmetric Gamma fit gives average <code>m*=0.0159 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; near the highest-density Fermi wavevector <code>kF=0.0449 Angstrom^-1</code>, the <code>kmax=0.040 Angstrom^-1</code> fit gives average <code>m*=0.0266 m_e</code>. Relative to reference GaAs <code>m*=0.067 m_e</code>, this can raise the plasmon energy scale by about <code>1.59x</code>, so the high-density upper-branch mismatch is now traced primarily to the electronic-structure/RPA input rather than the plot annotation.</p>
     <p>A follow-up mass-scaled diagnostic now rescales the fitted PPM pole by <code>s(n)=sqrt(m*_W(kF)/0.067)</code> and rebuilds the same polar two-mode hybrid. This reduces the interpolated guide RMSE from <code>9.287120 meV</code> to <code>4.573280 meV</code>, confirming that effective mass is a dominant error source. However, the highest-density upper branch changes from <code>+14.929752 meV</code> above the guide to <code>-12.851112 meV</code> below it, so this scaling is an overcorrection diagnostic, not a replacement for a material-faithful RPA calculation.</p>
+    <p>The QE-vs-Wannier band check now separates two issues. At Gamma, the HR CBM and QE CBM differ by only <code>0.113 meV</code>; on the coarse <code>8x8x8</code> grid, the nearest HR band reproduces the QE CBM with RMS <code>0.052 meV</code> and maximum <code>0.385 meV</code>. The large fixed-index error is therefore a band-ordering/crossing issue outside the Gamma pocket, not evidence that the QE CBM is missing from the HR file. A direct small-k QE bands check is still needed to validate the actual Gamma curvature.</p>
     <p>The Fig. 1 hybrid step now uses a stricter long-range polar coupling path. It parses QE Born effective charges, the high-frequency dielectric tensor, masses, cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar oscillator strength from the SI nonanalytic dynamical matrix. The local nonadiabatic CSV now records <code>coupling_source=born_epsilon_eigenvector_si</code>; the absolute strength agrees with the QE LO-TO splitting at ratio <code>0.9996852769256</code>.</p>
     <p>The new multi-direction polar-coupling scan checks <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>. All three give <code>sqrt(S_polar)=5.071342392659 meV</code> and relative strength <code>1.000000000000</code>, consistent with cubic GaAs symmetry.</p>
     <p>A new dielectric-input sensitivity check shows why the current benchmark <code>epsilon_inf≈107</code> must be isolated before production claims. Replacing only <code>epsilon_inf</code> by <code>10.89</code> while keeping the same Born tensor scales <code>S_polar</code> by <code>9.835663692011</code> and increases the nearest-crossing hybrid gap from about <code>5.07 meV</code> to <code>16.31 meV</code>.</p>
@@ -268,6 +269,7 @@
         <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density. The diagnostic pass gives mean relative residual <code>1.87e-2</code> and maximum <code>1.50e-1</code>.</td></tr>
         <tr><td>Gamma effective mass</td><td><code>0.0159 m_e</code> near Gamma; <code>0.0266 m_e</code> near max-density <code>kF</code></td><td>The local Wannier conduction band is much lighter than reference GaAs <code>0.067 m_e</code>; this implies a plasmon scale about <code>1.59x</code> too high near the current high-density window.</td></tr>
         <tr><td>Mass-scaled diagnostic</td><td>RMSE <code>9.287120 -> 4.573280 meV</code></td><td>Scaling the PPM pole by <code>sqrt(m*_W(kF)/0.067)</code> improves the overall guide comparison but overcorrects the highest-density upper branch from <code>+14.929752</code> to <code>-12.851112 meV</code>.</td></tr>
+        <tr><td>QE vs Wannier band check</td><td>Gamma CBM diff <code>0.113 meV</code>; nearest-CBM max <code>0.385 meV</code></td><td>The HR contains the QE CBM on the coarse grid. Fixed index <code>4</code> fails outside the Gamma pocket because band ordering changes, so small-k QE bands are needed for a direct curvature check.</td></tr>
         <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>; reference-material LOeff <code>35.26193680836 meV</code></td><td>The TO value is extracted from local LO-TO-aware <code>matdyn.x</code>. The current public Fig. 1 uses <code>sqrt(TO^2+S_polar)</code> with reference <code>epsilon_inf=10.89</code> and <code>|Z*|=2.18</code>.</td></tr>
         <tr><td>Long-range polar coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code></td><td>Computed from the SI nonanalytic dynamical matrix. Born/eigenvector direction ratio is <code>1.000000000000</code> for cubic GaAs [110], with <code>|Z_mode|=0.4055820745304</code>, <code>sqrt(S_polar)=5.071342392659 meV</code>, and absolute/LO-TO ratio <code>0.9996852769256</code>.</td></tr>
         <tr><td>Dielectric/Born QC</td><td><code>epsilon_inf=41.237178058</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654132</code> completed. Combining this QC dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=7.331490783683 meV</code>; it is not yet substituted into the main Fig. 1 curve.</td></tr>
@@ -370,6 +372,12 @@
           <td>SVG figure</td>
           <td>public-safe derived figure</td>
           <td>Generated from the local PPM table and effective-mass diagnostic by scaling the pole to reference <code>m*=0.067 m_e</code>; diagnostic only, not a direct RPA recomputation.</td>
+        </tr>
+        <tr>
+          <td><code>docs/assets/gaas_qe_wannier_band_check.svg</code></td>
+          <td>SVG figure</td>
+          <td>public-safe derived figure</td>
+          <td>Generated from local QE bands output and the local Wannier HR file to separate coarse-grid band crossing from a missing-CBM problem. Raw bands output remains local.</td>
         </tr>
         <tr>
           <td><code>docs/assets/gaas_fig1_reference_material.svg</code></td>
@@ -564,6 +572,10 @@
       <figure>
         <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic">
         <figcaption><strong>Mass-corrected diagnostic.</strong> Applying <code>s(n)=sqrt(m*_W(kF)/0.067)</code> to the PPM pole improves the overall guide comparison but overshoots the highest-density upper branch. It is a diagnosis of the electronic input, not final Fig. 1 data.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_qe_wannier_band_check.svg" alt="GaAs QE bands versus Wannier HR check">
+        <figcaption><strong>QE/Wannier band check.</strong> The HR file contains the QE CBM on the coarse grid when matched by nearest band, but fixed band index <code>4</code> is valid only in the Gamma pocket. A small-k QE bands calculation is still required for the direct mass check.</figcaption>
       </figure>
       <figure>
         <img src="assets/gaas_fig1_rpa_ppm_examples.svg" alt="RPA inverse dielectric loss and plasmon-pole fit examples">
@@ -774,7 +786,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 70 tests ran in 1.119 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 71 tests ran in 1.119 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, QE/Wannier band checks, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>
