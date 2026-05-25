@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T20:55:19-04:00</span>
+        <span>2026-05-24T21:12:29-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -123,7 +123,7 @@
 
   <section>
     <h2>Policy</h2>
-    <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and Raman points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
+    <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and explicitly marked approximate Ref. [8] guide points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
     <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_wannier_direct.py</code> reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, forms <code>|C(k+q)^dagger C(k)|^2</code>, solves the supplement-form free-carrier RPA response with absolute BZ weights, fits plasmon-pole parameters, and writes the direct Fig. 1 CSVs consumed by <code>fig1_direct_reproduction.py</code>.</p>
     <p>The long-range polar coupling step is now documented on <a href="polar_coupling.html">the polar-coupling page</a>. The implementation parses QE Born effective charges, the high-frequency dielectric tensor, atomic masses, primitive-cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar strength from the SI nonanalytic dynamical matrix. The DFPT LO-TO splitting is retained as an independent validation target.</p>
@@ -140,7 +140,7 @@
         <tr><td>Nonadiabatic hybrid branches</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, branch_index, energy_meV</code></td></tr>
         <tr><td>Static approximation branch</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, energy_meV</code></td></tr>
         <tr><td>Bare plasmon</td><td><code>wannier_rpa</code> or <code>first_principles_rpa</code></td><td><code>density_cm_minus_3, energy_meV</code></td></tr>
-        <tr><td>Raman points</td><td><code>experiment</code>, <code>raman_experiment</code>, or <code>paper_digitized</code></td><td><code>density_cm_minus_3, energy_meV, series</code></td></tr>
+        <tr><td>Ref. [8] guide points</td><td><code>paper_digitized</code>; legacy <code>experiment</code> and <code>raman_experiment</code> are accepted by the validator only for backward-compatible CSV checks</td><td><code>density_cm_minus_3, energy_meV, series</code></td></tr>
         <tr><td>TO phonon reference</td><td>Scalar CLI value from validated phonon/Raman reference</td><td><code>--to-phonon-mev</code></td></tr>
       </tbody>
     </table>
@@ -177,7 +177,7 @@ ml anaconda/2024.02-py311
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate Tmat
 python fig1_material_input_comparison.py</code></pre>
-    <p>The last command generated the current reference-material direct SVG from local CSVs with <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, and <code>LOeff=sqrt(TO^2+S_polar)</code>. The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>22</code> Raman points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
+    <p>The last command generated the current reference-material direct SVG from local CSVs with <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, and <code>LOeff=sqrt(TO^2+S_polar)</code>. The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>20</code> approximate Ref. [8] guide points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
   </section>
 
   <section>
@@ -194,13 +194,13 @@ python fig1_material_input_comparison.py</code></pre>
         <tr><td>Long-range coupling</td><td>Reference <code>sqrt(S_polar)=14.22302904168 meV</code>; <code>LOeff=35.26193680836 meV</code></td><td>Built from reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, the same local TO mode, and the same Wannier-RPA PPM table.</td></tr>
         <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
-        <tr><td>Digitized Ref. [8] guide</td><td>Uncalibrated RMSE <code>9.636874 meV</code>; lower <code>4.095193 meV</code>; upper <code>12.501397 meV</code></td><td>The plotted circles are approximate visual digitization points and are now labelled as such. Treat these diagnostics as a guide only until the source figure is redigitized with axis calibration.</td></tr>
+        <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code>; lower <code>4.149068 meV</code>; upper <code>11.947152 meV</code></td><td>The plotted circles are approximate visual digitization points. The main-panel axes were calibrated from printed ticks, and the low-density upper-branch points were read from the inset because the main panel is covered there.</td></tr>
       </tbody>
     </table>
     <figure>
       <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The next step is to redigitize Ref. [8] / paper Fig. 1 with proper axis calibration before using residuals to diagnose the RPA plasmon table scale or the Gamma effective mass.</p>
+    <p>The next step is to use this axis-calibrated guide to diagnose the remaining high-density upper-branch mismatch, starting with the RPA plasmon table scale and the Gamma conduction-band effective mass.</p>
   </section>
 
   <section>

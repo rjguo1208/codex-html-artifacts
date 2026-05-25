@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T20:55:19-04:00</span>
+        <span>2026-05-24T21:12:29-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -268,10 +268,10 @@
         <tr><td>Long-range polar coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code></td><td>Computed from the SI nonanalytic dynamical matrix. Born/eigenvector direction ratio is <code>1.000000000000</code> for cubic GaAs [110], with <code>|Z_mode|=0.4055820745304</code>, <code>sqrt(S_polar)=5.071342392659 meV</code>, and absolute/LO-TO ratio <code>0.9996852769256</code>.</td></tr>
         <tr><td>Dielectric/Born QC</td><td><code>epsilon_inf=41.237178058</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654132</code> completed. Combining this QC dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=7.331490783683 meV</code>; it is not yet substituted into the main Fig. 1 curve.</td></tr>
         <tr><td>GGA/PBE QC</td><td><code>epsilon_inf=17.923182183</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654576</code> completed. ASR Born charges are <code>Ga +2.14057</code> and <code>As -2.14057</code>. Combining this PBE dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=10.886077403604 meV</code>; this remains a diagnostic, not a replacement for a fully self-consistent Fig. 1 curve.</td></tr>
-        <tr><td>Reference-material main branch</td><td><code>sqrt(S_polar)=14.22302904168 meV</code></td><td>The public <code>gaas_fig1_direct.svg</code> has been regenerated from the reference-material nonadiabatic/static CSVs. Strict renderer validation passed with <code>2</code> branches, <code>81</code> bare-plasmon points, and <code>22</code> Raman points.</td></tr>
+        <tr><td>Reference-material main branch</td><td><code>sqrt(S_polar)=14.22302904168 meV</code></td><td>The public <code>gaas_fig1_direct.svg</code> has been regenerated from the reference-material nonadiabatic/static CSVs. Strict renderer validation passed with <code>2</code> branches, <code>81</code> bare-plasmon points, and <code>20</code> approximate Ref. [8] guide points.</td></tr>
         <tr><td>Material-input comparison</td><td>Reference / PBE QC / LDA QC</td><td>Same Wannier-RPA PPM table and each scenario's effective LO. Nearest-crossing gaps are <code>14.224</code>, <code>10.887</code>, and <code>7.333 meV</code> respectively. The public SVG is <code>docs/assets/gaas_material_input_comparison.svg</code>.</td></tr>
-        <tr><td>Digitized Ref. [8] guide</td><td>Uncalibrated all-point RMSE <code>9.636874 meV</code></td><td>The circles are now labelled as approximate digitized Ref. [8] points rather than a calibrated experimental dataset. Current guide-only diagnostics give lower-branch RMSE <code>4.095193 meV</code> and upper-branch RMSE <code>12.501397 meV</code>; these numbers should not be used as quantitative error bars until the paper figure is redigitized with axis calibration.</td></tr>
-        <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
+        <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code></td><td>The circles are now labelled as approximate digitized Ref. [8] points, not as an independently calibrated measurement table. The main-panel axes were calibrated from the printed ticks, and the three low-density upper-branch points were read from the inset. Current guide-only diagnostics give lower-branch RMSE <code>4.149068 meV</code> and upper-branch RMSE <code>11.947152 meV</code>.</td></tr>
+        <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Ref. [8] guide</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>
     <p>The first convergence/diagnostic pass is complete. The remaining scientific task is a heavier validation against the Supplemental <code>200x200x200</code> RPA protocol if budget permits.</p>
@@ -750,7 +750,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 68 tests ran in 0.955 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 68 tests ran in 0.904 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>
