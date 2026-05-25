@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" role="img" aria-label="GaAs QE small-k effective mass check">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="72" y="44" width="822" height="388" fill="#fbfcfe" stroke="#ccd3dd"/>
+<text x="24" y="27" font-family="system-ui,Segoe UI,sans-serif" font-size="18" font-weight="700" fill="#17212b">GaAs Gamma effective mass: QE small-k bands vs Wannier</text>
+<line x1="72.00" y1="44" x2="72.00" y2="432" stroke="#e5e9ef"/>
+<text x="72.00" y="466" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.00</text>
+<line x1="267.71" y1="44" x2="267.71" y2="432" stroke="#e5e9ef"/>
+<text x="267.71" y="466" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.01</text>
+<line x1="463.43" y1="44" x2="463.43" y2="432" stroke="#e5e9ef"/>
+<text x="463.43" y="466" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.02</text>
+<line x1="659.14" y1="44" x2="659.14" y2="432" stroke="#e5e9ef"/>
+<text x="659.14" y="466" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.03</text>
+<line x1="854.86" y1="44" x2="854.86" y2="432" stroke="#e5e9ef"/>
+<text x="854.86" y="466" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.04</text>
+<line x1="72" y1="432.00" x2="894" y2="432.00" stroke="#e5e9ef"/>
+<text x="62" y="436.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.000</text>
+<line x1="72" y1="354.40" x2="894" y2="354.40" stroke="#e5e9ef"/>
+<text x="62" y="358.40" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.018</text>
+<line x1="72" y1="276.80" x2="894" y2="276.80" stroke="#e5e9ef"/>
+<text x="62" y="280.80" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.036</text>
+<line x1="72" y1="199.20" x2="894" y2="199.20" stroke="#e5e9ef"/>
+<text x="62" y="203.20" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.054</text>
+<line x1="72" y1="121.60" x2="894" y2="121.60" stroke="#e5e9ef"/>
+<text x="62" y="125.60" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.072</text>
+<line x1="72" y1="44.00" x2="894" y2="44.00" stroke="#e5e9ef"/>
+<text x="62" y="48.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.090</text>
+<line x1="72" y1="143.16" x2="894" y2="143.16" stroke="#111827" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="890" y="136.16" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#111827">reference m*=0.067 m_e</text>
+<polyline points="169.86,358.67 267.71,355.13 463.43,344.45 659.14,330.11 854.86,314.70" fill="none" stroke="#1f77b4" stroke-width="2.4"/>
+<polyline points="169.86,364.69 267.71,361.45 463.43,350.86 659.14,337.41 854.86,322.69" fill="none" stroke="#1f77b4" stroke-width="2.4" stroke-dasharray="4 4"/>
+<polyline points="169.86,358.67 267.71,355.13 463.43,343.71 659.14,328.55 854.86,312.08" fill="none" stroke="#2ca02c" stroke-width="2.4"/>
+<polyline points="169.86,363.41 267.71,359.86 463.43,348.12 659.14,332.89 854.86,315.68" fill="none" stroke="#2ca02c" stroke-width="2.4" stroke-dasharray="4 4"/>
+<polyline points="169.86,358.67 267.71,354.79 463.43,343.38 659.14,328.00 854.86,311.16" fill="none" stroke="#d62728" stroke-width="2.4"/>
+<polyline points="169.86,362.18 267.71,358.57 463.43,346.58 659.14,330.99 854.86,313.35" fill="none" stroke="#d62728" stroke-width="2.4" stroke-dasharray="4 4"/>
+<text x="483.00" y="488" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">fit window kmax (Angstrom^-1)</text>
+<text x="18" y="238.00" transform="rotate(-90 18 238.00)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">m*/m_e from E(k)=E0+a k^2</text>
+<text x="690" y="78" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#1f77b4">[100]</text>
+<text x="690" y="96" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#2ca02c">[110]</text>
+<text x="690" y="114" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#d62728">[111]</text>
+<text x="760" y="78" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">solid: QE</text>
+<text x="760" y="96" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">dashed: Wannier</text>
+</svg>
