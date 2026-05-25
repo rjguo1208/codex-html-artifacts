@@ -196,7 +196,7 @@ python fig1_material_input_comparison.py</code></pre>
         <tr><td>Mass-scaled diagnostic</td><td>Guide RMSE <code>9.287120 -> 4.573280 meV</code></td><td>Scaling the PPM pole by <code>sqrt(m*_W(kF)/0.067)</code> confirms effective mass is important, but it overcorrects the highest-density upper branch from <code>+14.929752</code> to <code>-12.851112 meV</code>.</td></tr>
         <tr><td>QE/Wannier band check</td><td>Gamma CBM diff <code>0.113 meV</code>; nearest-CBM RMS <code>0.052 meV</code></td><td>The local HR file contains the QE CBM on the coarse grid, but fixed band index <code>4</code> stops tracking it outside the Gamma pocket because of band crossing.</td></tr>
         <tr><td>Small-k QE mass check</td><td><code>0.0170 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; <code>0.0277 m_e</code> at <code>kmax=0.040 Angstrom^-1</code></td><td>Job <code>17658500</code> completed on <code>shared</code> with <code>128</code> CPUs. Direct QE and Wannier curvatures agree closely, so the too-light mass is already in the current QE electronic structure.</td></tr>
-        <tr><td>PBE small-k mass check</td><td>Slurm job <code>17658961</code>, <code>128</code> CPUs</td><td>Submitted on <code>shared</code>. It uses the completed PBE <code>12x12x12</code>, <code>100/400 Ry</code> SCF save and the same <code>43</code> explicit Gamma-centered k points as the LDA mass check.</td></tr>
+        <tr><td>PBE small-k mass check</td><td><code>0.0298 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; <code>0.0383 m_e</code> at <code>kmax=0.040 Angstrom^-1</code></td><td>Job <code>17658961</code> completed from the PBE <code>12x12x12</code>, <code>100/400 Ry</code> SCF save. PBE improves the LDA mass but is still lighter than reference GaAs <code>0.067 m_e</code>.</td></tr>
         <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
         <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code>; lower <code>4.149068 meV</code>; upper <code>11.947152 meV</code></td><td>The plotted circles are approximate visual digitization points. The main-panel axes were calibrated from printed ticks, and the low-density upper-branch points were read from the inset because the main panel is covered there.</td></tr>
@@ -212,12 +212,15 @@ python fig1_material_input_comparison.py</code></pre>
       <img src="assets/gaas_qe_small_k_effective_mass.svg" alt="GaAs QE small-k effective mass versus Wannier comparison" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
     <figure>
+      <img src="assets/gaas_pbe_qe_small_k_effective_mass.svg" alt="GaAs PBE QE small-k effective mass" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <figure>
       <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
     <figure>
       <img src="assets/gaas_qe_wannier_band_check.svg" alt="GaAs QE bands versus Wannier HR check" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The mass-scaled diagnostic indicates that the current high-density mismatch should be attacked at the electronic-structure level, but that simple mass rescaling is too blunt. The latest small-k QE bands check now shows that the light effective mass is already present in the QE band curvature, not just in the Wannier interpolation. The next step is therefore to move away from this small-gap LDA electronic input for Fig. 1, most likely by using a material-faithful GaAs band structure or applying a controlled scissor/k.p correction before rebuilding the RPA plasmon table.</p>
+    <p>The mass-scaled diagnostic indicates that the current high-density mismatch should be attacked at the electronic-structure level, but that simple mass rescaling is too blunt. The LDA small-k QE bands check shows that the light effective mass is already present in the QE band curvature, not just in the Wannier interpolation. The PBE small-k check improves the mass from the LDA window but still remains below reference, so the next Fig. 1 production step should use a controlled material-faithful band-edge correction before rebuilding the RPA plasmon table.</p>
   </section>
 
   <section>
