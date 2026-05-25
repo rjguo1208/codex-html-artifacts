@@ -108,7 +108,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T17:42:45-04:00</span>
+        <span>2026-05-24T20:41:30-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -116,7 +116,7 @@
       </div>
       <div class="metric">
         <strong>Status</strong>
-        <span>First-pass direct Fig. 1 generated</span>
+        <span>Reference-material direct Fig. 1 generated</span>
       </div>
     </div>
   </header>
@@ -127,7 +127,7 @@
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
     <p>The RPA implementation is now connected to the local GaAs Wannier Hamiltonian. <code>fig1_wannier_direct.py</code> reads <code>gaas_zb_prim_hr.dat</code>, evaluates <code>H^W(k)</code>, diagonalizes <code>H(k)</code> and <code>H(k+q)</code>, forms <code>|C(k+q)^dagger C(k)|^2</code>, solves the supplement-form free-carrier RPA response with absolute BZ weights, fits plasmon-pole parameters, and writes the direct Fig. 1 CSVs consumed by <code>fig1_direct_reproduction.py</code>.</p>
     <p>The long-range polar coupling step is now documented on <a href="polar_coupling.html">the polar-coupling page</a>. The implementation parses QE Born effective charges, the high-frequency dielectric tensor, atomic masses, primitive-cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar strength from the SI nonanalytic dynamical matrix. The DFPT LO-TO splitting is retained as an independent validation target.</p>
-    <p>A material-input comparison figure is now available on the polar-coupling page and as <code>docs/assets/gaas_material_input_comparison.svg</code>. It keeps the same Wannier-RPA PPM table and LO eigenvector, then compares reference GaAs, fixed-cell PBE QC, and LDA QC dielectric/Born inputs.</p>
+    <p>A material-input comparison figure is now available on the polar-coupling page and as <code>docs/assets/gaas_material_input_comparison.svg</code>. It keeps the same Wannier-RPA PPM table, rebuilds each effective LO from <code>TO^2+S_polar</code>, then compares reference GaAs, fixed-cell PBE QC, and LDA QC dielectric/Born inputs.</p>
   </section>
 
   <section>
@@ -172,7 +172,12 @@ python fig1_direct_reproduction.py \
   --raman-csv dft/gaas/fig1_direct/gaas_fig1_raman.csv \
   --to-phonon-mev 32.26623053 \
   --out-svg docs/assets/gaas_fig1_direct.svg</code></pre>
-    <p>The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>22</code> Raman points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
+    <pre><code>module reset
+ml anaconda/2024.02-py311
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate Tmat
+python fig1_material_input_comparison.py</code></pre>
+    <p>The last command generated the current reference-material direct SVG from local CSVs with <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, and <code>LOeff=sqrt(TO^2+S_polar)</code>. The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>22</code> Raman points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
   </section>
 
   <section>
@@ -186,15 +191,16 @@ python fig1_direct_reproduction.py \
         <tr><td>RPA integration</td><td><code>41^3</code> Gamma cube, half-width <code>0.035</code>, BZ weight sum <code>3.43e-4</code></td><td>Completed</td></tr>
         <tr><td>Band tracking</td><td><code>20285</code> k points inside <code>0.3 eV</code>; min transition overlap <code>0.9994421923</code></td><td>Validated for first pass</td></tr>
         <tr><td>PPM</td><td><code>81/81</code> fits with <code>status=ok</code>; bare plasmon <code>4.665-84.336 meV</code></td><td>Completed</td></tr>
-        <tr><td>Long-range coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code>; <code>coupling_source=born_epsilon_eigenvector_si</code></td><td>SI nonanalytic projection completed; absolute/LO-TO ratio <code>0.9996852769256</code></td></tr>
-        <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.482 meV</code>; PBE QC <code>10.968 meV</code>; LDA QC <code>7.338 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and LO mode.</td></tr>
-        <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.608-84.514 meV</code>; static <code>32.268-32.651 meV</code></td><td>Completed</td></tr>
+        <tr><td>Long-range coupling</td><td>Reference <code>sqrt(S_polar)=14.22302904168 meV</code>; <code>LOeff=35.26193680836 meV</code></td><td>Built from reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, the same local TO mode, and the same Wannier-RPA PPM table.</td></tr>
+        <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
+        <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
+        <tr><td>Raman residuals</td><td>All RMSE <code>10.868518 meV</code>; lower <code>6.532423 meV</code>; upper <code>13.453678 meV</code></td><td>Computed by interpolating model branches at the paper-digitized Raman x positions.</td></tr>
       </tbody>
     </table>
     <figure>
       <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The next step is convergence validation: scan Gamma-cube half-width, k density, and frequency range, then compare with the Supplemental <code>200x200x200</code> RPA protocol if compute budget permits.</p>
+    <p>The next step is to diagnose the remaining mismatch against the Raman points, starting with the RPA plasmon table scale, effective-mass/band-curvature extraction near Gamma, and the manual Fig. 1 digitization calibration.</p>
   </section>
 
   <section>
