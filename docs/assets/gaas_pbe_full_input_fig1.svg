@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 660" role="img" aria-labelledby="title desc">
+<title id="title">Direct Fig. 1 reproduction from real input data</title>
+<desc id="desc">Doping-dependent plasmon-phonon hybrid energy for n-doped GaAs, rendered only from real Wannier/RPA input tables and explicitly marked experimental or paper-digitized comparison points.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<defs><clipPath id="plot-clip"><rect x="86" y="54" width="918" height="518"/></clipPath></defs>
+<rect x="86" y="54" width="918" height="518" fill="#f8fafc" stroke="#cfd8e3"/>
+<line x1="86" x2="1004" y1="572.00" y2="572.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="76" y="576.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">0</text>
+<line x1="86" x2="1004" y1="442.50" y2="442.50" stroke="#dce3eb" stroke-width="1"/>
+<text x="76" y="446.50" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">20</text>
+<line x1="86" x2="1004" y1="313.00" y2="313.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="76" y="317.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">40</text>
+<line x1="86" x2="1004" y1="183.50" y2="183.50" stroke="#dce3eb" stroke-width="1"/>
+<text x="76" y="187.50" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">60</text>
+<line x1="86" x2="1004" y1="54.00" y2="54.00" stroke="#dce3eb" stroke-width="1"/>
+<text x="76" y="58.00" text-anchor="end" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">80</text>
+<line x1="86.00" x2="86.00" y1="54" y2="572" stroke="#eef2f6" stroke-width="1"/>
+<text x="86.00" y="597" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.0</text>
+<line x1="348.29" x2="348.29" y1="54" y2="572" stroke="#eef2f6" stroke-width="1"/>
+<text x="348.29" y="597" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">0.5</text>
+<line x1="610.57" x2="610.57" y1="54" y2="572" stroke="#eef2f6" stroke-width="1"/>
+<text x="610.57" y="597" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">1.0</text>
+<line x1="872.86" x2="872.86" y1="54" y2="572" stroke="#eef2f6" stroke-width="1"/>
+<text x="872.86" y="597" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">1.5</text>
+<line x1="109.46" x2="109.46" y1="54" y2="572" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="2 5"/>
+<line x1="86" x2="1004" y1="356.92" y2="356.92" stroke="#cc3b31" stroke-width="1.7" stroke-dasharray="7 5"/>
+<polyline points="91.25,530.20 102.66,529.69 114.06,528.65 125.47,527.13 136.88,525.18 148.29,522.85 159.70,520.19 171.11,517.26 182.52,514.10 193.93,510.75 205.34,507.24 216.75,503.61 228.16,499.87 239.57,496.05 250.98,492.17 262.39,488.23 273.80,484.25 285.21,480.25 296.62,476.22 308.02,472.19 319.43,468.16 330.84,464.13 342.25,460.11 353.66,456.12 365.07,452.15 376.48,448.21 387.89,444.31 399.30,440.45 410.71,436.64 422.12,432.89 433.53,429.21 444.94,425.59 456.35,422.05 467.76,418.60 479.17,415.23 490.58,411.97 501.99,408.82 513.39,405.78 524.80,402.86 536.21,400.07 547.62,397.41 559.03,394.89 570.44,392.50 581.85,390.26 593.26,388.16 604.67,386.20 616.08,384.37 627.49,382.68 638.90,381.11 650.31,379.66 661.72,378.33 673.13,377.10 684.54,375.97 695.95,374.92 707.35,373.96 718.76,373.08 730.17,372.27 741.58,371.52 752.99,370.83 764.40,370.20 775.81,369.61 787.22,369.06 798.63,368.56 810.04,368.09 821.45,367.66 832.86,367.26 844.27,366.89 855.68,366.54 867.09,366.22 878.50,365.92 889.91,365.63 901.32,365.37 912.72,365.13 924.13,364.90 935.54,364.69 946.95,364.49 958.36,364.30 969.77,364.13 981.18,363.97 992.59,363.81 1004.00,363.67" fill="none" stroke="#111827" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#plot-clip)"/>
+<polyline points="91.25,345.24 102.66,345.22 114.06,345.20 125.47,345.17 136.88,345.12 148.29,345.06 159.70,344.99 171.11,344.91 182.52,344.81 193.93,344.70 205.34,344.57 216.75,344.43 228.16,344.28 239.57,344.11 250.98,343.92 262.39,343.71 273.80,343.48 285.21,343.24 296.62,342.97 308.02,342.67 319.43,342.35 330.84,342.01 342.25,341.63 353.66,341.22 365.07,340.78 376.48,340.29 387.89,339.77 399.30,339.20 410.71,338.58 422.12,337.91 433.53,337.18 444.94,336.38 456.35,335.51 467.76,334.57 479.17,333.55 490.58,332.44 501.99,331.24 513.39,329.94 524.80,328.53 536.21,327.01 547.62,325.37 559.03,323.62 570.44,321.75 581.85,319.75 593.26,317.64 604.67,315.41 616.08,313.07 627.49,310.62 638.90,308.07 650.31,305.43 661.72,302.70 673.13,299.90 684.54,297.03 695.95,294.10 707.35,291.12 718.76,288.09 730.17,285.03 741.58,281.95 752.99,278.84 764.40,275.72 775.81,272.59 787.22,269.47 798.63,266.34 810.04,263.23 821.45,260.13 832.86,257.05 844.27,253.99 855.68,250.97 867.09,247.98 878.50,245.02 889.91,242.11 901.32,239.24 912.72,236.43 924.13,233.67 935.54,230.96 946.95,228.32 958.36,225.75 969.77,223.24 981.18,220.80 992.59,218.44 1004.00,216.15" fill="none" stroke="#111827" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#plot-clip)"/>
+<polyline points="91.25,345.77 102.66,346.62 114.06,348.00 125.47,349.51 136.88,350.87 148.29,352.00 159.70,352.90 171.11,353.60 182.52,354.16 193.93,354.59 205.34,354.94 216.75,355.21 228.16,355.44 239.57,355.62 250.98,355.77 262.39,355.90 273.80,356.01 285.21,356.10 296.62,356.18 308.02,356.24 319.43,356.30 330.84,356.35 342.25,356.40 353.66,356.44 365.07,356.47 376.48,356.50 387.89,356.53 399.30,356.55 410.71,356.58 422.12,356.60 433.53,356.62 444.94,356.63 456.35,356.65 467.76,356.66 479.17,356.67 490.58,356.69 501.99,356.70 513.39,356.71 524.80,356.72 536.21,356.73 547.62,356.73 559.03,356.74 570.44,356.75 581.85,356.75 593.26,356.76 604.67,356.77 616.08,356.77 627.49,356.78 638.90,356.78 650.31,356.79 661.72,356.79 673.13,356.79 684.54,356.80 695.95,356.80 707.35,356.80 718.76,356.81 730.17,356.81 741.58,356.81 752.99,356.82 764.40,356.82 775.81,356.82 787.22,356.82 798.63,356.83 810.04,356.83 821.45,356.83 832.86,356.83 844.27,356.83 855.68,356.84 867.09,356.84 878.50,356.84 889.91,356.84 901.32,356.84 912.72,356.84 924.13,356.85 935.54,356.85 946.95,356.85 958.36,356.85 969.77,356.85 981.18,356.85 992.59,356.85 1004.00,356.85" fill="none" stroke="#2f67b1" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#plot-clip)" stroke-dasharray="8 4 2 4"/>
+<polyline points="91.25,527.93 102.66,527.39 114.06,526.29 125.47,524.68 136.88,522.61 148.29,520.14 159.70,517.32 171.11,514.20 182.52,510.84 193.93,507.27 205.34,503.53 216.75,499.64 228.16,495.63 239.57,491.53 250.98,487.34 262.39,483.08 273.80,478.77 285.21,474.41 296.62,470.01 308.02,465.58 319.43,461.12 330.84,456.65 342.25,452.16 353.66,447.66 365.07,443.15 376.48,438.64 387.89,434.12 399.30,429.61 410.71,425.10 422.12,420.60 433.53,416.10 444.94,411.61 456.35,407.13 467.76,402.66 479.17,398.20 490.58,393.76 501.99,389.33 513.39,384.92 524.80,380.53 536.21,376.15 547.62,371.80 559.03,367.46 570.44,363.15 581.85,358.86 593.26,354.59 604.67,350.34 616.08,346.12 627.49,341.93 638.90,337.76 650.31,333.62 661.72,329.51 673.13,325.43 684.54,321.38 695.95,317.36 707.35,313.38 718.76,309.43 730.17,305.52 741.58,301.64 752.99,297.80 764.40,294.01 775.81,290.26 787.22,286.55 798.63,282.88 810.04,279.27 821.45,275.70 832.86,272.19 844.27,268.73 855.68,265.33 867.09,261.98 878.50,258.70 889.91,255.48 901.32,252.32 912.72,249.24 924.13,246.22 935.54,243.28 946.95,240.42 958.36,237.63 969.77,234.93 981.18,232.31 992.59,229.77 1004.00,227.33" fill="none" stroke="#25814f" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round" clip-path="url(#plot-clip)" stroke-dasharray="7 5"/>
+<circle cx="91.25" cy="336.63" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="217.14" cy="335.34" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="269.60" cy="487.57" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="274.85" cy="334.37" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="416.48" cy="428.19" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="416.48" cy="326.86" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="463.69" cy="411.61" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="463.69" cy="316.43" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="526.64" cy="392.38" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="526.64" cy="300.70" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="589.59" cy="381.05" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="589.59" cy="280.62" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="636.80" cy="374.06" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="636.80" cy="263.14" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="710.24" cy="369.66" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="710.24" cy="233.42" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="825.65" cy="367.07" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="825.65" cy="184.54" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="962.03" cy="364.41" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<circle cx="962.03" cy="124.32" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4" clip-path="url(#plot-clip)"/>
+<text x="86" y="30" font-family="system-ui,Segoe UI,sans-serif" font-size="18" font-weight="700" fill="#17212b">Direct Fig. 1 reproduction: n-doped GaAs</text>
+<text x="86" y="618" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">q = 8e-4 Angstrom^-1 along [110], T = 300 K. This renderer refuses toy, Drude, or Lindhard-surrogate inputs.</text>
+<text x="86" y="642" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#56616d">Vertical dotted line: q_TF=q at n=2.00e+15 cm^-3. Horizontal red line: TO phonon energy.</text>
+<text transform="translate(22 313.0) rotate(-90)" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">Energy (meV)</text>
+<text x="545.0" y="606" text-anchor="middle" font-family="system-ui,Segoe UI,sans-serif" font-size="13" fill="#24313d">sqrt(n [cm^-3]) / 10^9</text>
+<rect x="685" y="70" width="315" height="144" rx="6" fill="#ffffff" stroke="#d3dbe5"/>
+<line x1="699" x2="727" y1="94" y2="94" stroke="#111827" stroke-width="3"/>
+<text x="739" y="98" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">nonadiabatic pl-ph</text>
+<line x1="699" x2="727" y1="118" y2="118" stroke="#2f67b1" stroke-width="3" stroke-dasharray="8 4 2 4"/>
+<text x="739" y="122" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">static approximation</text>
+<line x1="699" x2="727" y1="142" y2="142" stroke="#25814f" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="739" y="146" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">bare plasmon</text>
+<line x1="699" x2="727" y1="166" y2="166" stroke="#cc3b31" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="739" y="170" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">TO phonon</text>
+<circle cx="713" cy="190" r="4.3" fill="#ffffff" stroke="#111827" stroke-width="1.4"/>
+<text x="739" y="194" font-family="system-ui,Segoe UI,sans-serif" font-size="12" fill="#24313d">Digitized Ref. [8] approx.</text>
+</svg>
