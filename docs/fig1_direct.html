@@ -199,6 +199,7 @@ python fig1_material_input_comparison.py</code></pre>
         <tr><td>PBE small-k mass check</td><td><code>0.0298 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; <code>0.0383 m_e</code> at <code>kmax=0.040 Angstrom^-1</code></td><td>Job <code>17658961</code> completed from the PBE <code>12x12x12</code>, <code>100/400 Ry</code> SCF save. PBE improves the LDA mass but is still lighter than reference GaAs <code>0.067 m_e</code>.</td></tr>
         <tr><td>PBE-mass Fig. 1 diagnostic</td><td>Guide RMSE <code>9.287120 -> 2.900547 meV</code></td><td>Scaling the current PPM pole by <code>sqrt(m_current(kF)/m_PBE(kF))</code> moves the upper branch close to the guide. The highest-density upper residual becomes <code>+1.565909 meV</code>, down from <code>+14.929752 meV</code>.</td></tr>
         <tr><td>Full-PBE direct rerun</td><td><code>81/81</code> PPM ok; bare plasmon <code>6.806-53.231 meV</code></td><td>Completed from refit PBE HR band <code>7</code>, PBE <code>epsilon_inf=17.923182183</code>, PBE Born charges, PBE TO <code>33.217040 meV</code>, and <code>LOeff=34.955091 meV</code>. Lower-branch guide RMSE is <code>0.957 meV</code>; upper-branch guide RMSE is <code>7.193 meV</code>.</td></tr>
+        <tr><td>PBE HR + reference <code>epsilon_inf</code></td><td>All-guide RMSE <code>1.326 meV</code></td><td>Uses the refit PBE HR, PBE Born charges, and PBE TO/eigenvector, but replaces <code>epsilon_inf</code> by reference <code>10.89</code> in both RPA and polar coupling. The bare plasmon is <code>6.811-65.767 meV</code>, <code>LOeff=36.033063 meV</code>, and both branches closely follow the digitized guide.</td></tr>
         <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
         <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code>; lower <code>4.149068 meV</code>; upper <code>11.947152 meV</code></td><td>The plotted circles are approximate visual digitization points. The main-panel axes were calibrated from printed ticks, and the low-density upper-branch points were read from the inset because the main panel is covered there.</td></tr>
@@ -223,12 +224,15 @@ python fig1_material_input_comparison.py</code></pre>
       <img src="assets/gaas_pbe_full_input_fig1.svg" alt="GaAs Fig. 1 curves recomputed from full PBE input" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
     <figure>
+      <img src="assets/gaas_pbe_reference_epsilon_fig1.svg" alt="GaAs Fig. 1 curves using PBE HR and reference epsilon infinity" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
+    </figure>
+    <figure>
       <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
     <figure>
       <img src="assets/gaas_qe_wannier_band_check.svg" alt="GaAs QE bands versus Wannier HR check" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The full-PBE redraw is now the material-consistent PBE comparison: it uses PBE electronic screening and PBE long-range polar input, not the mass-scaled diagnostic. It improves the lower branch substantially, while the upper branch remains low at high density because the complete PBE dielectric screening is stronger than the reference-material input used by the paper-like curve.</p>
+    <p>The full-PBE redraw is now the material-consistent PBE comparison: it uses PBE electronic screening and PBE long-range polar input, not the mass-scaled diagnostic. It improves the lower branch substantially, while the upper branch remains low at high density because the complete PBE dielectric screening is stronger than the reference-material input used by the paper-like curve. Replacing only <code>epsilon_inf</code> by <code>10.89</code> largely removes that upper-branch discrepancy.</p>
   </section>
 
   <section>
