@@ -408,6 +408,12 @@
           <td>Generated from the refit PBE Wannier HR with reference <code>epsilon_inf=10.89</code> in RPA and polar coupling, while retaining PBE Born charges and PBE Gamma TO input. Local RPA/PPM CSVs remain under <code>dft/gaas/fig1_pbe_reference_eps/</code>.</td>
         </tr>
         <tr>
+          <td><code>docs/assets/gaas_pbe_reference_epsilon_publication.svg</code></td>
+          <td>SVG figure</td>
+          <td>public-safe publication-style derived figure</td>
+          <td>Journal-style rendering of the same PBE-HR plus reference-<code>epsilon_inf</code> result, with figure title, editable SVG text, clean axes, legend, TO/LOeff guide lines, and RMSE annotation.</td>
+        </tr>
+        <tr>
           <td><code>dft/gaas/primitive/epw_stock_bands/</code></td>
           <td>Local input templates</td>
           <td>local only</td>
@@ -610,6 +616,10 @@
       <figure>
         <img src="assets/gaas_pbe_reference_epsilon_fig1.svg" alt="GaAs Fig. 1 curves with PBE HR and reference epsilon infinity">
         <figcaption><strong>PBE HR with reference <code>epsilon_inf</code>.</strong> Replacing only the background dielectric constant by <code>10.89</code> in both RPA and long-range coupling brings the upper branch up and gives all-guide RMSE <code>1.326 meV</code>. This isolates the remaining mismatch in the full-PBE curve mainly to the dielectric screening input.</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/gaas_pbe_reference_epsilon_publication.svg" alt="Publication-style GaAs plasmon-phonon hybridization figure">
+        <figcaption><strong>Publication-style figure.</strong> The same PBE-HR plus reference-<code>epsilon_inf</code> data are rendered as a compact journal-style SVG with title, editable text, clean line weights, colorblind-safe styling, TO/LOeff references, and an in-panel RMSE summary.</figcaption>
       </figure>
       <figure>
         <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic">
