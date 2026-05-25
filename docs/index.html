@@ -219,7 +219,7 @@
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T20:41:30-04:00</span>
+        <span>2026-05-24T20:55:19-04:00</span>
       </div>
       <div class="metric">
         <strong>Source folder</strong>
@@ -234,7 +234,7 @@
 
   <section>
     <h2>Short Summary</h2>
-    <p>The direct GaAs Fig. 1 first-pass pipeline is now implemented end to end. It starts from the local GaAs Wannier Hamiltonian, evaluates a Gamma-centered conduction-pocket RPA response at the paper q point, fits plasmon-pole parameters, builds the long-range LO-plasmon two-mode hybrid branches, writes the static and bare-plasmon curves, adds paper-digitized Raman points, and renders <code>docs/assets/gaas_fig1_direct.svg</code>.</p>
+    <p>The direct GaAs Fig. 1 first-pass pipeline is now implemented end to end. It starts from the local GaAs Wannier Hamiltonian, evaluates a Gamma-centered conduction-pocket RPA response at the paper q point, fits plasmon-pole parameters, builds the long-range LO-plasmon two-mode hybrid branches, writes the static and bare-plasmon curves, adds explicitly marked approximate digitized Ref. [8] points, and renders <code>docs/assets/gaas_fig1_direct.svg</code>.</p>
     <p>Current production settings: <code>41x41x41</code> Gamma cube, half-width <code>0.035</code> crystal units, absolute BZ weight sum <code>3.43e-4</code>, <code>81</code> density points uniform in <code>sqrt(n)/10^9</code>, <code>181</code> frequencies from <code>0</code> to <code>180 meV</code>, <code>T=300 K</code>, <code>|q|=8e-4 Angstrom^-1</code>, and <code>eta=3 meV</code>. PPM status is <code>81/81 ok</code>; the 0.3 eV tracking window has <code>20285</code> k points and minimum transition overlap <code>0.9994421923</code>.</p>
     <p>The current public Fig. 1 SVG now uses the same Wannier-RPA plasmon-pole table but replaces the problematic benchmark dielectric/Born input by the reference GaAs material input <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>. The reference polar strength is <code>sqrt(S_polar)=14.22302904168 meV</code>, giving an effective LO diagonal energy <code>35.26193680836 meV</code> from <code>sqrt(TO^2+S_polar)</code>.</p>
     <p>The generated reference-material result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.263-85.722 meV</code>, and a static approximation branch <code>32.277-35.181 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
@@ -270,7 +270,7 @@
         <tr><td>GGA/PBE QC</td><td><code>epsilon_inf=17.923182183</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654576</code> completed. ASR Born charges are <code>Ga +2.14057</code> and <code>As -2.14057</code>. Combining this PBE dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=10.886077403604 meV</code>; this remains a diagnostic, not a replacement for a fully self-consistent Fig. 1 curve.</td></tr>
         <tr><td>Reference-material main branch</td><td><code>sqrt(S_polar)=14.22302904168 meV</code></td><td>The public <code>gaas_fig1_direct.svg</code> has been regenerated from the reference-material nonadiabatic/static CSVs. Strict renderer validation passed with <code>2</code> branches, <code>81</code> bare-plasmon points, and <code>22</code> Raman points.</td></tr>
         <tr><td>Material-input comparison</td><td>Reference / PBE QC / LDA QC</td><td>Same Wannier-RPA PPM table and each scenario's effective LO. Nearest-crossing gaps are <code>14.224</code>, <code>10.887</code>, and <code>7.333 meV</code> respectively. The public SVG is <code>docs/assets/gaas_material_input_comparison.svg</code>.</td></tr>
-        <tr><td>Raman residuals</td><td>All-point RMSE <code>10.868518 meV</code></td><td>Digitized Raman comparison gives lower-branch RMSE <code>6.532423 meV</code> and upper-branch RMSE <code>13.453678 meV</code>. The largest upper-branch residuals point to remaining RPA plasmon-table/effective-mass or digitization calibration issues.</td></tr>
+        <tr><td>Digitized Ref. [8] guide</td><td>Uncalibrated all-point RMSE <code>9.636874 meV</code></td><td>The circles are now labelled as approximate digitized Ref. [8] points rather than a calibrated experimental dataset. Current guide-only diagnostics give lower-branch RMSE <code>4.095193 meV</code> and upper-branch RMSE <code>12.501397 meV</code>; these numbers should not be used as quantitative error bars until the paper figure is redigitized with axis calibration.</td></tr>
         <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Raman</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
       </tbody>
     </table>
@@ -299,7 +299,7 @@
           <td><code>fig1_direct_reproduction.py</code></td>
           <td>Python script</td>
           <td>16 KB</td>
-          <td>Strict direct Fig. 1 input validator/renderer. It rejects toy/surrogate provenance and rendered the current direct SVG from accepted Wannier-RPA and paper-digitized inputs.</td>
+          <td>Strict direct Fig. 1 input validator/renderer. It rejects toy/surrogate provenance and rendered the current direct SVG from accepted Wannier-RPA inputs plus explicitly marked approximate digitized Ref. [8] guide points.</td>
         </tr>
         <tr>
           <td><code>fig1_wannier_direct.py</code></td>
@@ -531,7 +531,7 @@
     <div class="grid">
       <figure>
         <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction">
-        <figcaption><strong>Direct Fig. 1 reference-material pass.</strong> Wannier-RPA plasmon-pole fit plus reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code> gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and paper-digitized Raman comparison points.</figcaption>
+        <figcaption><strong>Direct Fig. 1 reference-material pass.</strong> Wannier-RPA plasmon-pole fit plus reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code> gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and approximate digitized Ref. [8] guide points.</figcaption>
       </figure>
       <figure>
         <img src="assets/gaas_fig1_convergence_scan.svg" alt="Direct GaAs Fig. 1 convergence scans">
@@ -750,7 +750,7 @@ python -m unittest -v tests.test_toy_model</code></pre>
         </tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 68 tests ran in 0.877 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
+    <p><strong>Result:</strong> 68 tests ran in 0.955 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
   <section>

@@ -104,11 +104,11 @@
   <a class="nav" href="index.html">Back to report</a>
   <header>
     <h1>Direct Fig. 1 Reproduction Gate</h1>
-    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles or experimental input tables for the paper Fig. 1 reproduction, and a first-pass Wannier-RPA result is now available.</p>
+    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles input tables plus explicitly marked experimental or digitized comparison points for the paper Fig. 1 reproduction, and a first-pass Wannier-RPA result is now available.</p>
     <div class="meta">
       <div class="metric">
         <strong>Generated</strong>
-        <span>2026-05-24T20:41:30-04:00</span>
+        <span>2026-05-24T20:55:19-04:00</span>
       </div>
       <div class="metric">
         <strong>Local script</strong>
@@ -194,13 +194,13 @@ python fig1_material_input_comparison.py</code></pre>
         <tr><td>Long-range coupling</td><td>Reference <code>sqrt(S_polar)=14.22302904168 meV</code>; <code>LOeff=35.26193680836 meV</code></td><td>Built from reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, the same local TO mode, and the same Wannier-RPA PPM table.</td></tr>
         <tr><td>Material-input branch comparison</td><td>Reference gap <code>14.224 meV</code>; PBE QC <code>10.887 meV</code>; LDA QC <code>7.333 meV</code></td><td>Diagnostic completed with the same Wannier-RPA PPM table and scenario-specific effective LO energies.</td></tr>
         <tr><td>Hybrid/static outputs</td><td>Nonadiabatic <code>4.263-85.722 meV</code>; static <code>32.277-35.181 meV</code></td><td>Reference-material CSVs passed the strict direct renderer check.</td></tr>
-        <tr><td>Raman residuals</td><td>All RMSE <code>10.868518 meV</code>; lower <code>6.532423 meV</code>; upper <code>13.453678 meV</code></td><td>Computed by interpolating model branches at the paper-digitized Raman x positions.</td></tr>
+        <tr><td>Digitized Ref. [8] guide</td><td>Uncalibrated RMSE <code>9.636874 meV</code>; lower <code>4.095193 meV</code>; upper <code>12.501397 meV</code></td><td>The plotted circles are approximate visual digitization points and are now labelled as such. Treat these diagnostics as a guide only until the source figure is redigitized with axis calibration.</td></tr>
       </tbody>
     </table>
     <figure>
       <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction" style="width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;">
     </figure>
-    <p>The next step is to diagnose the remaining mismatch against the Raman points, starting with the RPA plasmon table scale, effective-mass/band-curvature extraction near Gamma, and the manual Fig. 1 digitization calibration.</p>
+    <p>The next step is to redigitize Ref. [8] / paper Fig. 1 with proper axis calibration before using residuals to diagnose the RPA plasmon table scale or the Gamma effective mass.</p>
   </section>
 
   <section>
