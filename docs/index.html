@@ -256,6 +256,7 @@
     <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
     <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
     <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
+    <a class="action-link" href="hybrid_response_dielectric.html">Open the hybrid-response dielectric page</a>
     <a class="action-link" href="polar_coupling.html">Open the polar-coupling page</a>
     <a class="action-link" href="fig1_direct.html">Open the direct Fig. 1 gate page</a>
     <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
@@ -346,6 +347,12 @@
           <td>HTML subpage</td>
           <td>public-safe notes</td>
           <td>New supplement-derived summary of the RPA response function, electronic dielectric function, Coulomb kernel, plasmon-pole fit, static approximation, and GaAs/TiO2 numerical settings.</td>
+        </tr>
+        <tr>
+          <td><code>docs/hybrid_response_dielectric.html</code></td>
+          <td>HTML subpage</td>
+          <td>public-safe notes</td>
+          <td>New PDF-derived workflow for computing the plasmon-phonon hybridized phonon response, hybrid dynamical matrix, long-range effective interaction, and total inverse dielectric/EELS response.</td>
         </tr>
         <tr>
           <td><code>docs/polar_coupling.html</code></td>
@@ -572,6 +579,7 @@
     <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and a completed first convergence/diagnostic pass.</p>
     <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
     <p><a class="action-link" href="rpa_dielectric_supplement.html">View supplement RPA dielectric formulas</a></p>
+    <p><a class="action-link" href="hybrid_response_dielectric.html">View hybrid-response dielectric workflow</a></p>
     <p><a class="action-link" href="polar_coupling.html">View long-range polar coupling details</a></p>
     <p><a class="action-link" href="fig1_direct.html">View direct Fig. 1 input requirements</a></p>
     <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>

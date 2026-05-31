@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hybridized Response and Dielectric Function</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #16202a;
+      --muted: #607080;
+      --line: #d9e0e7;
+      --accent: #245f9f;
+      --code-bg: #eef3f8;
+      --formula-bg: #fbfcff;
+      --warn-bg: #fff6df;
+      --warn-line: #e4b64b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.56;
+    }
+    main {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+    header {
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
+    h3 { margin: 14px 0 8px; font-size: 1.05rem; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); }
+    code, pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+    }
+    code {
+      padding: 2px 5px;
+      font-size: 0.95em;
+    }
+    pre {
+      margin: 10px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin: 16px 0;
+      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
+    }
+    .formula {
+      overflow-x: auto;
+      margin: 12px 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--formula-bg);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      white-space: nowrap;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric strong {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      overflow-wrap: anywhere;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      background: #f3f6f9;
+    }
+    ul, ol { margin: 8px 0 0 22px; padding: 0; }
+    li { margin: 4px 0; }
+    .nav {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+    .warning {
+      background: var(--warn-bg);
+      border-color: var(--warn-line);
+    }
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1080px); padding-top: 16px; }
+      section { padding: 14px; }
+      .meta { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <a class="nav" href="index.html">Back to report</a>
+  <header>
+    <h1>Plasmon-Phonon Hybridized Response and Dielectric Function</h1>
+    <p>This page distills the calculation route from the local PDFs <code>PhysRevLett.133.116402.pdf</code> and <code>supp_revised.pdf</code>. It records the formulas needed to compute the hybridized phonon response, the electron loss response, and the total inverse dielectric function without uploading the PDFs or raw calculation data.</p>
+    <div class="meta">
+      <div class="metric">
+        <strong>Generated</strong>
+        <span>2026-05-31T19:12:59-04:00</span>
+      </div>
+      <div class="metric">
+        <strong>Source sections</strong>
+        <span>Main Eqs. (1)-(9); Supplement S1-S2</span>
+      </div>
+      <div class="metric">
+        <strong>Use</strong>
+        <span>Direct Fig. 1 and future spectral-function/EELS workflows</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Core Objects</h2>
+    <p>The paper separates the problem into a free-carrier electronic screening part and an undoped polar-phonon part. The doped carriers are added in a rigid-band picture; local-field effects are neglected for the long-wavelength macroscopic response.</p>
+    <table>
+      <tr><th>Object</th><th>Meaning</th><th>How it is obtained</th></tr>
+      <tr><td><code>&delta;&chi;0(q,&omega;)</code></td><td>Bare doped-carrier susceptibility.</td><td>RPA Lindhard sum over Wannier-interpolated bands and wavefunction overlaps.</td></tr>
+      <tr><td><code>&epsilon;el^{-1}(q,&omega;)</code></td><td>Carrier-only inverse dielectric function.</td><td>Scalar RPA expression <code>[1 - Uq &delta;&chi;0]^{-1}</code>.</td></tr>
+      <tr><td><code>gq&nu;^lr</code></td><td>Long-range polar electron-phonon vertex.</td><td>Born charges, phonon eigenvectors, masses, cell volume, and <code>&epsilon;&infin;</code>.</td></tr>
+      <tr><td><code>&Pi;&mu;&nu;(q,&omega;)</code></td><td>Nonadiabatic phonon self-energy from doped carriers.</td><td><code>(gq&mu;^lr)* &delta;&chi;(q,&omega;) gq&nu;^lr</code>.</td></tr>
+      <tr><td><code>D&mu;&nu;(q,&omega;)</code></td><td>Interacting phonon Green function.</td><td>Dyson equation or equivalent plasmon-phonon Green function.</td></tr>
+      <tr><td><code>W00^pl-ph(q,&omega;)</code></td><td>Long-range effective electron-electron interaction including hybrid modes.</td><td>Contraction of the plasmon-phonon Green function with long-range vertices.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Step 1: Free-Carrier RPA</h2>
+    <p>The supplemental material defines the bare doped-carrier response as</p>
+    <div class="formula">&delta;&chi;<sup>0</sup>(q,&omega;) = (1/N<sub>k</sub>) &sum;<sub>mnk</sub> [&delta;f<sub>m,k+q</sub> - &delta;f<sub>n,k</sub>] |&lt;u<sub>m,k+q</sub>|u<sub>n,k</sub>&gt;|<sup>2</sup> / [&epsilon;<sub>m,k+q</sub> - &epsilon;<sub>n,k</sub> + &omega; + i0<sup>+</sup>].</div>
+    <p>The interacting carrier response follows from the scalar RPA screened Coulomb kernel</p>
+    <div class="formula">U<sub>q</sub> = 4&pi;e<sup>2</sup> / [q<sup>2</sup> &epsilon;<sup>&infin;</sup><sub>qhat</sub> V], &nbsp; &epsilon;<sup>&infin;</sup><sub>qhat</sub> = qhat · &epsilon;<sup>&infin;</sup> · qhat.</div>
+    <div class="formula">&epsilon;<sub>el</sub><sup>-1</sup>(q,&omega;) = 1 + U<sub>q</sub>&delta;&chi;(q,&omega;) = [1 - U<sub>q</sub>&delta;&chi;<sup>0</sup>(q,&omega;)]<sup>-1</sup>.</div>
+    <p>The paper evaluates the wavefunction overlap using Wannier interpolation: diagonalize <code>H^W(k)</code> and <code>H^W(k+q)</code> in the same Wannier basis and use the overlap of their eigenvectors. For very small <code>q</code>, an intraband identity-overlap approximation can be used as a controlled diagnostic, but the paper-level route is the Wannier-eigenvector overlap.</p>
+  </section>
+
+  <section>
+    <h2>Step 2: Plasmon-Pole Compression</h2>
+    <p>Rather than carrying the full frequency dependence of <code>&delta;&chi;</code> into every phonon calculation, the paper fits the RPA inverse dielectric function to a damped plasmon pole:</p>
+    <div class="formula">&epsilon;<sub>el</sub><sup>-1</sup>(q,&omega;) - 1 = U<sub>q</sub>&delta;&chi;(q,&omega;) = &Omega;<sub>q0</sub><sup>2</sup> / [(&omega; + i&gamma;<sub>q0</sub>)<sup>2</sup> - &omega;<sub>q0</sub><sup>2</sup>].</div>
+    <p>The fitted parameters are the plasmon strength <code>&Omega;q0</code>, plasmon frequency <code>&omega;q0</code>, and linewidth <code>&gamma;q0</code>. In the computational details, GaAs uses a <code>200x200x200</code> k grid for the plasmon-pole parameters, an energy window of <code>0-0.3 eV</code> around the CBM, and <code>&eta;=3 meV</code> smearing in the RPA denominator.</p>
+  </section>
+
+  <section>
+    <h2>Step 3: Long-Range Polar Vertex</h2>
+    <p>For the hybridization mechanism relevant to Fig. 1, the supplement keeps the dominant dipolar long-range electron-phonon vertex:</p>
+    <div class="formula">g<sub>q&nu;</sub><sup>lr</sup> = i [4&pi;e<sup>2</sup>/(Vq)] &sum;<sub>&kappa;</sub> [qhat · Z<sup>*</sup><sub>&kappa;</sub> · e<sub>&kappa;&nu;</sub>(q) / sqrt(M<sub>&kappa;</sub>)] / &epsilon;<sup>&infin;</sup><sub>qhat</sub>.</div>
+    <p>The eigen-displacements are normalized as <code>&sum;&kappa;&alpha; e*<sub>&kappa;&mu;,&alpha;</sub> e<sub>&kappa;&nu;,&alpha;</sub> = &delta;&mu;&nu;</code>. The short-range electron-phonon vertex is not needed for the long-wavelength hybrid energies in Fig. 1; it matters for more general electron self-energy calculations.</p>
+  </section>
+
+  <section>
+    <h2>Step 4A: Direct Dyson Route</h2>
+    <p>The nonadiabatic phonon self-energy induced by the doped carriers is</p>
+    <div class="formula">&Pi;<sub>&mu;&nu;</sub>(q,&omega;) = [g<sub>q&mu;</sub><sup>lr</sup>]* &delta;&chi;(q,&omega;) g<sub>q&nu;</sub><sup>lr</sup>.</div>
+    <p>With the bare phonon Green function</p>
+    <div class="formula">D<sup>0</sup><sub>&mu;&nu;</sub>(q,&omega;) = &delta;<sub>&mu;&nu;</sub> / [(&omega; + i&gamma;<sub>q&nu;</sub>)<sup>2</sup> - &omega;<sub>q&nu;</sub><sup>2</sup>],</div>
+    <p>the interacting phonon response is obtained from</p>
+    <div class="formula">D<sup>-1</sup><sub>&mu;&nu;</sub>(q,&omega;) = [D<sup>0</sup>]<sup>-1</sup><sub>&mu;&nu;</sub>(q,&omega;) - &Pi;<sub>&mu;&nu;</sub>(q,&omega;).</div>
+    <p>The phonon spectral function used for neutron-like response plots is</p>
+    <div class="formula">A(q,&omega;) = -(2&omega;/&pi;) &sum;<sub>&nu;</sub> Im D<sub>&nu;&nu;</sub>(q,&omega;).</div>
+  </section>
+
+  <section>
+    <h2>Step 4B: Equivalent Hybrid-Mode Route</h2>
+    <p>The plasmon-pole representation allows the frequency-dependent Dyson problem to be rewritten as a frequency-independent plasmon-phonon problem. Define the long-range electron-plasmon vertex and coupling amplitude:</p>
+    <div class="formula">g<sub>q0</sub><sup>lr</sup> = sqrt(&Omega;<sub>q0</sub><sup>2</sup> U<sub>q</sub>), &nbsp; c<sub>q&nu;</sub> = g<sub>q0</sub><sup>lr</sup> g<sub>q&nu;</sub><sup>lr</sup> / U<sub>q</sub> = &Omega;<sub>q0</sub> g<sub>q&nu;</sub><sup>lr</sup> / sqrt(U<sub>q</sub>).</div>
+    <p>Then the self-energy can be written as a plasmon propagator mediating phonon-phonon coupling:</p>
+    <div class="formula">&Pi;<sub>&mu;&nu;</sub>(q,&omega;) = c<sub>q&mu;</sub>* D<sup>0</sup><sub>00</sub>(q,&omega;) c<sub>q&nu;</sub>, &nbsp; D<sup>0</sup><sub>00</sub> = 1/[(&omega;+i&gamma;<sub>q0</sub>)<sup>2</sup> - &omega;<sub>q0</sub><sup>2</sup>].</div>
+    <p>For zero linewidths, the hybrid energies are obtained by diagonalizing the <code>(Nph+1)x(Nph+1)</code> plasmon-phonon dynamical matrix:</p>
+    <div class="formula">Ctilde<sub>q</sub> = [[&omega;<sub>q0</sub><sup>2</sup>, c<sub>q1</sub>, c<sub>q2</sub>, ...], [c<sub>q1</sub>*, &omega;<sub>q1</sub><sup>2</sup>, 0, ...], [c<sub>q2</sub>*, 0, &omega;<sub>q2</sub><sup>2</sup>, ...], ...].</div>
+    <div class="formula">Ctilde<sub>q</sub> Vtilde<sub>q&beta;</sub> = omega_tilde<sub>q&beta;</sub><sup>2</sup> Vtilde<sub>q&beta;</sub>.</div>
+    <p>The eigenvalues give the plasmon-phonon hybrid energies; the eigenvectors give plasmon and phonon weights. With finite linewidths, the paper solves the corresponding damped-oscillator problem, yielding complex eigenvalues whose real parts are hybrid energies and imaginary parts are linewidths.</p>
+  </section>
+
+  <section>
+    <h2>Total Inverse Dielectric Function</h2>
+    <p>The electron-loss response is not just the phonon spectral function. The supplement defines it from the long-range effective electron-electron interaction <code>W00^pl-ph</code>:</p>
+    <div class="formula">&epsilon;<sub>pl-ph</sub><sup>-1</sup>(q,&omega;) = [q<sup>2</sup>V/(4&pi;e<sup>2</sup>)] W<sub>00</sub><sup>pl-ph</sup>(q,&omega;).</div>
+    <p>In the hybrid basis, the finite-linewidth form is</p>
+    <div class="formula">W<sub>00</sub><sup>pl-ph</sup>(q,&omega;) = U<sub>q</sub> + &sum;<sub>&beta;</sub> [gtilde<sub>q&beta;</sub><sup>lr,L</sup> (gtilde<sub>q&beta;</sub><sup>lr,R</sup>)* / (&omega; - omega_tilde<sub>q&beta;</sub> + i gamma_tilde<sub>q&beta;</sub>) + (&omega; &rarr; -&omega;)*].</div>
+    <p>For infinitesimal linewidths, the supplement gives the compact squared-frequency form</p>
+    <div class="formula">&epsilon;<sub>pl-ph</sub><sup>-1</sup>(q,&omega;) = (1/&epsilon;<sup>&infin;</sup><sub>qhat</sub>) [1 + (1/U<sub>q</sub>) &sum;<sub>&beta;</sub> 2 omega_tilde<sub>q&beta;</sub> |gtilde<sub>q&beta;</sub><sup>lr</sup>|<sup>2</sup> / {(&omega;+i0<sup>+</sup>)<sup>2</sup> - omega_tilde<sub>q&beta;</sub><sup>2</sup>}].</div>
+    <p>Here the hybrid long-range vertex is the plasmon/phonon vertex projected onto each hybrid eigenmode:</p>
+    <div class="formula">gtilde<sub>q&beta;</sub><sup>lr</sup> = &sum;<sub>&alpha;=0</sub><sup>Nph</sup> g<sub>q&alpha;</sub><sup>lr</sup> Vtilde<sub>q&alpha;&beta;</sub>.</div>
+    <p>The measured EELS-like quantity in the paper is typically <code>-Im &epsilon;<sub>pl-ph</sub><sup>-1</sup>(q,&omega;)</code>. Only modes with nonzero projected long-range charge vertex contribute strongly to this dielectric loss.</p>
+  </section>
+
+  <section>
+    <h2>Practical Calculation Recipe</h2>
+    <ol>
+      <li>Choose carrier density, temperature, q magnitude, and q direction. The paper's calculations use <code>T=300 K</code>; GaAs Fig. 1 uses <code>|q|=8e-4 Angstrom^-1</code> along <code>[110]</code>.</li>
+      <li>From the undoped electronic structure, solve the chemical potential for the doped carrier density and compute <code>&delta;f</code>.</li>
+      <li>Evaluate <code>&delta;&chi;0(q,&omega;)</code> on a frequency grid using Wannier-interpolated energies and overlaps.</li>
+      <li>Build <code>&epsilon;el^{-1}</code> from the RPA formula and fit <code>&Omega;q0</code>, <code>&omega;q0</code>, and <code>&gamma;q0</code> to the plasmon-pole model.</li>
+      <li>Obtain undoped phonon frequencies/eigenvectors, Born effective charges, <code>&epsilon;&infin;</code>, masses, and cell volume from DFPT.</li>
+      <li>Compute <code>gq&nu;^lr</code> and <code>c q&nu;</code>. Keep only the IR-active longitudinal mode for a two-mode Fig. 1-style GaAs plot, or keep all modes for a full spectral function.</li>
+      <li>For branch energies, diagonalize the hybrid dynamical matrix. For spectral functions, either reconstruct <code>D</code> from hybrid modes or solve Dyson on the frequency grid.</li>
+      <li>For dielectric/EELS response, compute <code>W00^pl-ph</code> and <code>&epsilon;pl-ph^{-1}</code>, then plot <code>-Im &epsilon;pl-ph^{-1}</code>.</li>
+    </ol>
+  </section>
+
+  <section class="warning">
+    <h2>Implementation Notes</h2>
+    <p>For direct Fig. 1 energies in GaAs, the short-range EPW electron-phonon vertex is unnecessary because the avoided crossing is controlled by the long-range polar charge vertex. EPW/Wannier data are still useful for the electronic RPA input and for general self-energy calculations.</p>
+    <p>The identity-overlap approximation is a diagnostic, not the default paper route. It is most defensible for very small q and a single slowly varying conduction band. The direct reproduction path should record whether each RPA table used <code>wannier_eigenvector</code> or <code>identity_delta</code> overlap.</p>
+    <p>No raw PDFs, wavefunctions, QE outputs, Wannier files, dense RPA grids, or credentials are included in this public HTML page.</p>
+  </section>
+</main>
+</body>
+</html>
