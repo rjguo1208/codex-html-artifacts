@@ -1,1029 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plasmon-Phonon Reproduction Report</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --accent-2: #7a4b00;
-      --warn-bg: #fff6df;
-      --warn-line: #e4b64b;
-      --code-bg: #eef3f8;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.55;
-    }
-    main {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding: 28px 0 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      line-height: 1.1;
-      letter-spacing: 0;
-    }
-    h2 {
-      margin: 0 0 14px;
-      font-size: 1.35rem;
-      letter-spacing: 0;
-    }
-    h3 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      letter-spacing: 0;
-    }
-    p {
-      margin: 0 0 12px;
-    }
-    a {
-      color: var(--accent);
-    }
-    code, pre {
-      background: var(--code-bg);
-      border-radius: 6px;
-    }
-    code {
-      padding: 2px 5px;
-      font-size: 0.95em;
-    }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-weight: 650;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span {
-      display: block;
-      margin-top: 4px;
-      font-size: 1rem;
-      overflow-wrap: anywhere;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-    figure {
-      margin: 0;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-    }
-    figure img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    figcaption {
-      padding: 10px 12px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      border-top: 1px solid var(--line);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-    th {
-      color: var(--muted);
-      font-weight: 700;
-      background: #f3f6f9;
-    }
-    .status-pass {
-      color: #166534;
-      font-weight: 700;
-    }
-    .warning {
-      background: var(--warn-bg);
-      border-color: var(--warn-line);
-    }
-    .note {
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-    .pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #e6f0fb;
-      color: #174b80;
-      font-size: 0.85rem;
-      font-weight: 650;
-    }
-    .action-link {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #f8fbff;
-      color: var(--accent);
-      font-weight: 650;
-      text-decoration: none;
-    }
-    .action-link:hover {
-      border-color: var(--accent);
-    }
-    ul {
-      margin: 8px 0 0 22px;
-      padding: 0;
-    }
-    li {
-      margin: 4px 0;
-    }
-    @media (max-width: 850px) {
-      main {
-        width: min(100% - 20px, 1120px);
-        padding-top: 16px;
-      }
-      .meta,
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      section {
-        padding: 14px;
-      }
-      table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plasmon-Phonon Hybridization Reproduction Report</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <header>
-    <p class="pill">GitHub Pages artifact</p>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html" style="color:#fff;text-decoration:underline">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html">GaAs Inputs</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>Plasmon-Phonon Hybridization Reproduction Report</h1>
-    <p>This page summarizes the small, public-safe results currently present in the HPC working folder for the plasmon-phonon hybridization study. It now tracks the direct Fig. 1 reproduction path separately from earlier toy and surrogate interface checks, and does not upload raw DFT, DFPT, Wannier, EPW, or paper PDF data.</p>
+    <p class="subtitle">A compact GitHub Pages artifact for the GaAs plasmon-phonon hybridization reproduction: direct Wannier/RPA inputs, long-range polar coupling, Fig. 1 branch diagnostics, and PDF-derived response-function formulas.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-24T21:45:06-04:00</span>
-      </div>
-      <div class="metric">
-        <strong>Source folder</strong>
-        <span><code>/anvil/scratch/x-rg47749/codex/1-Ph_Pl</code></span>
-      </div>
-      <div class="metric">
-        <strong>Report scope</strong>
-        <span>Direct GaAs Fig. 1 reference-material Wannier-RPA reproduction</span>
-      </div>
+      <span class="pill">Generated 2026-05-31</span>
+      <span class="pill">GitHub Pages: docs/</span>
+      <span class="pill">Branch: main</span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
-
-  <section>
-    <h2>Short Summary</h2>
-    <p>The direct GaAs Fig. 1 first-pass pipeline is now implemented end to end. It starts from the local GaAs Wannier Hamiltonian, evaluates a Gamma-centered conduction-pocket RPA response at the paper q point, fits plasmon-pole parameters, builds the long-range LO-plasmon two-mode hybrid branches, writes the static and bare-plasmon curves, adds explicitly marked approximate digitized Ref. [8] points, and renders <code>docs/assets/gaas_fig1_direct.svg</code>.</p>
-    <p>Current production settings: <code>41x41x41</code> Gamma cube, half-width <code>0.035</code> crystal units, absolute BZ weight sum <code>3.43e-4</code>, <code>81</code> density points uniform in <code>sqrt(n)/10^9</code>, <code>181</code> frequencies from <code>0</code> to <code>180 meV</code>, <code>T=300 K</code>, <code>|q|=8e-4 Angstrom^-1</code>, and <code>eta=3 meV</code>. PPM status is <code>81/81 ok</code>; the 0.3 eV tracking window has <code>20285</code> k points and minimum transition overlap <code>0.9994421923</code>.</p>
-    <p>The current public Fig. 1 SVG now uses the same Wannier-RPA plasmon-pole table but replaces the problematic benchmark dielectric/Born input by the reference GaAs material input <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>. The reference polar strength is <code>sqrt(S_polar)=14.22302904168 meV</code>, giving an effective LO diagonal energy <code>35.26193680836 meV</code> from <code>sqrt(TO^2+S_polar)</code>.</p>
-    <p>The generated reference-material result has bare-plasmon energy <code>4.665-84.336 meV</code>, nonadiabatic hybrid branch energies <code>4.263-85.722 meV</code>, and a static approximation branch <code>32.277-35.181 meV</code>. This is now a direct Wannier-RPA artifact, not a toy, Drude, parabolic, or numerical-Lindhard surrogate.</p>
-    <p>The requested four-step validation pass is also complete. k-mesh, frequency-grid, and eta changes are sub-meV at the representative densities; <code>0.035</code> remains the retained Gamma-pocket half-width; <code>0.040</code> is rejected by band-window diagnostics; final PPM status is <code>81/81 ok</code> with maximum relative residual <code>1.50e-1</code> at the highest-density edge.</p>
-    <p>The latest diagnostic checks the local Wannier conduction-band curvature directly. A symmetric Gamma fit gives average <code>m*=0.0159 m_e</code> at <code>kmax=0.005 Angstrom^-1</code>; near the highest-density Fermi wavevector <code>kF=0.0449 Angstrom^-1</code>, the <code>kmax=0.040 Angstrom^-1</code> fit gives average <code>m*=0.0266 m_e</code>. Relative to reference GaAs <code>m*=0.067 m_e</code>, this can raise the plasmon energy scale by about <code>1.59x</code>, so the high-density upper-branch mismatch is now traced primarily to the electronic-structure/RPA input rather than the plot annotation.</p>
-    <p>A follow-up mass-scaled diagnostic now rescales the fitted PPM pole by <code>s(n)=sqrt(m*_W(kF)/0.067)</code> and rebuilds the same polar two-mode hybrid. This reduces the interpolated guide RMSE from <code>9.287120 meV</code> to <code>4.573280 meV</code>, confirming that effective mass is a dominant error source. However, the highest-density upper branch changes from <code>+14.929752 meV</code> above the guide to <code>-12.851112 meV</code> below it, so this scaling is an overcorrection diagnostic, not a replacement for a material-faithful RPA calculation.</p>
-    <p>The QE-vs-Wannier band check now separates two issues. At Gamma, the HR CBM and QE CBM differ by only <code>0.113 meV</code>; on the coarse <code>8x8x8</code> grid, the nearest HR band reproduces the QE CBM with RMS <code>0.052 meV</code> and maximum <code>0.385 meV</code>. The large fixed-index error is therefore a band-ordering/crossing issue outside the Gamma pocket, not evidence that the QE CBM is missing from the HR file.</p>
-    <p>The direct small-k QE bands check is complete. Slurm job <code>17658500</code> ran on <code>shared</code> with <code>128</code> MPI tasks and computed <code>43</code> explicit Gamma-centered k points along <code>[100]</code>, <code>[110]</code>, and <code>[111]</code> using <code>calculation='bands'</code> with no <code>nosym/noinv</code>. The raw QE curvature gives average <code>m*=0.0170 m_e</code> at <code>kmax=0.005 Angstrom^-1</code> and <code>m*=0.0277 m_e</code> at <code>kmax=0.040 Angstrom^-1</code>, very close to the Wannier result. The light mass is therefore mainly inherited from the current QE electronic structure, not introduced by Wannier interpolation.</p>
-    <p>The Fig. 1 hybrid step now uses a stricter long-range polar coupling path. It parses QE Born effective charges, the high-frequency dielectric tensor, masses, cell volume, the exact-Gamma LO eigenvector, and the Cartesian Fig. 1 q direction, then computes the polar oscillator strength from the SI nonanalytic dynamical matrix. The local nonadiabatic CSV now records <code>coupling_source=born_epsilon_eigenvector_si</code>; the absolute strength agrees with the QE LO-TO splitting at ratio <code>0.9996852769256</code>.</p>
-    <p>The new multi-direction polar-coupling scan checks <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>. All three give <code>sqrt(S_polar)=5.071342392659 meV</code> and relative strength <code>1.000000000000</code>, consistent with cubic GaAs symmetry.</p>
-    <p>A new dielectric-input sensitivity check shows why the current benchmark <code>epsilon_inf≈107</code> must be isolated before production claims. Replacing only <code>epsilon_inf</code> by <code>10.89</code> while keeping the same Born tensor scales <code>S_polar</code> by <code>9.835663692011</code> and increases the nearest-crossing hybrid gap from about <code>5.07 meV</code> to <code>16.31 meV</code>.</p>
-    <p>The first material-quality dielectric/Born check is complete. A 128-CPU shared-node QE run with <code>12x12x12</code> SCF k mesh and <code>100/400 Ry</code> cutoffs finished as Slurm job <code>17654132</code>. The tighter DFPT result gives <code>epsilon_inf=41.237178058</code>, ASR Born charges <code>Ga +2.18669</code> and <code>As -2.18669</code>, and Gamma optical frequency <code>260.121154 cm^-1</code>. This confirms the previous <code>epsilon_inf≈107</code> was not production-quality, but the remaining large value is still consistent with small-gap LDA GaAs rather than a fully material-faithful dielectric input.</p>
-    <p>The GGA/PBE comparison is complete. Using PseudoDojo PBE scalar-relativistic norm-conserving Ga/As UPF files, the same fixed GaAs cell, <code>12x12x12</code> SCF k mesh, <code>100/400 Ry</code> cutoffs, and Gamma DFPT <code>epsil=.true.</code>, Slurm job <code>17654576</code> completed on <code>shared</code> with <code>128</code> CPUs. The result is <code>epsilon_inf=17.923182183</code>, ASR Born charges <code>Ga +2.14057</code> and <code>As -2.14057</code>, and Gamma optical frequency <code>267.913498 cm^-1</code>. PBE is much closer to reference than LDA for <code>epsilon_inf</code>, but still above the reference <code>10.89</code>.</p>
-    <p>The PBE small-k QE effective-mass check is complete. Slurm job <code>17658961</code> used the completed PBE <code>12x12x12</code>, <code>100/400 Ry</code> SCF save and the same <code>43</code> explicit Gamma-centered k points as the LDA check. The PBE raw QE curvature gives average <code>m*=0.0298 m_e</code> at <code>kmax=0.005 Angstrom^-1</code> and <code>m*=0.0383 m_e</code> at <code>kmax=0.040 Angstrom^-1</code>. PBE therefore improves the LDA mass substantially, but it is still below reference GaAs <code>0.067 m_e</code>.</p>
-    <p>A PBE-effective-mass scaled Fig. 1 diagnostic is now available. It does not recompute PBE RPA; it rescales the current Wannier-RPA plasmon pole by <code>sqrt(m_current(kF)/m_PBE(kF))</code> and keeps the same reference-material polar coupling. The guide-only RMSE improves from <code>9.287120 meV</code> to <code>2.900547 meV</code>; the highest-density upper-branch residual changes from <code>+14.929752 meV</code> to <code>+1.565909 meV</code>. This shows that a PBE-like mass moves the curve in the right direction, but final production still needs a direct RPA table with a corrected electronic input.</p>
-    <p>The full-PBE input rerun is complete. Slurm job <code>17659851</code> produced a PBE <code>8x8x8</code> bands + Wannier Hamiltonian from the fixed-cell PBE SCF save. After restoring the paper/EPW-like <code>dis_froz_max=12.2 eV</code>, the PBE Wannier total spread is <code>27.774363 Angstrom^2</code> and the Gamma CBM is HR band index <code>7</code>. The PBE HR gives <code>m*=0.0494 m_e</code> near Gamma and <code>0.0572 m_e</code> at <code>kmax=0.040 Angstrom^-1</code>. The regenerated PBE RPA/PPM curve uses PBE <code>epsilon_inf=17.923182183</code>, PBE Born charges, PBE TO <code>33.217040 meV</code>, <code>sqrt(S_polar)=10.885156 meV</code>, and <code>LOeff=34.955091 meV</code>; all <code>81/81</code> PPM rows fit with status <code>ok</code>. The lower branch now agrees well with the digitized guide (<code>0.957 meV</code> RMSE), while the upper branch remains low at high density (<code>7.193 meV</code> RMSE; highest guide residual <code>-15.540 meV</code>), mainly because the complete PBE dielectric constant is still larger than the reference value.</p>
-    <p>The requested reference-<code>epsilon_inf</code> rerun is now available. It keeps the refit PBE HR, PBE Born charges, and PBE TO/eigenvector, but replaces the background dielectric constant by reference GaAs <code>epsilon_inf=10.89</code> consistently in the RPA Coulomb kernel and the long-range polar-coupling denominator. This increases <code>sqrt(S_polar)</code> to <code>13.964593 meV</code>, gives <code>LOeff=36.033063 meV</code>, and raises the bare plasmon range to <code>6.811-65.767 meV</code>. The curve now matches the digitized guide much better: lower-branch RMSE <code>1.337 meV</code>, upper-branch RMSE <code>1.317 meV</code>, all-points RMSE <code>1.326 meV</code>.</p>
-    <p>The material-input Fig. 1 branch comparison now uses each scenario's own effective LO diagonal energy, <code>sqrt(TO^2+S_polar)</code>. Reference GaAs gives <code>LOeff=35.26193680836 meV</code> and nearest-crossing gap <code>14.22367717485 meV</code>; PBE QC gives <code>34.05313955560 meV</code> and <code>10.88692419791 meV</code>; LDA QC gives <code>33.08867464054 meV</code> and <code>7.332748077294 meV</code>.</p>
-    <a class="action-link" href="toy_model_formulas.html">Open the toy-model formula page</a>
-    <a class="action-link" href="unit_conventions.html">Open the unit-conventions page</a>
-    <a class="action-link" href="rpa_dielectric_supplement.html">Open the RPA dielectric supplement page</a>
-    <a class="action-link" href="hybrid_response_dielectric.html">Open the hybrid-response dielectric page</a>
-    <a class="action-link" href="polar_coupling.html">Open the polar-coupling page</a>
-    <a class="action-link" href="fig1_direct.html">Open the direct Fig. 1 gate page</a>
-    <a class="action-link" href="gaas_input_prep.html">Open the GaAs input-prep page</a>
-    <a class="action-link" href="tio2_input_prep.html">Open the TiO2 input-prep page</a>
-  </section>
-
-  <section>
-    <h2>Fig. 1 Direct Wannier-RPA Result</h2>
-    <p>The current Fig. 1 chain exercises the real GaAs Wannier Hamiltonian path: <code>gaas_zb_prim_hr.dat -> H^W(k) -> eigenvectors -> |C(k+q)^dagger C(k)|^2 -> delta chi0 -> epsilon_el^{-1} -> PPM -> hybrid branches</code>. The local CSVs stay under <code>dft/gaas/fig1_direct/</code> and are not uploaded as raw data.</p>
+  </div>
+</header>
+<main>
+<section id="catalog">
+  <h2>Result Catalog</h2>
+  <p>One row per public-safe piece of work. Raw QE, DFPT, Wannier, RPA-grid, PDF, and scheduler outputs remain local and are not published.</p>
+  <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>Quantity</th><th>Value</th><th>Comment</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>RPA grid</td><td><code>41^3</code>, Gamma cube half-width <code>0.035</code></td><td>Absolute BZ weight sum <code>3.43e-4</code>; selected because the local Wannier band ordering is only reliable in the Gamma conduction pocket.</td></tr>
-        <tr><td>PPM fit</td><td><code>81/81 ok</code></td><td>Stores <code>Omega</code>, <code>omega_pl</code>, raw/corrected damping, residual, and status for every density. The diagnostic pass gives mean relative residual <code>1.87e-2</code> and maximum <code>1.50e-1</code>.</td></tr>
-        <tr><td>Gamma effective mass</td><td><code>0.0159 m_e</code> near Gamma; <code>0.0266 m_e</code> near max-density <code>kF</code></td><td>The local Wannier conduction band is much lighter than reference GaAs <code>0.067 m_e</code>; this implies a plasmon scale about <code>1.59x</code> too high near the current high-density window.</td></tr>
-        <tr><td>Mass-scaled diagnostic</td><td>RMSE <code>9.287120 -> 4.573280 meV</code></td><td>Scaling the PPM pole by <code>sqrt(m*_W(kF)/0.067)</code> improves the overall guide comparison but overcorrects the highest-density upper branch from <code>+14.929752</code> to <code>-12.851112 meV</code>.</td></tr>
-        <tr><td>QE vs Wannier band check</td><td>Gamma CBM diff <code>0.113 meV</code>; nearest-CBM max <code>0.385 meV</code></td><td>The HR contains the QE CBM on the coarse grid. Fixed index <code>4</code> fails outside the Gamma pocket because band ordering changes; the follow-up small-k QE check now confirms the light mass is already present in QE.</td></tr>
-        <tr><td>Small-k QE mass check</td><td><code>0.0170 m_e</code> near Gamma; <code>0.0277 m_e</code> at <code>kmax=0.040 Angstrom^-1</code></td><td>Job <code>17658500</code> completed on <code>shared</code> with <code>128</code> CPUs. QE and Wannier curvatures agree closely, so the too-light mass is an electronic-structure input issue rather than a Wannier-only artifact.</td></tr>
-        <tr><td>Phonon reference</td><td>TO <code>32.26623053 meV</code>; reference-material LOeff <code>35.26193680836 meV</code></td><td>The TO value is extracted from local LO-TO-aware <code>matdyn.x</code>. The current public Fig. 1 uses <code>sqrt(TO^2+S_polar)</code> with reference <code>epsilon_inf=10.89</code> and <code>|Z*|=2.18</code>.</td></tr>
-        <tr><td>Long-range polar coupling</td><td><code>S_polar=2.571851366358e-05 eV^2</code></td><td>Computed from the SI nonanalytic dynamical matrix. Born/eigenvector direction ratio is <code>1.000000000000</code> for cubic GaAs [110], with <code>|Z_mode|=0.4055820745304</code>, <code>sqrt(S_polar)=5.071342392659 meV</code>, and absolute/LO-TO ratio <code>0.9996852769256</code>.</td></tr>
-        <tr><td>Dielectric/Born QC</td><td><code>epsilon_inf=41.237178058</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654132</code> completed. Combining this QC dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=7.331490783683 meV</code>; it is not yet substituted into the main Fig. 1 curve.</td></tr>
-        <tr><td>GGA/PBE QC</td><td><code>epsilon_inf=17.923182183</code> at <code>12x12x12</code>, <code>100/400 Ry</code></td><td>Independent 128-CPU QE job <code>17654576</code> completed. ASR Born charges are <code>Ga +2.14057</code> and <code>As -2.14057</code>. Combining this PBE dielectric/Born output with the same LO eigenvector gives diagnostic <code>sqrt(S_polar)=10.886077403604 meV</code>; this remains a diagnostic, not a replacement for a fully self-consistent Fig. 1 curve.</td></tr>
-        <tr><td>PBE small-k mass check</td><td><code>0.0298 m_e</code> near Gamma; <code>0.0383 m_e</code> at <code>kmax=0.040 Angstrom^-1</code></td><td>Job <code>17658961</code> completed from the PBE <code>12x12x12</code>, <code>100/400 Ry</code> SCF save. PBE improves the LDA small-k mass but remains lighter than reference GaAs <code>0.067 m_e</code>.</td></tr>
-        <tr><td>PBE-mass Fig. 1 diagnostic</td><td>RMSE <code>9.287120 -> 2.900547 meV</code></td><td>Diagnostic-only rescaling of the current PPM pole by <code>sqrt(m_current/m_PBE)</code>. The highest-density upper residual drops from <code>+14.929752</code> to <code>+1.565909 meV</code>.</td></tr>
-        <tr><td>Full-PBE direct Fig. 1</td><td><code>81/81</code> PPM ok; bare plasmon <code>6.806-53.231 meV</code></td><td>Uses the refit PBE HR with seed band <code>7</code>, PBE <code>epsilon_inf/Born/TO</code>, <code>sqrt(S_polar)=10.885156 meV</code>, and <code>LOeff=34.955091 meV</code>. Wannier total spread is <code>27.774363 Angstrom^2</code>; tracking window has <code>48584</code> k points and minimum transition overlap <code>0.9998978331</code>.</td></tr>
-        <tr><td>PBE HR + reference <code>epsilon_inf</code></td><td><code>81/81</code> PPM ok; all-guide RMSE <code>1.326 meV</code></td><td>Uses the same refit PBE HR and PBE Born/TO, but sets <code>epsilon_inf=10.89</code> in RPA and polar coupling. The bare plasmon becomes <code>6.811-65.767 meV</code>, <code>sqrt(S_polar)=13.964593 meV</code>, and <code>LOeff=36.033063 meV</code>.</td></tr>
-        <tr><td>Reference-material main branch</td><td><code>sqrt(S_polar)=14.22302904168 meV</code></td><td>The public <code>gaas_fig1_direct.svg</code> has been regenerated from the reference-material nonadiabatic/static CSVs. Strict renderer validation passed with <code>2</code> branches, <code>81</code> bare-plasmon points, and <code>20</code> approximate Ref. [8] guide points.</td></tr>
-        <tr><td>Material-input comparison</td><td>Reference / PBE QC / LDA QC</td><td>Same Wannier-RPA PPM table and each scenario's effective LO. Nearest-crossing gaps are <code>14.224</code>, <code>10.887</code>, and <code>7.333 meV</code> respectively. The public SVG is <code>docs/assets/gaas_material_input_comparison.svg</code>.</td></tr>
-        <tr><td>Digitized Ref. [8] guide</td><td>Axis-calibrated guide RMSE <code>9.287120 meV</code></td><td>The circles are now labelled as approximate digitized Ref. [8] points, not as an independently calibrated measurement table. The main-panel axes were calibrated from the printed ticks, and the three low-density upper-branch points were read from the inset. Current guide-only diagnostics give lower-branch RMSE <code>4.149068 meV</code> and upper-branch RMSE <code>11.947152 meV</code>.</td></tr>
-        <tr><td>Final CSVs</td><td>nonadiabatic, static, bare plasmon, Ref. [8] guide</td><td>All carry accepted provenance and pass the strict direct renderer gate.</td></tr>
-      </tbody>
-    </table>
-    <p>The first convergence/diagnostic pass is complete. The remaining scientific task is a heavier validation against the Supplemental <code>200x200x200</code> RPA protocol if budget permits.</p>
-  </section>
-
-  <section>
-    <h2>Current Result Structure</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Path</th>
-          <th>Type</th>
-          <th>Size</th>
-          <th>Use in this report</th>
-        </tr>
+        <tr><th>Item</th><th>Type</th><th>Date</th><th>Status</th><th>Key result / summary</th><th>Link</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><code>toy_model_plph.py</code></td>
-          <td>Python script</td>
-          <td>145 KB</td>
-          <td>Core reproducible toy-model implementation, including the finite-q Lindhard surrogate interface.</td>
+          <td><strong>PBE HR + reference $\epsilon_\infty$ Fig. 1</strong></td>
+          <td>Result</td>
+          <td>2026-05-31</td>
+          <td><span class="badge prod">Production</span></td>
+          <td>Uses the refit PBE Wannier Hamiltonian, PBE Born/TO data, and reference $\epsilon_\infty=10.89$ consistently in RPA and polar coupling. All $81/81$ PPM rows fit; guide RMSE is $1.326$ meV.</td>
+          <td><a href="#figures">Open figures &rarr;</a></td>
         </tr>
         <tr>
-          <td><code>fig1_direct_reproduction.py</code></td>
-          <td>Python script</td>
-          <td>16 KB</td>
-          <td>Strict direct Fig. 1 input validator/renderer. It rejects toy/surrogate provenance and rendered the current direct SVG from accepted Wannier-RPA inputs plus explicitly marked approximate digitized Ref. [8] guide points.</td>
+          <td><strong>Hybridized response and dielectric workflow</strong></td>
+          <td>Theory</td>
+          <td>2026-05-31</td>
+          <td><span class="badge ok">Complete</span></td>
+          <td>PDF-derived formulas for $\delta\chi^0$, $\epsilon_{\rm el}^{-1}$, plasmon-pole fitting, the hybrid dynamical matrix, and $-{\rm Im}\epsilon_{\rm pl-ph}^{-1}$.</td>
+          <td><a href="hybrid_response_dielectric.html">Open workflow &rarr;</a></td>
         </tr>
         <tr>
-          <td><code>fig1_wannier_direct.py</code></td>
-          <td>Python module</td>
-          <td>local only</td>
-          <td>End-to-end direct Fig. 1 generator: Gamma-pocket Wannier RPA, absolute BZ weights, PPM fits, SI Born/eigenvector long-range polar coupling, nonadiabatic/static/bare-plasmon/Raman CSVs, and SVG rendering. The raw local code is not uploaded to the Pages artifact repo.</td>
+          <td><strong>Supplement RPA dielectric notes</strong></td>
+          <td>Theory / implementation</td>
+          <td>2026-05-23</td>
+          <td><span class="badge ok">Complete</span></td>
+          <td>Records the RPA response function, overlap treatment, Coulomb kernel, PPM fit interface, static approximation, and GaAs/TiO2 numerical settings from the supplement.</td>
+          <td><a href="rpa_dielectric_supplement.html">Open RPA notes &rarr;</a></td>
         </tr>
         <tr>
-          <td><code>fig1_rpa_response.py</code></td>
-          <td>Python module</td>
-          <td>local only</td>
-          <td>Direct Fig. 1 RPA response core implementing chemical-potential solving, <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> diagonalization, Wannier eigenvector overlaps, <code>delta chi0</code>, <code>U_q</code>, <code>epsilon_el^{-1}</code>, and compact CSV output. The raw local code is not uploaded to the Pages artifact repo.</td>
+          <td><strong>Long-range polar coupling</strong></td>
+          <td>Method</td>
+          <td>2026-05-24</td>
+          <td><span class="badge ok">Complete</span></td>
+          <td>Documents the Born-charge/eigenvector polar coupling path and the SI nonanalytic-dynamical-matrix cross-check against the LO-TO splitting.</td>
+          <td><a href="polar_coupling.html">Open coupling notes &rarr;</a></td>
         </tr>
         <tr>
-          <td><code>fig1_wannier_rpa_smoke.py</code></td>
-          <td>Python script</td>
-          <td>local only</td>
-          <td>Generates the local Gamma-centered GaAs Wannier-RPA smoke response and summary CSVs comparing <code>identity_delta</code> and <code>wannier_eigenvector</code> overlap. The raw local code and CSVs are not uploaded to the Pages artifact repo.</td>
+          <td><strong>Direct Fig. 1 gate</strong></td>
+          <td>Validation</td>
+          <td>2026-05-24</td>
+          <td><span class="badge ok">Complete</span></td>
+          <td>Defines the accepted direct-Fig. 1 data path and rejects toy/surrogate provenance for production claims.</td>
+          <td><a href="fig1_direct.html">Open gate &rarr;</a></td>
         </tr>
         <tr>
-          <td><code>dft/gaas/fig1_direct/gaas_fig1_wannier_rpa_smoke_summary.csv</code></td>
-          <td>Local derived CSV</td>
-          <td>13 lines</td>
-          <td>Used only for the summary table above; kept local with the rest of the calculation outputs.</td>
-        </tr>
-        <tr>
-          <td><code>docs/rpa_dielectric_supplement.html</code></td>
-          <td>HTML subpage</td>
-          <td>public-safe notes</td>
-          <td>New supplement-derived summary of the RPA response function, electronic dielectric function, Coulomb kernel, plasmon-pole fit, static approximation, and GaAs/TiO2 numerical settings.</td>
-        </tr>
-        <tr>
-          <td><code>docs/hybrid_response_dielectric.html</code></td>
-          <td>HTML subpage</td>
-          <td>public-safe notes</td>
-          <td>New PDF-derived workflow for computing the plasmon-phonon hybridized phonon response, hybrid dynamical matrix, long-range effective interaction, and total inverse dielectric/EELS response.</td>
-        </tr>
-        <tr>
-          <td><code>docs/polar_coupling.html</code></td>
-          <td>HTML subpage</td>
-          <td>public-safe notes</td>
-          <td>Documents the stricter long-range polar coupling formula, SI nonanalytic dynamical-matrix projection, LO-TO cross-check, current GaAs values, and local CSV provenance.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_polar_direction_scan.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from local Born/eigenvector SI polar-coupling diagnostics to verify the expected <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction independence for cubic GaAs.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_polar_strength_sensitivity.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from the local PPM table and SI polar-coupling diagnostics to compare the benchmark dielectric input with an <code>epsilon_inf=10.89</code> sensitivity branch.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_material_input_comparison.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from local material-input comparison CSVs; compares reference, PBE QC, and LDA QC dielectric/Born inputs using the same Wannier-RPA PPM table.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_gamma_effective_mass.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from the local Wannier Hamiltonian as a compact public-safe summary of the Gamma conduction-band curvature diagnostic; the underlying HR and CSV remain local.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_mass_corrected_fig1_diagnostic.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from the local PPM table and effective-mass diagnostic by scaling the pole to reference <code>m*=0.067 m_e</code>; diagnostic only, not a direct RPA recomputation.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_qe_wannier_band_check.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from local QE bands output and the local Wannier HR file to separate coarse-grid band crossing from a missing-CBM problem. Raw bands output remains local.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fig1_reference_material.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Reference-material direct Fig. 1 rendering generated from accepted local CSVs. The same rendering is currently used for <code>docs/assets/gaas_fig1_direct.svg</code>.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_pbe_full_input_fig1.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from the refit PBE Wannier HR plus PBE <code>epsilon_inf</code>, Born charges, and Gamma optical mode. Local RPA/PPM CSVs remain under <code>dft/gaas/fig1_pbe_full/</code> and are not uploaded.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_pbe_reference_epsilon_fig1.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe derived figure</td>
-          <td>Generated from the refit PBE Wannier HR with reference <code>epsilon_inf=10.89</code> in RPA and polar coupling, while retaining PBE Born charges and PBE Gamma TO input. Local RPA/PPM CSVs remain under <code>dft/gaas/fig1_pbe_reference_eps/</code>.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_pbe_reference_epsilon_publication.svg</code></td>
-          <td>SVG figure</td>
-          <td>public-safe publication-style derived figure</td>
-          <td>Journal-style rendering of the same PBE-HR plus reference-<code>epsilon_inf</code> result, with figure title, editable SVG text, clean axes, legend, TO/LOeff guide lines, and RMSE annotation.</td>
-        </tr>
-        <tr>
-          <td><code>dft/gaas/primitive/epw_stock_bands/</code></td>
-          <td>Local input templates</td>
-          <td>local only</td>
-          <td>Active clean GaAs stock-EPW workflow: SCF, bands-style full-k calculation, PH with <code>fildvscf='dvscf'</code>, stock EPW input, file-mesh EPW restart input, Fig. 1 q point, explicit <code>40x40x40</code> fine-k file, preparation helpers, and Slurm scripts. The bands input intentionally avoids <code>nosym</code>/<code>noinv</code> and uses <code>calculation='bands'</code>. Raw outputs and generated fine-mesh files remain local.</td>
-        </tr>
-        <tr>
-          <td><code>figures/toy_model/avoided_crossing.png</code></td>
-          <td>PNG figure</td>
-          <td>80 KB</td>
-          <td>Copied to <code>docs/assets/</code> and displayed.</td>
-        </tr>
-        <tr>
-          <td><code>figures/toy_model/spectral_function.png</code></td>
-          <td>PNG figure</td>
-          <td>51 KB</td>
-          <td>Copied to <code>docs/assets/</code> and displayed.</td>
-        </tr>
-        <tr>
-          <td><code>figures/toy_model/static_ppm.png</code></td>
-          <td>PNG figure</td>
-          <td>63 KB</td>
-          <td>Copied to <code>docs/assets/</code> and displayed.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_loto_gamma_x.svg</code></td>
-          <td>SVG figure</td>
-          <td>8 KB</td>
-          <td>Generated from local <code>matdyn.x</code> frequency output and displayed as the GaAs LO-TO postprocessing result.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_backed_hybrid_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>17 KB</td>
-          <td>Generated from the derived GaAs optical modes and the toy hybrid solver; no raw QE output is embedded.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_drude_hybrid_density_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>13 KB</td>
-          <td>Generated from the analytic Drude plasmon surrogate and the GaAs-backed hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_polar_coupling_density_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>13 KB</td>
-          <td>Generated from the LO-TO-strength coupling surrogate and the GaAs-backed hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_ppm_fit_validation.svg</code></td>
-          <td>SVG figure</td>
-          <td>19 KB</td>
-          <td>Generated from Drude mock <code>epsilon_el^{-1}</code> data and the new plasmon-pole fit interface.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fitted_ppm_hybrid_density_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>13 KB</td>
-          <td>Generated from the fitted PPM parameter table and the GaAs-backed hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fitted_ppm_finite_hybrid_density_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>13 KB</td>
-          <td>Generated from fitted PPM parameters and the finite-linewidth hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fitted_ppm_spectral_function.svg</code></td>
-          <td>SVG figure</td>
-          <td>17 KB</td>
-          <td>Generated from the fitted PPM finite-linewidth model at the LO-like resonance density.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fitted_ppm_dielectric_loss.svg</code></td>
-          <td>SVG figure</td>
-          <td>30 KB</td>
-          <td>Generated from the fitted PPM finite-linewidth model using <code>epsilon^{-1}=epsilon_inf^{-1}+Omega^2 G_00</code>.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_fig1_like_surrogate.svg</code></td>
-          <td>SVG figure</td>
-          <td>14 KB</td>
-          <td>Generated from fitted PPM hybrid data as a clearly labeled Fig.1-like surrogate, not a paper reproduction.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_lindhard_fig1_finite_q_shift.svg</code></td>
-          <td>SVG figure</td>
-          <td>6.5 KB</td>
-          <td>Generated from the finite-q long-wavelength Lindhard plasmon surrogate at the paper Fig. 1 q magnitude.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_lindhard_fig1_hybrid_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>14 KB</td>
-          <td>Generated from finite-q Lindhard fitted-PPM parameters and the GaAs-backed hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_numeric_lindhard_fig1_ppm_fit.svg</code></td>
-          <td>SVG figure</td>
-          <td>9 KB</td>
-          <td>Generated from direct numerical finite-T parabolic-band Lindhard <code>epsilon_el^{-1}(q,omega)</code> data and PPM fits.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_numeric_lindhard_fig1_hybrid_sweep.svg</code></td>
-          <td>SVG figure</td>
-          <td>11 KB</td>
-          <td>Generated from numerical Lindhard fitted-PPM parameters and the GaAs-backed hybrid solver.</td>
-        </tr>
-        <tr>
-          <td><code>docs/assets/gaas_numeric_lindhard_fig1_static_comparison.svg</code></td>
-          <td>SVG figure</td>
-          <td>11 KB</td>
-          <td>Generated from numerical Lindhard dynamic fitted-PPM branches and the static approximation branch.</td>
-        </tr>
-        <tr>
-          <td><code>plan.md</code></td>
-          <td>Markdown plan</td>
-          <td>40 KB</td>
-          <td>Used as context for the Phase 0 checks.</td>
-        </tr>
-        <tr>
-          <td><code>research.md</code></td>
-          <td>Markdown notes</td>
-          <td>21 KB</td>
-          <td>Used as context for interpretation.</td>
-        </tr>
-        <tr>
-          <td><code>environment/unit_conventions.md</code></td>
-          <td>Markdown notes</td>
-          <td>local only</td>
-          <td>Implemented locally; summarized on the unit-conventions page but not uploaded as raw workspace file.</td>
-        </tr>
-        <tr>
-          <td><code>dft/tio2/</code></td>
-          <td>QE input templates</td>
-          <td>local only</td>
-          <td>Prepared locally for TiO2 primitive-cell relax, SCF, and DFPT; the expensive q-grid job was canceled by user request and retained only as a checkpoint summary.</td>
-        </tr>
-        <tr>
-          <td><code>dft/gaas/</code></td>
-          <td>QE input templates</td>
-          <td>local only</td>
-          <td>Current lower-cost workflow using 2-atom primitive zincblende GaAs; includes local derived q geometry and historical surrogate tables, but direct Fig. 1 now requires real Wannier/RPA and Raman inputs.</td>
-        </tr>
-        <tr>
-          <td><code>pseudos/</code></td>
-          <td>Local pseudopotentials</td>
-          <td>local only</td>
-          <td>Official PseudoDojo LDA standard UPF tarball and extracted Ti/O files; ignored and not uploaded.</td>
+          <td><strong>Full EELS-style hybrid dielectric image</strong></td>
+          <td>Next test</td>
+          <td>&mdash;</td>
+          <td><span class="badge plan">Planned</span></td>
+          <td>Use the existing PPM table and hybrid matrix to compute $-{\rm Im}\epsilon_{\rm pl-ph}^{-1}(q,\omega)$ on a frequency grid.</td>
+          <td>&mdash;</td>
         </tr>
       </tbody>
     </table>
-  </section>
+  </div>
+  <p class="small">Legend: <span class="badge prod">Production</span> headline result &nbsp; <span class="badge ok">Complete</span> done &nbsp; <span class="badge plan">Planned</span> not yet run.</p>
+</section>
 
-  <section>
-    <h2>DFT/DFPT Input Preparation</h2>
-    <p>The active DFT route has been switched from TiO2 to lower-cost zincblende GaAs. GaAs is a practical workflow benchmark because its primitive cell has only two atoms and six phonon branches. The completed GaAs postprocessing now includes <code>q2r.x</code>/<code>matdyn.x</code> interpolation with LO-TO splitting enabled at exact Gamma and the target <code>q=8e-4 Angstrom^-1</code> [110] coordinate conversion. Earlier Drude, fitted-PPM, finite-q Lindhard, numerical-Lindhard, and static-branch outputs are retained as interface checks only; the direct Fig. 1 path now has a first-pass Wannier-RPA result and a completed first convergence/diagnostic pass.</p>
-    <p><a class="action-link" href="gaas_input_prep.html">View GaAs input preparation details</a></p>
-    <p><a class="action-link" href="rpa_dielectric_supplement.html">View supplement RPA dielectric formulas</a></p>
-    <p><a class="action-link" href="hybrid_response_dielectric.html">View hybrid-response dielectric workflow</a></p>
-    <p><a class="action-link" href="polar_coupling.html">View long-range polar coupling details</a></p>
-    <p><a class="action-link" href="fig1_direct.html">View direct Fig. 1 input requirements</a></p>
-    <p><a class="action-link" href="tio2_input_prep.html">View TiO2 input preparation details</a></p>
-  </section>
+<section id="summary">
+  <h2>Executive Summary</h2>
+  <div class="grid cards">
+    <div class="card"><strong>Goal</strong><span>Reproduce the plasmon-phonon hybridization workflow from the paper, beginning with GaAs Fig. 1 and then extending to full hybrid response functions.</span></div>
+    <div class="card"><strong>Current best curve</strong><span>PBE HR with reference $\epsilon_\infty=10.89$: lower-branch RMSE $1.337$ meV, upper-branch RMSE $1.317$ meV, all-guide RMSE $1.326$ meV.</span></div>
+    <div class="card"><strong>Electronic input</strong><span>Refit PBE Wannier Hamiltonian: total spread $27.774363$ Angstrom$^2$, $\Gamma$ CBM band index $7$, $m^*=0.0494\,m_e$ near $\Gamma$ and $0.0572\,m_e$ at $k_{\max}=0.040$ Angstrom$^{-1}$.</span></div>
+    <div class="card"><strong>Published artifact</strong><span>Only static HTML, small SVG/PNG figures, and public-safe derived summaries are published. Dense numerical tables and raw HPC outputs stay local.</span></div>
+  </div>
+  <p>The most recent diagnostic isolates the high-density discrepancy of the full-PBE curve mainly to dielectric screening: using PBE $\epsilon_\infty=17.923182183$ leaves the upper branch low at high density, while replacing only the background dielectric constant by the reference value brings the branch guide RMSE to roughly $1.3$ meV.</p>
+</section>
 
-  <section>
-    <h2>Key Figures</h2>
-    <p class="note">The first figure below is the current direct Fig. 1 reference-material result. The remaining figures are validation, material-input, historical toy, and surrogate interface checks retained for provenance and regression context.</p>
-    <div class="grid">
-      <figure>
-        <img src="assets/gaas_fig1_direct.svg" alt="Direct GaAs Fig. 1 first-pass Wannier-RPA reproduction">
-        <figcaption><strong>Direct Fig. 1 reference-material pass.</strong> Wannier-RPA plasmon-pole fit plus reference GaAs <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code> gives two nonadiabatic hybrid branches, a static branch, a bare plasmon curve, and approximate digitized Ref. [8] guide points.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fig1_convergence_scan.svg" alt="Direct GaAs Fig. 1 convergence scans">
-        <figcaption><strong>Convergence scan.</strong> Half-width is the dominant sensitivity; k-mesh, frequency-grid, and eta scans are sub-meV at the representative densities.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fig1_band_window.svg" alt="Direct GaAs Fig. 1 conduction-pocket window diagnostics">
-        <figcaption><strong>Band-window diagnostic.</strong> The retained <code>0.035</code> Gamma cube has enough capacity and stable overlaps; <code>0.040</code> is rejected because the local band character breaks down.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_gamma_effective_mass.svg" alt="GaAs Gamma conduction-band effective-mass diagnostic">
-        <figcaption><strong>Gamma effective-mass diagnostic.</strong> The local Wannier conduction band is too light compared with reference GaAs. At the highest-density Fermi wavevector, the fitted mass is about <code>0.0266 m_e</code>, which can push the plasmon scale upward by about <code>1.59x</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_qe_small_k_effective_mass.svg" alt="GaAs QE small-k effective mass versus Wannier comparison">
-        <figcaption><strong>QE small-k mass check.</strong> Direct QE bands give <code>m*=0.0170 m_e</code> at <code>kmax=0.005 Angstrom^-1</code> and <code>0.0277 m_e</code> at <code>kmax=0.040 Angstrom^-1</code>, matching the Wannier trend and confirming that the light conduction mass is already present in the current QE input.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_pbe_qe_small_k_effective_mass.svg" alt="GaAs PBE QE small-k effective mass">
-        <figcaption><strong>PBE small-k mass check.</strong> Direct PBE QE bands give <code>m*=0.0298 m_e</code> at <code>kmax=0.005 Angstrom^-1</code> and <code>0.0383 m_e</code> at <code>kmax=0.040 Angstrom^-1</code>. This is closer to reference than LDA, but still too light for final Fig. 1 production without an additional material-faithful correction.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_pbe_mass_scaled_fig1_diagnostic.svg" alt="GaAs Fig. 1 diagnostic using PBE effective-mass-scaled plasmon pole">
-        <figcaption><strong>PBE-mass scaled Fig. 1 diagnostic.</strong> Keeping the same polar coupling and scaling only the current plasmon pole by <code>sqrt(m_current(kF)/m_PBE(kF))</code> lowers the high-density upper branch and improves the guide-only RMSE to <code>2.900547 meV</code>. It is not a direct PBE-RPA recomputation.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_pbe_full_input_fig1.svg" alt="GaAs Fig. 1 curves recomputed from full PBE electronic and polar inputs">
-        <figcaption><strong>Full-PBE direct Fig. 1 rerun.</strong> This redraw uses the refit PBE HR, PBE <code>epsilon_inf=17.923182183</code>, PBE Born charges, PBE TO <code>33.217040 meV</code>, and <code>LOeff=34.955091 meV</code>. All PPM fits are valid and the bare plasmon is monotonic, but the upper branch remains below the guide at high density because the PBE dielectric screening is still stronger than the reference input.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_pbe_reference_epsilon_fig1.svg" alt="GaAs Fig. 1 curves with PBE HR and reference epsilon infinity">
-        <figcaption><strong>PBE HR with reference <code>epsilon_inf</code>.</strong> Replacing only the background dielectric constant by <code>10.89</code> in both RPA and long-range coupling brings the upper branch up and gives all-guide RMSE <code>1.326 meV</code>. This isolates the remaining mismatch in the full-PBE curve mainly to the dielectric screening input.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_pbe_reference_epsilon_publication.svg" alt="Publication-style GaAs plasmon-phonon hybridization figure">
-        <figcaption><strong>Publication-style figure.</strong> The same PBE-HR plus reference-<code>epsilon_inf</code> data are rendered as a compact journal-style SVG with title, editable text, clean line weights, colorblind-safe styling, TO/LOeff references, and an in-panel RMSE summary.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_mass_corrected_fig1_diagnostic.svg" alt="GaAs Fig. 1 effective-mass corrected diagnostic">
-        <figcaption><strong>Mass-corrected diagnostic.</strong> Applying <code>s(n)=sqrt(m*_W(kF)/0.067)</code> to the PPM pole improves the overall guide comparison but overshoots the highest-density upper branch. It is a diagnosis of the electronic input, not final Fig. 1 data.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_qe_wannier_band_check.svg" alt="GaAs QE bands versus Wannier HR check">
-        <figcaption><strong>QE/Wannier band check.</strong> The HR file contains the QE CBM on the coarse grid when matched by nearest band, but fixed band index <code>4</code> is valid only in the Gamma pocket. The small-k QE follow-up now resolves the curvature question.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fig1_rpa_ppm_examples.svg" alt="RPA inverse dielectric loss and plasmon-pole fit examples">
-        <figcaption><strong>RPA/PPM overlays.</strong> Representative <code>-Im epsilon_el^{-1}</code> spectra and fitted plasmon-pole curves show that the PPM tracks the computed loss peaks.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fig1_ppm_residuals.svg" alt="PPM residuals for final direct Fig. 1 run">
-        <figcaption><strong>PPM residuals.</strong> The final <code>81</code>-density run has <code>81/81</code> successful fits; the largest relative residual is at the high-density edge.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_polar_direction_scan.svg" alt="GaAs SI polar coupling direction scan">
-        <figcaption><strong>Polar direction scan.</strong> The SI Born/eigenvector coupling gives identical <code>sqrt(S_polar)</code> for <code>[100]</code>, <code>[110]</code>, and <code>[111]</code>, as expected for cubic GaAs.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_polar_strength_sensitivity.svg" alt="GaAs polar-strength sensitivity of Fig. 1 branches">
-        <figcaption><strong>Polar strength sensitivity.</strong> Replacing only the benchmark <code>epsilon_inf≈107</code> with <code>10.89</code> while keeping the same Born tensor strongly increases the avoided-crossing split, so material-quality dielectric/Born inputs are required before production claims.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_material_input_comparison.svg" alt="GaAs material-input comparison for Fig. 1 branches">
-        <figcaption><strong>Material-input comparison.</strong> Keeping the same Wannier-RPA plasmon table while rebuilding each effective LO from <code>TO^2+S_polar</code>, the avoided-crossing gap changes from <code>14.22 meV</code> for reference GaAs to <code>10.89 meV</code> for PBE QC and <code>7.33 meV</code> for LDA QC.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/avoided_crossing.png" alt="Toy plasmon-phonon avoided crossing">
-        <figcaption><strong>Avoided crossing.</strong> The bare plasmon is swept through a coupled phonon. The hybrid eigenmodes repel instead of crossing, while the intentionally decoupled phonon remains fixed.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/spectral_function.png" alt="Toy phonon spectral function">
-        <figcaption><strong>Phonon spectral function.</strong> Peaks align with the finite-linewidth hybrid modes, illustrating the Green-function observable used later for phonon spectra.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/static_ppm.png" alt="Static plasmon-pole low-energy limit">
-        <figcaption><strong>Static PPM limit.</strong> The static plasmon-pole construction stays close to the target low-energy inverse dielectric function.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_loto_gamma_x.svg" alt="GaAs Gamma to X phonon interpolation with LO-TO splitting">
-        <figcaption><strong>GaAs LO-TO postprocessing.</strong> <code>q2r.x</code>/<code>matdyn.x</code> splits the exact-Gamma optical mode into two TO branches at <code>260.2447 cm^-1</code> and one LO branch at <code>263.4405 cm^-1</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_backed_hybrid_sweep.svg" alt="GaAs-backed toy plasmon sweep through DFT-derived optical phonons">
-        <figcaption><strong>GaAs-backed hybrid test.</strong> The solver now consumes exact-Gamma GaAs optical phonons from <code>matdyn.x</code>; only the LO-like mode is coupled to the current toy plasmon.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_drude_hybrid_density_sweep.svg" alt="GaAs Drude density-dependent hybrid sweep">
-        <figcaption><strong>Drude density sweep.</strong> The fixed toy plasmon energy is replaced by <code>E_pl(n)=hbar sqrt(n e^2/(epsilon_0 epsilon_inf m*))</code>, giving an LO-like resonance near <code>5.6453e17 cm^-3</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_polar_coupling_density_sweep.svg" alt="GaAs polar-coupled density-dependent hybrid sweep">
-        <figcaption><strong>Polar coupling sweep.</strong> The fixed coupling is replaced by <code>c(n)=omega_pl sqrt(omega_LO^2-omega_TO^2)</code>, so only the LO-like branch hybridizes.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_ppm_fit_validation.svg" alt="GaAs mock RPA inverse dielectric data and plasmon-pole fit">
-        <figcaption><strong>PPM fit validation.</strong> Drude-generated mock <code>epsilon_el^{-1}(omega)</code> is fitted back to <code>Omega</code>, <code>omega_pl</code>, and <code>gamma</code> with maximum relative residual <code>2.29e-13</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fitted_ppm_hybrid_density_sweep.svg" alt="GaAs fitted plasmon-pole hybrid density sweep">
-        <figcaption><strong>Fitted-PPM hybrid path.</strong> The hybrid solver now consumes fitted <code>Omega</code>, <code>omega_pl</code>, <code>gamma</code>, and <code>fit_status</code> from the PPM table instead of direct Drude parameters.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fitted_ppm_finite_hybrid_density_sweep.svg" alt="GaAs finite-linewidth fitted plasmon-pole hybrid density sweep">
-        <figcaption><strong>Finite-linewidth fitted-PPM branches.</strong> The same fitted table now produces complex branches <code>lambda = omega - i gamma</code>; the plot shows <code>Re(lambda)</code> while linewidths range from <code>0.2000</code> to <code>2.9988 meV</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fitted_ppm_spectral_function.svg" alt="GaAs fitted-PPM phonon spectral function">
-        <figcaption><strong>Fitted-PPM spectral function.</strong> At <code>n=5.4890e17 cm^-3</code>, near the LO-like resonance, the phonon spectral function peaks at <code>32.3026 meV</code> and resolves the finite-linewidth hybrid modes.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fitted_ppm_dielectric_loss.svg" alt="GaAs fitted-PPM inverse dielectric loss">
-        <figcaption><strong>Fitted-PPM loss function.</strong> The toy dielectric response uses <code>epsilon^{-1}=epsilon_inf^{-1}+Omega^2 G_00</code>; at the resonance row, hybridization moves the strongest loss feature to <code>29.8109 meV</code> from the bare fitted plasmon peak at <code>32.2136 meV</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_fig1_like_surrogate.svg" alt="GaAs Fig. 1-like surrogate hybrid energies">
-        <figcaption><strong>Fig.1-like surrogate.</strong> Current data can generate a density-dependent GaAs hybrid-energy plot with fitted-PPM branches, bare plasmon, TO/LO references, and LO resonance at <code>5.6453e17 cm^-3</code>. It is explicitly not the reproduced paper Fig. 1.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_lindhard_fig1_finite_q_shift.svg" alt="GaAs finite-q Lindhard surrogate plasmon shift">
-        <figcaption><strong>Finite-q Lindhard shift.</strong> At <code>|q|=8e-4 Angstrom^-1</code>, the long-wavelength parabolic-band correction blue-shifts the plasmon by only <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_lindhard_fig1_hybrid_sweep.svg" alt="GaAs finite-q Lindhard fitted-PPM hybrid density sweep">
-        <figcaption><strong>Finite-q fitted-PPM hybrid path.</strong> The mock PPM interface now consumes a q-dependent plasmon pole. Near the LO row <code>5.4890e17 cm^-3</code>, hybrid energies are <code>29.8249</code>, <code>32.2662</code>, <code>32.2662</code>, and <code>34.8971 meV</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_numeric_lindhard_fig1_ppm_fit.svg" alt="GaAs numerical finite-temperature Lindhard PPM fit summary">
-        <figcaption><strong>Numerical Lindhard PPM fit.</strong> Direct k-space finite-T Lindhard <code>epsilon_el^{-1}(q,omega)</code> data now feed the same PPM fitter. All <code>80</code> density rows fit with <code>status=ok</code>; max relative residual is <code>1.24e-2</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_numeric_lindhard_fig1_hybrid_sweep.svg" alt="GaAs numerical Lindhard fitted-PPM hybrid density sweep">
-        <figcaption><strong>Numerical Lindhard hybrid path.</strong> At the nearest LO row <code>5.5826e17 cm^-3</code>, the fitted numeric pole gives hybrid energies <code>30.0005</code>, <code>32.2662</code>, <code>32.2662</code>, and <code>35.0850 meV</code>.</figcaption>
-      </figure>
-      <figure>
-        <img src="assets/gaas_numeric_lindhard_fig1_static_comparison.svg" alt="GaAs numerical Lindhard dynamic versus static approximation">
-        <figcaption><strong>Static approximation branch.</strong> Using numerical Lindhard <code>epsilon_el^{-1}(q,0)</code> with <code>omega*=5 eV</code> pins the static screened LO branch near the TO mode: <code>32.2663</code>-<code>32.2748 meV</code>.</figcaption>
-      </figure>
-    </div>
-  </section>
+<section id="method">
+  <h2>Method at a Glance</h2>
+  <p>The reproduction path follows the paper's separation of carrier screening and polar phonons:</p>
+  <div class="math">
+$$
+\underbrace{
+\delta\chi^0(q,\omega)
+\rightarrow
+\epsilon_{\rm el}^{-1}(q,\omega)
+\rightarrow
+(\Omega_{q0},\omega_{q0},\gamma_{q0})
+}_{\text{doped-carrier RPA and PPM}}
+\quad\Longrightarrow\quad
+\underbrace{
+\widetilde C_q
+\rightarrow
+\widetilde\omega_{q\beta}
+}_{\text{plasmon-phonon hybrids}}
+\quad\Longrightarrow\quad
+-{\rm Im}\,\epsilon_{\rm pl-ph}^{-1}(q,\omega).
+$$
+  </div>
+  <p>For Fig. 1-like GaAs branch energies, the decisive phonon-side input is the analytic long-range polar coupling from Born charges, $\epsilon_\infty$, phonon eigenvectors, masses, and cell volume. The short-range EPW electron-phonon vertex is not needed for those branch energies.</p>
+</section>
 
-  <section>
-    <h2>Numerical Checks</h2>
-    <p>The toy model uses energies in eV and coupling <code>c</code> in eV<sup>2</sup>. The default zero-linewidth model has one plasmon at 80 meV, one coupled phonon at 100 meV, and one decoupled phonon at 160 meV.</p>
+<section id="figures">
+  <h2>Key Figures</h2>
+  <p class="small">Figures are small public-safe SVG/PNG artifacts copied under <code>docs/assets/</code>. Raw data behind them are not published.</p>
+  <div class="figure-grid">
+    <figure>
+      <img src="assets/gaas_pbe_reference_epsilon_publication.svg" alt="Publication-style GaAs plasmon-phonon hybridization curve">
+      <figcaption><strong>Publication-style PBE HR with reference $\epsilon_\infty$.</strong> Refit PBE HR plus reference dielectric screening gives the current best Fig. 1-like branch comparison.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/gaas_pbe_reference_epsilon_fig1.svg" alt="GaAs Fig. 1 curves with PBE HR and reference epsilon infinity">
+      <figcaption><strong>PBE HR + reference $\epsilon_\infty$.</strong> Bare plasmon range $6.811$-$65.767$ meV, nonadiabatic hybrid range $6.262$-$67.692$ meV, and all-guide RMSE $1.326$ meV.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/gaas_pbe_full_input_fig1.svg" alt="GaAs Fig. 1 curves recomputed from full PBE inputs">
+      <figcaption><strong>Full-PBE input rerun.</strong> Uses PBE $\epsilon_\infty=17.923182183$, PBE Born charges, PBE TO $33.217040$ meV, and $LO_{\rm eff}=34.955091$ meV.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/gaas_fig1_rpa_ppm_examples.svg" alt="RPA inverse dielectric loss and plasmon-pole fit examples">
+      <figcaption><strong>RPA/PPM overlays.</strong> Representative $-{\rm Im}\,\epsilon_{\rm el}^{-1}$ spectra and fitted plasmon-pole curves.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="repro">
+  <h2>Reproducibility Notes</h2>
+  <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Check</th>
-          <th>Value</th>
-          <th>Tolerance</th>
-          <th>Status</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Component</th><th>Current setting / result</th><th>Notes</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Direct Dyson vs full Green function</td>
-          <td><code>8.643478e-12</code></td>
-          <td><code>5.000000e-07</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Zero modes vs direct Green function</td>
-          <td><code>1.383554e-10</code></td>
-          <td><code>5.000000e-07</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Finite gamma to zero energy</td>
-          <td><code>3.330669e-16</code></td>
-          <td><code>5.000000e-08</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Finite gamma to zero damping</td>
-          <td><code>1.033976e-25</code></td>
-          <td><code>5.000000e-08</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Finite A/B vs direct damped eigenvalues</td>
-          <td><code>4.998866e-16</code></td>
-          <td><code>5.000000e-12</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Damping sign convention</td>
-          <td><code>-1.000000e-03</code></td>
-          <td><code>&lt;= 1.000000e-12</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Minimum spectral function</td>
-          <td><code>4.271899e-02</code></td>
-          <td><code>&gt;= -1.000000e-10</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Decoupled mode energy error</td>
-          <td><code>0.000000e+00</code></td>
-          <td><code>1.000000e-12</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Static PPM low-energy error</td>
-          <td><code>1.201923e-03</code></td>
-          <td><code>2.000000e-03</code></td>
-          <td class="status-pass">PASS</td>
-        </tr>
+        <tr><td>Python environment</td><td><code>ml anaconda/2024.02-py311</code>, <code>conda activate Tmat</code></td><td>Used for local analysis and figure generation.</td></tr>
+        <tr><td>QE environment</td><td><code>module reset</code>; <code>aocc/3.1.0</code>; <code>openmpi/4.1.6</code>; AMD BLIS/libFLAME/libM; <code>fftw</code></td><td>QE directory is <code>/anvil/projects/x-che190065/rjguo/qe-7.5</code>.</td></tr>
+        <tr><td>CPU policy</td><td>Use 128 CPUs unless the task is truly tiny.</td><td>Matches the current HPC workflow preference.</td></tr>
+        <tr><td>GaAs q point</td><td>$|q|=8\times10^{-4}$ Angstrom$^{-1}$ along $[110]$</td><td>Paper Fig. 1 geometry.</td></tr>
+        <tr><td>Temperature</td><td>$T=300$ K</td><td>Used in the paper's carrier occupations.</td></tr>
+        <tr><td>Reference dielectric rerun</td><td>$\epsilon_\infty=10.89$</td><td>Used consistently in RPA Coulomb kernel and long-range polar coupling denominator.</td></tr>
       </tbody>
     </table>
-  </section>
+  </div>
+</section>
 
-  <section>
-    <h2>Regression Test Update</h2>
-    <p>The toy model checks have been promoted to a local standard-library <code>unittest</code> suite. The test suite is kept in the HPC working folder as <code>tests/test_toy_model.py</code>; it is summarized here but not uploaded as a raw source file.</p>
-    <pre><code>module reset
-ml anaconda/2024.02-py311
-conda activate Tmat
-python -m unittest -v tests.test_toy_model</code></pre>
+<section id="warnings" class="warning">
+  <h2>Warnings: Files Not Published</h2>
+  <p>This GitHub Pages artifact intentionally publishes only compact derived notes and figures. It excludes raw or large research data and credentials.</p>
+  <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>Test area</th>
-          <th>Coverage</th>
-          <th>Status</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Class</th><th>Policy</th></tr></thead>
       <tbody>
-        <tr>
-          <td>Matrix structure</td>
-          <td><code>C_tilde</code> Hermiticity and energy-squared diagonal/off-diagonal checks.</td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Green functions</td>
-          <td>Direct Dyson phonon block equals the full plasmon-phonon Green function; zero-linewidth modes reconstruct the direct Green function.</td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Coupling limits</td>
-          <td>All-decoupled modes do not shift; weak coupling keeps bare energies; resonant two-mode avoided crossing matches the analytic formula.</td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Finite linewidth</td>
-          <td>A/B non-Hermitian matrix matches direct damped matrix; damping signs are physical; gamma-to-zero limit returns the Hermitian result.</td>
-          <td class="status-pass">PASS</td>
-        </tr>
-        <tr>
-          <td>Spectral and static checks</td>
-          <td>Spectral function remains non-negative; static PPM low-energy limit works for multiple target dielectric values.</td>
-          <td class="status-pass">PASS</td>
-        </tr>
+        <tr><td>Paper PDFs and supplemental PDFs</td><td>Excluded; pages contain derived summaries and formulas only.</td></tr>
+        <tr><td>QE wavefunctions, <code>*.save/</code>, charge density, large raw output</td><td>Excluded as large HPC data.</td></tr>
+        <tr><td>Dense numerical arrays <code>*.npy/*.npz/*.h5/*.dat</code></td><td>Excluded; summarized in tables and small figures only.</td></tr>
+        <tr><td>Scheduler logs <code>*.out/*.err/*.log</code></td><td>Excluded.</td></tr>
+        <tr><td>Private keys, tokens, local credentials</td><td>Excluded and never printed.</td></tr>
       </tbody>
     </table>
-    <p><strong>Result:</strong> 71 tests ran in 1.119 s, all passed in the requested <code>ml anaconda/2024.02-py311</code> plus <code>conda activate Tmat</code> environment. The added checks cover the strict direct Fig. 1 renderer, the current stock-EPW GaAs templates, and the updated RPA/coupling workflow: <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band Wannier overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, final two-branch hybrid CSV generation, Born/eigenvector polar coupling normalization, <code>[100]</code>/<code>[110]</code>/<code>[111]</code> direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, QE/Wannier band checks, supplement-form <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
-  </section>
-
-  <section>
-    <h2>Hybrid Mode Values</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Mode</th>
-          <th>Zero-linewidth energy</th>
-          <th>Finite-linewidth lambda</th>
-          <th>Interpretation</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>0</td>
-          <td>75.1958482 meV</td>
-          <td>75.3076349 - 5.2816952i meV</td>
-          <td>Lower hybrid mode, plasmon-like away from resonance.</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>103.6609107 meV</td>
-          <td>103.5500314 - 1.7183048i meV</td>
-          <td>Upper hybrid mode from the coupled 100 meV phonon.</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>160.0000000 meV</td>
-          <td>160.0000000 - 1.0000000i meV</td>
-          <td>Decoupled phonon; it remains unshifted because its coupling is zero.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section>
-    <h2>Interpretation</h2>
-    <p>The avoided-crossing figure is the cleanest visualization of plasmon-phonon hybridization. Without coupling, the bare plasmon line and phonon level would cross. With nonzero coupling, the eigenvalues of the plasmon-phonon dynamical matrix repel, producing two hybrid modes. This is the toy analog of the resonant regime discussed in the paper and later targeted in GaAs and TiO2.</p>
-    <p>The spectral-function figure checks that the Green-function observable is consistent with those hybrid modes. The static-PPM figure verifies the separate static approximation used as a control calculation in the reproduction plan.</p>
-  </section>
-
-  <section>
-    <h2>Reproducibility Notes</h2>
-    <p>The toy model was run with the requested HPC environment:</p>
-    <pre><code>module reset
-ml anaconda/2024.02-py311
-conda activate Tmat
-python toy_model_plph.py
-python toy_model_plph.py --plot</code></pre>
-    <p>The plotting command writes the public PNG files to <code>figures/toy_model/</code>. For this GitHub Pages report, the three small PNG files were copied to <code>docs/assets/</code> and referenced with relative paths.</p>
-    <p>The unit convention baseline was added locally as <code>environment/unit_conventions.md</code>. The public-safe summary is available as <a href="unit_conventions.html">a dedicated unit-conventions page</a>.</p>
-    <p>TiO2 QE input templates were added locally under <code>dft/tio2/</code>. QE executables are referenced from <code>/anvil/projects/x-che190065/rjguo/qe-7.5/bin</code>, with modules <code>aocc/3.1.0</code>, <code>openmpi/4.1.6</code>, <code>amdblis/3.0</code>, <code>amdlibflame/3.0</code>, <code>amdlibm/3.0</code>, and <code>fftw</code>.</p>
-    <p>Local pseudopotentials were downloaded from the official PseudoDojo LDA standard UPF tarball, with <code>Ti.upf</code>, <code>O.upf</code>, <code>Ga.upf</code>, and <code>As.upf</code> extracted for the current baselines. The public-safe TiO2 and GaAs details are summarized in their dedicated input-prep pages.</p>
-    <p>The GaAs LO-TO postprocessing was run locally with the same QE module stack:</p>
-    <pre><code>module reset
-module load aocc/3.1.0 openmpi/4.1.6
-module load amdblis/3.0 amdlibflame/3.0 amdlibm/3.0 fftw
-cd dft/gaas/primitive/post/loto
-/anvil/projects/x-che190065/rjguo/qe-7.5/bin/q2r.x &lt; q2r_loto.in &gt; q2r_loto.out
-/anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_loto.in &gt; matdyn_gamma_x_loto.out
-/anvil/projects/x-che190065/rjguo/qe-7.5/bin/matdyn.x &lt; matdyn_gamma_x_no_loto.in &gt; matdyn_gamma_x_no_loto.out</code></pre>
-    <p>The GaAs-backed toy hybrid test was then generated with:</p>
-    <pre><code>module reset
-ml anaconda/2024.02-py311
-conda activate Tmat
-python -m unittest -v tests.test_toy_model
-python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --write-gaas-mode-table dft/gaas/primitive/post/loto/gaas_gamma_x_loto_modes.csv \
-  --gaas-demo \
-  --gaas-plot-svg docs/assets/gaas_backed_hybrid_sweep.svg</code></pre>
-    <p>The density-dependent Drude surrogate was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-drude-sweep-csv dft/gaas/primitive/post/loto/gaas_drude_hybrid_density_sweep.csv \
-  --gaas-drude-sweep-svg docs/assets/gaas_drude_hybrid_density_sweep.svg</code></pre>
-    <p>The polar-coupled density sweep was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-polar-coupling-sweep-csv dft/gaas/primitive/post/loto/gaas_polar_coupling_density_sweep.csv \
-  --gaas-polar-coupling-sweep-svg docs/assets/gaas_polar_coupling_density_sweep.svg</code></pre>
-    <p>The mock RPA to plasmon-pole fitting validation was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
-  --gaas-ppm-fit-svg docs/assets/gaas_ppm_fit_validation.svg</code></pre>
-    <p>The fitted-PPM table driven hybrid path was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
-  --gaas-fitted-ppm-hybrid-csv dft/gaas/primitive/post/loto/gaas_fitted_ppm_hybrid_density_sweep.csv \
-  --gaas-fitted-ppm-hybrid-svg docs/assets/gaas_fitted_ppm_hybrid_density_sweep.svg</code></pre>
-    <p>The finite-linewidth fitted-PPM branches and spectral-function view were generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
-  --gaas-fitted-ppm-finite-csv dft/gaas/primitive/post/loto/gaas_fitted_ppm_finite_hybrid_density_sweep.csv \
-  --gaas-fitted-ppm-finite-svg docs/assets/gaas_fitted_ppm_finite_hybrid_density_sweep.svg \
-  --gaas-spectral-csv dft/gaas/primitive/post/loto/gaas_fitted_ppm_spectral_function.csv \
-  --gaas-spectral-svg docs/assets/gaas_fitted_ppm_spectral_function.svg</code></pre>
-    <p>The fitted-PPM toy inverse-dielectric loss output was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
-  --gaas-dielectric-loss-csv dft/gaas/primitive/post/loto/gaas_fitted_ppm_dielectric_loss.csv \
-  --gaas-dielectric-loss-svg docs/assets/gaas_fitted_ppm_dielectric_loss.svg</code></pre>
-    <p>The Fig.1-like GaAs surrogate plot was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-ppm-fit-input dft/gaas/primitive/post/loto/gaas_ppm_fit_parameters.csv \
-  --gaas-fig1-surrogate-svg docs/assets/gaas_fig1_like_surrogate.svg</code></pre>
-    <p>The Fig. 1 target q-vector conversion was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-fig1-q-geometry-csv dft/gaas/primitive/post/loto/gaas_fig1_q_geometry.csv</code></pre>
-    <p>The finite-q Lindhard surrogate and fitted-PPM hybrid path were generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-lindhard-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_lindhard_fig1_ppm_fit_parameters.csv \
-  --gaas-lindhard-shift-svg docs/assets/gaas_lindhard_fig1_finite_q_shift.svg \
-  --gaas-lindhard-hybrid-csv dft/gaas/primitive/post/loto/gaas_lindhard_fig1_hybrid_density_sweep.csv \
-  --gaas-lindhard-hybrid-svg docs/assets/gaas_lindhard_fig1_hybrid_sweep.svg</code></pre>
-    <p>The direct numerical finite-T Lindhard dielectric source and fitted-PPM hybrid path were generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-density-points 80 \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-numeric-lindhard-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_ppm_fit_parameters.csv \
-  --gaas-numeric-lindhard-ppm-svg docs/assets/gaas_numeric_lindhard_fig1_ppm_fit.svg \
-  --gaas-numeric-lindhard-hybrid-csv dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_hybrid_density_sweep.csv \
-  --gaas-numeric-lindhard-hybrid-svg docs/assets/gaas_numeric_lindhard_fig1_hybrid_sweep.svg</code></pre>
-    <p>The numerical Lindhard dynamic-vs-static comparison was generated with:</p>
-    <pre><code>python toy_model_plph.py --quiet \
-  --gaas-density-points 80 \
-  --gaas-matdyn-freq dft/gaas/primitive/post/loto/gaas_gamma_x_loto.freq \
-  --gaas-numeric-lindhard-ppm-fit-csv dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_ppm_fit_parameters.csv \
-  --gaas-numeric-lindhard-static-csv dft/gaas/primitive/post/loto/gaas_numeric_lindhard_fig1_static_comparison.csv \
-  --gaas-numeric-lindhard-static-svg docs/assets/gaas_numeric_lindhard_fig1_static_comparison.svg</code></pre>
-    <p>The direct Fig. 1 renderer is intentionally strict and will only run after real Fig. 1 inputs exist:</p>
-    <pre><code>python fig1_direct_reproduction.py \
-  --nonadiabatic-csv dft/gaas/fig1_direct/gaas_fig1_nonadiabatic.csv \
-  --static-csv dft/gaas/fig1_direct/gaas_fig1_static.csv \
-  --bare-plasmon-csv dft/gaas/fig1_direct/gaas_fig1_bare_plasmon.csv \
-  --raman-csv dft/gaas/fig1_direct/gaas_fig1_raman.csv \
-  --to-phonon-mev &lt;validated_TO_energy_meV&gt; \
-  --out-svg docs/assets/gaas_fig1_direct.svg</code></pre>
-    <p>Those CSV files must declare accepted provenance such as <code># provenance: wannier_rpa</code> or <code># provenance: experiment</code>; toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate inputs are rejected.</p>
-    <p>The current local Wannier-RPA smoke table was generated with:</p>
-    <pre><code>module reset
-ml anaconda/2024.02-py311
-source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate Tmat
-python fig1_wannier_rpa_smoke.py</code></pre>
-    <p>The current EPW-only file-mesh restart was prepared and submitted with:</p>
-    <pre><code>cd dft/gaas/primitive/epw_stock_bands
-python3 make_epw_filemesh_restart.py
-sbatch run_gaas_epw_filemesh_shared.slurm</code></pre>
-    <p>This restart reads completed Wannier-representation files with <code>epwread=.true.</code>, uses <code>filkf</code>/<code>filqf</code> for the fine interpolation meshes, removes <code>nkf*/nqf*</code>, and keeps the shared-node <code>128</code>-CPU convention.</p>
-    <p class="note">Matplotlib emitted a cache-directory warning when <code>MPLCONFIGDIR=/tmp/matplotlib-cache</code> was not writable; it automatically used a temporary cache. This did not affect the generated figures.</p>
-  </section>
-
-  <section class="warning">
-    <h2>Files Not Uploaded</h2>
-    <p>The following files are intentionally not included in <code>docs/</code> or the GitHub Pages artifact:</p>
-    <ul>
-      <li><code>PhysRevLett.133.116402.pdf</code>, 1.6 MB: copyrighted paper PDF, not needed for the public report.</li>
-      <li><code>supp_revised.pdf</code>, 918 KB: supplemental PDF, not needed for the public report.</li>
-      <li><code>dft/tio2/</code>: local QE input templates and future raw QE working directories.</li>
-      <li><code>dft/gaas/</code>: local QE inputs, raw outputs, dynamical matrices, IFC files, and derived local CSV tables.</li>
-      <li><code>dft/gaas/primitive/epw_stock_bands/gaas_fine_k_40x40x40.kpt</code>: generated fine k-point mesh for EPW restart, local only.</li>
-      <li><code>dft/gaas/fig1_direct/</code>: local derived direct Fig. 1 CSVs, PPM tables, RPA response tables, and smoke tables. The public page uploads only the small rendered SVG summary.</li>
-      <li>Future convergence-scan tables for direct Fig. 1: should stay local until confirmed public-safe and small.</li>
-      <li><code>pseudos/</code>: local PseudoDojo UPF tarball and extracted pseudopotential files.</li>
-      <li><code>__pycache__/</code>: generated Python bytecode cache.</li>
-      <li>Any future <code>*.h5</code>, <code>*.npy</code>, <code>*.dat</code>, <code>*.wfc*</code>, <code>*.out</code>, <code>*.log</code>, private keys, environment files, or raw simulation folders.</li>
-    </ul>
-    <p>No private keys, tokens, credentials, raw wavefunction files, or large raw outputs were selected for upload.</p>
-  </section>
+  </div>
+</section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>
