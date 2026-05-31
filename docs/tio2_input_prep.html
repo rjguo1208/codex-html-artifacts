@@ -1,175 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TiO2 Input Preparation</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --code-bg: #eef3f8;
-      --warn-bg: #fff6df;
-      --warn-line: #e4b64b;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.56;
-    }
-    main {
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      line-height: 1.12;
-      letter-spacing: 0;
-    }
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.35rem;
-      letter-spacing: 0;
-    }
-    h3 {
-      margin: 14px 0 8px;
-      font-size: 1.05rem;
-      letter-spacing: 0;
-    }
-    p { margin: 0 0 12px; }
-    a { color: var(--accent); }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    code, pre {
-      background: var(--code-bg);
-      border-radius: 6px;
-    }
-    code {
-      padding: 2px 5px;
-      font-size: 0.95em;
-    }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-    th {
-      color: var(--muted);
-      background: #f3f6f9;
-    }
-    .nav {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      text-decoration: none;
-      font-weight: 650;
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span {
-      display: block;
-      margin-top: 4px;
-      overflow-wrap: anywhere;
-    }
-    .warning {
-      background: var(--warn-bg);
-      border-color: var(--warn-line);
-    }
-    .status {
-      color: #166534;
-      font-weight: 700;
-    }
-    .status-pending {
-      color: #9a4d00;
-      font-weight: 700;
-    }
-    ul { margin: 8px 0 0 22px; padding: 0; }
-    li { margin: 4px 0; }
-    @media (max-width: 760px) {
-      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
-      section { padding: 14px; }
-      .meta { grid-template-columns: 1fr; }
-      table { display: block; overflow-x: auto; white-space: nowrap; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TiO2 Input Preparation</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <a class="nav" href="index.html">Back to report</a>
-  <header>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html">GaAs Inputs</a>
+    <a href="tio2_input_prep.html" style="color:#fff;text-decoration:underline">TiO2 Inputs</a>
+    <a href="toy_model_formulas.html">Toy Model</a>
+    <a href="unit_conventions.html">Units</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>TiO2 DFT/DFPT Input Preparation</h1>
-    <p>This page documents the local input-template, Quantum ESPRESSO, and pseudopotential setup for the anatase TiO2 undoped baseline. The working inputs and UPF files stay in the HPC folder, not in the GitHub Pages repository.</p>
+    <p class="subtitle">This page documents the local input-template, Quantum ESPRESSO, and pseudopotential setup for the anatase TiO2 undoped baseline. The working inputs and UPF files stay in the HPC folder, not in the GitHub Pages repository.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-20T20:56:50-04:00</span>
-      </div>
-      <div class="metric">
-        <strong>Local directory</strong>
-        <span><code>dft/tio2/</code></span>
-      </div>
-      <div class="metric">
-        <strong>Status</strong>
-        <span>4x4x4 DFPT canceled; workflow switched to GaAs</span>
-      </div>
+      <span class="pill">Generated: 2026-05-20T20:56:50-04:00</span>
+      <span class="pill">Local directory: <code>dft/tio2/</code></span>
+      <span class="pill">Status: 4x4x4 DFPT canceled; workflow switched to GaAs</span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
+  </div>
+</header>
+<main>
+<section id="contents">
+  <h2>Contents</h2>
+  <div class="toc">
+    <a href="#sec-0">Target Computational Setup</a>
+    <a href="#sec-1">Local Files Created</a>
+    <a href="#sec-2">QE Environment and Pseudopotentials</a>
+    <a href="#sec-3">Run Order</a>
+    <a href="#sec-4">Primitive-Cell Workflow Status</a>
+    <a href="#sec-5">Template Sanity Checks</a>
+    <a href="#sec-6">Gamma DFPT Results</a>
+    <a href="#sec-7">Important Warnings Before Running</a>
+    <a href="#sec-8">Next Reproduction Step</a>
+  </div>
+</section>
 
-  <section>
+<section id="sec-0">
     <h2>Target Computational Setup</h2>
     <table>
       <thead>
@@ -211,7 +98,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-1">
     <h2>Local Files Created</h2>
     <table>
       <thead>
@@ -281,7 +168,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-2">
     <h2>QE Environment and Pseudopotentials</h2>
     <table>
       <thead>
@@ -327,7 +214,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-3">
     <h2>Run Order</h2>
     <p>The production route now uses the 6-atom primitive-cell templates. The intended local command order is:</p>
     <pre><code>module reset
@@ -345,7 +232,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_gamma_eps.in &gt; d
 $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.out</code></pre>
   </section>
 
-  <section>
+  <section id="sec-4">
     <h2>Primitive-Cell Workflow Status</h2>
     <table>
       <thead>
@@ -415,7 +302,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
     </table>
   </section>
 
-  <section>
+  <section id="sec-5">
     <h2>Template Sanity Checks</h2>
     <table>
       <thead>
@@ -510,7 +397,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
     </table>
   </section>
 
-  <section>
+  <section id="sec-6">
     <h2>Gamma DFPT Results</h2>
     <table>
       <thead>
@@ -550,7 +437,7 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
     </table>
   </section>
 
-  <section class="warning">
+  <section id="sec-7" class="warning">
     <h2>Important Warnings Before Running</h2>
     <ul>
       <li>The SCF template now contains the converged <code>cont2</code> coordinates used by the completed SCF and Gamma DFPT runs.</li>
@@ -567,10 +454,14 @@ $QE/ph.x -in dft/tio2/primitive/ph/tio2_anatase_primitive_ph_grid_4x4x4.in &gt; 
     </ul>
   </section>
 
-  <section>
+  <section id="sec-8">
     <h2>Next Reproduction Step</h2>
     <p>The TiO2 q-grid branch is stopped. The next implementation step has moved to GaAs: monitor SCF job <code>17548418</code>, then submit the GaAs Gamma dielectric/Born-charge DFPT job after SCF completes cleanly.</p>
   </section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>

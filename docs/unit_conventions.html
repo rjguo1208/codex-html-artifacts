@@ -1,176 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unit Conventions</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --code-bg: #eef3f8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.56;
-    }
-    main {
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      line-height: 1.12;
-      letter-spacing: 0;
-    }
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.35rem;
-      letter-spacing: 0;
-    }
-    h3 {
-      margin: 14px 0 8px;
-      font-size: 1.05rem;
-      letter-spacing: 0;
-    }
-    p { margin: 0 0 12px; }
-    a { color: var(--accent); }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    code, pre {
-      background: var(--code-bg);
-      border-radius: 6px;
-    }
-    code {
-      padding: 2px 5px;
-      font-size: 0.95em;
-    }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-    th {
-      color: var(--muted);
-      background: #f3f6f9;
-    }
-    .nav {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      text-decoration: none;
-      font-weight: 650;
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span {
-      display: block;
-      margin-top: 4px;
-      overflow-wrap: anywhere;
-    }
-    .warning {
-      background: #fff6df;
-      border-color: #e4b64b;
-    }
-    .check {
-      color: #166534;
-      font-weight: 700;
-    }
-    ul { margin: 8px 0 0 22px; padding: 0; }
-    li { margin: 4px 0; }
-    @media (max-width: 760px) {
-      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
-      section { padding: 14px; }
-      .meta { grid-template-columns: 1fr; }
-      table { display: block; overflow-x: auto; white-space: nowrap; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit Conventions</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <a class="nav" href="index.html">Back to report</a>
-  <header>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html">GaAs Inputs</a>
+    <a href="tio2_input_prep.html">TiO2 Inputs</a>
+    <a href="toy_model_formulas.html">Toy Model</a>
+    <a href="unit_conventions.html" style="color:#fff;text-decoration:underline">Units</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>Unit Conventions for the Plasmon-Phonon Reproduction</h1>
-    <p>This page summarizes the local <code>environment/unit_conventions.md</code> file. It fixes the unit baseline before any TiO2 DFT/DFPT or RPA work begins.</p>
+    <p class="subtitle">This page summarizes the local <code>environment/unit_conventions.md</code> file. It fixes the unit baseline before any TiO2 DFT/DFPT or RPA work begins.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-20</span>
-      </div>
-      <div class="metric">
-        <strong>Local source</strong>
-        <span><code>environment/unit_conventions.md</code></span>
-      </div>
-      <div class="metric">
-        <strong>Internal convention</strong>
-        <span>Hartree atomic units</span>
-      </div>
+      <span class="pill">Generated: 2026-05-20</span>
+      <span class="pill">Local source: <code>environment/unit_conventions.md</code></span>
+      <span class="pill">Internal convention: Hartree atomic units</span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
+  </div>
+</header>
+<main>
+<section id="contents">
+  <h2>Contents</h2>
+  <div class="toc">
+    <a href="#sec-0">Core Policy</a>
+    <a href="#sec-1">Conversion Constants</a>
+    <a href="#sec-2">Cell Volume and Carrier Density</a>
+    <a href="#sec-3">RPA and Coulomb Units</a>
+    <a href="#sec-4">Plasmon-Pole and Coupling Checks</a>
+    <a href="#sec-5">Dynamical Matrix Requirements</a>
+    <a href="#sec-6">Finite-Linewidth Sign Convention</a>
+    <a href="#sec-7">Static Approximation</a>
+    <a href="#sec-8">Stop Conditions</a>
+  </div>
+</section>
 
-  <section>
+<section id="sec-0">
     <h2>Core Policy</h2>
     <p>Internal calculations should use atomic units. Human-facing output should use eV or meV for energies, Angstrom for lengths, and cm<sup>-3</sup> for carrier density.</p>
     <p>The main invariant is:</p>
     <pre><code>Every element of C_tilde must have units of energy squared.</code></pre>
   </section>
 
-  <section>
+  <section id="sec-1">
     <h2>Conversion Constants</h2>
     <table>
       <thead>
@@ -210,7 +103,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-2">
     <h2>Cell Volume and Carrier Density</h2>
     <p>Use the actual simulation cell vectors from the same QE / Wannier / EPW calculation. Do not mix primitive and conventional cell volumes.</p>
     <pre><code>a_i[bohr] = a_i[Angstrom] * ANG_TO_BOHR
@@ -221,7 +114,7 @@ N_dop_cell = n_bohr * V_cell              # electrons / simulation cell</code></
     <p>If spin is not explicitly resolved, the occupation sum should include the spin degeneracy factor 2. If spin channels are explicit, sum over spin channels instead.</p>
   </section>
 
-  <section>
+  <section id="sec-3">
     <h2>RPA and Coulomb Units</h2>
     <p>The screened macroscopic Coulomb interaction is evaluated in atomic units:</p>
     <pre><code>epsilon_inf_qhat = dot(q_hat, epsilon_inf @ q_hat)
@@ -230,7 +123,7 @@ U_q = 4*pi / (V_cell * q_norm^2 * epsilon_inf_qhat)   # Ha</code></pre>
     <pre><code>epsilon_el_inv(q, omega) = 1 / (1 - U_q * delta_chi0(q, omega))</code></pre>
   </section>
 
-  <section>
+  <section id="sec-4">
     <h2>Plasmon-Pole and Coupling Checks</h2>
     <pre><code>epsilon_el_inv(q, omega) - 1
   = Omega_q0^2 / ((omega + i*gamma_q0)^2 - omega_q0^2)</code></pre>
@@ -241,7 +134,7 @@ c_qnu = g_lr_q0 * g_lr_qnu / U_q
     <p class="warning">The invariant implementation check is <code>c_qnu</code> must have units Ha<sup>2</sup>. If this fails, do not proceed to real-material calculations.</p>
   </section>
 
-  <section>
+  <section id="sec-5">
     <h2>Dynamical Matrix Requirements</h2>
     <pre><code>C_tilde =
 [[omega_q0^2, c_q1,       c_q2,       ...],
@@ -256,13 +149,13 @@ c_qnu = g_lr_q0 * g_lr_qnu / U_q
     </ul>
   </section>
 
-  <section>
+  <section id="sec-6">
     <h2>Finite-Linewidth Sign Convention</h2>
     <pre><code>lambda_qbeta = omega_tilde_qbeta - i * gamma_tilde_qbeta</code></pre>
     <p>Physical damping means <code>Im(lambda_qbeta) &lt;= 0</code> and <code>gamma_tilde_qbeta = -Im(lambda_qbeta) &gt;= 0</code>.</p>
   </section>
 
-  <section>
+  <section id="sec-7">
     <h2>Static Approximation</h2>
     <pre><code>omega_q0 = omega_star = 5 eV
 gamma_q0 = 0
@@ -270,7 +163,7 @@ Omega_q0 = omega_star * sqrt(1 - epsilon_el_inv(q, 0))</code></pre>
     <p>Convert <code>omega_star</code> to Hartree before internal use. For <code>omega &lt;&lt; omega_star</code>, the low-energy inverse dielectric response should approach <code>epsilon_el_inv(q, 0)</code>.</p>
   </section>
 
-  <section>
+  <section id="sec-8">
     <h2>Stop Conditions</h2>
     <ul>
       <li><code>U_q * delta_chi0</code> is not dimensionless.</li>
@@ -282,5 +175,9 @@ Omega_q0 = omega_star * sqrt(1 - epsilon_el_inv(q, 0))</code></pre>
     </ul>
   </section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>

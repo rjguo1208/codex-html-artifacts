@@ -1,181 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GaAs Input Preparation</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --code-bg: #eef3f8;
-      --warn-bg: #fff6df;
-      --warn-line: #e4b64b;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.56;
-    }
-    main {
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      line-height: 1.12;
-      letter-spacing: 0;
-    }
-    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
-    p { margin: 0 0 12px; }
-    a { color: var(--accent); }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    code, pre { background: var(--code-bg); border-radius: 6px; }
-    code { padding: 2px 5px; font-size: 0.95em; }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-    th { color: var(--muted); background: #f3f6f9; }
-    .nav {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      text-decoration: none;
-      font-weight: 650;
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span {
-      display: block;
-      margin-top: 4px;
-      overflow-wrap: anywhere;
-    }
-    figure {
-      margin: 12px 0 0;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-    }
-    figure img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    figcaption {
-      padding: 10px 12px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      border-top: 1px solid var(--line);
-    }
-    .warning { background: var(--warn-bg); border-color: var(--warn-line); }
-    .status-ok { color: #166534; font-weight: 700; }
-    .status-pending { color: #9a4d00; font-weight: 700; }
-    .status-failed { color: #b91c1c; font-weight: 700; }
-    .formula {
-      margin: 10px 0 12px;
-      padding: 10px 12px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: var(--code-bg);
-      overflow-x: auto;
-      font-family: "Segoe UI", system-ui, sans-serif;
-    }
-    ul { margin: 8px 0 0 22px; padding: 0; }
-    li { margin: 4px 0; }
-    @media (max-width: 760px) {
-      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
-      section { padding: 14px; }
-      .meta { grid-template-columns: 1fr; }
-      table { display: block; overflow-x: auto; white-space: nowrap; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GaAs Input Preparation</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <a class="nav" href="index.html">Back to report</a>
-  <header>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html" style="color:#fff;text-decoration:underline">GaAs Inputs</a>
+    <a href="tio2_input_prep.html">TiO2 Inputs</a>
+    <a href="toy_model_formulas.html">Toy Model</a>
+    <a href="unit_conventions.html">Units</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>GaAs DFT/DFPT Input Preparation</h1>
-    <p>This page documents the lower-cost zincblende GaAs workflow that replaces the active TiO2 q-grid run. The working inputs, outputs, UPF files, and Slurm logs stay in the HPC folder, not in the GitHub Pages repository.</p>
+    <p class="subtitle">This page documents the lower-cost zincblende GaAs workflow that replaces the active TiO2 q-grid run. The working inputs, outputs, UPF files, and Slurm logs stay in the HPC folder, not in the GitHub Pages repository.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-24T14:20:13-04:00</span>
-      </div>
-      <div class="metric">
-        <strong>Local directory</strong>
-        <span><code>dft/gaas/primitive/</code></span>
-      </div>
-      <div class="metric">
-        <strong>Status</strong>
-        <span>GGA/PBE dielectric/Born QC complete</span>
-      </div>
+      <span class="pill">Generated: 2026-05-24T14:20:13-04:00</span>
+      <span class="pill">Local directory: <code>dft/gaas/primitive/</code></span>
+      <span class="pill">Status: GGA/PBE dielectric/Born QC complete</span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
+  </div>
+</header>
+<main>
+<section id="contents">
+  <h2>Contents</h2>
+  <div class="toc">
+    <a href="#sec-0">Why GaAs</a>
+    <a href="#sec-1">Computational Setup</a>
+    <a href="#sec-2">Local Files</a>
+    <a href="#sec-3">Job Status</a>
+    <a href="#sec-4">LO-TO Postprocessing Result</a>
+    <a href="#sec-5">GaAs-Backed Hybrid Test</a>
+    <a href="#sec-6">Drude Density Sweep</a>
+    <a href="#sec-7">Polar Coupling Sweep</a>
+    <a href="#sec-8">Plasmon-Pole Fit Interface</a>
+    <a href="#sec-9">Fitted-PPM Hybrid Path</a>
+    <a href="#sec-10">Finite-Linewidth Fitted-PPM Branches</a>
+    <a href="#sec-11">Fitted-PPM Spectral Function</a>
+    <a href="#sec-12">Fitted-PPM Dielectric Loss</a>
+    <a href="#sec-13">Fig.1-Like Surrogate</a>
+    <a href="#sec-14">Fig. 1 Q-Vector Geometry</a>
+    <a href="#sec-15">Finite-q Lindhard Surrogate</a>
+    <a href="#sec-16">Numerical Finite-T Lindhard Dielectric</a>
+    <a href="#sec-17">Static Approximation Branch</a>
+    <a href="#sec-18">Direct Fig. 1 Reproduction Gate</a>
+    <a href="#sec-19">Warning</a>
+    <a href="#sec-20">Next Step</a>
+  </div>
+</section>
 
-  <section>
+<section id="sec-0">
     <h2>Why GaAs</h2>
     <p>GaAs is a practical low-cost benchmark for the plasmon-phonon workflow because the zincblende primitive cell has only two atoms and six phonon branches. It is also polar, so Gamma dielectric response, Born effective charges, and LO-TO splitting remain relevant. It is not a material-faithful replacement for TiO2; it is a workflow and debugging surrogate.</p>
   </section>
 
-  <section>
+  <section id="sec-1">
     <h2>Computational Setup</h2>
     <table>
       <thead>
@@ -195,7 +93,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-2">
     <h2>Local Files</h2>
     <table>
       <thead>
@@ -239,7 +137,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-3">
     <h2>Job Status</h2>
     <table>
       <thead>
@@ -360,7 +258,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-4">
     <h2>LO-TO Postprocessing Result</h2>
     <p>The Gamma DFPT run already computed the dielectric tensor and Born effective charges. The new postprocessing step uses those quantities in <code>q2r.x</code>/<code>matdyn.x</code> so that the non-analytic dipole contribution is applied at exact Gamma along the selected <code>Gamma -> X</code> direction.</p>
     <figure>
@@ -380,7 +278,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-5">
     <h2>GaAs-Backed Hybrid Test</h2>
     <p>The first DFT-derived input has now been connected to the Green-function toy solver. The phonon energies come from the LO-TO-aware <code>matdyn.x</code> exact-Gamma optical modes; the plasmon energy and coupling are still controlled toy parameters pending a carrier-density-dependent plasmon-pole implementation.</p>
     <figure>
@@ -401,7 +299,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-6">
     <h2>Drude Density Sweep</h2>
     <p>The latest step replaces the fixed toy plasmon energy with an analytic screened Drude plasmon-pole surrogate. The phonons are still the LO-TO-aware exact-Gamma <code>matdyn.x</code> optical modes, while the plasmon varies with carrier density. The coupling <code>c</code> remains a controlled toy parameter until the long-range vertex is implemented.</p>
     <pre><code>E_pl(n) = hbar * sqrt(n e^2 / (epsilon_0 epsilon_inf m*))
@@ -423,7 +321,7 @@ epsilon_el^{-1}(omega) = epsilon_inf^{-1} + Omega^2 / (omega^2 - E_pl^2 + i gamm
     </table>
   </section>
 
-  <section>
+  <section id="sec-7">
     <h2>Polar Coupling Sweep</h2>
     <p>The latest implementation replaces the fixed control coupling with a density-dependent surrogate based on the LO-TO splitting. This is still a reduced model, but it moves the coupling in the right direction: it is mode-selective, zero for TO modes, and grows with the Drude plasmon pole.</p>
     <pre><code>omega_TO = average of the two exact-Gamma TO modes
@@ -445,7 +343,7 @@ c(n) = omega_pl(n) * sqrt(omega_LO^2 - omega_TO^2)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-8">
     <h2>Plasmon-Pole Fit Interface</h2>
     <p>The latest implementation adds the interface that future RPA/Wannier data will use. For validation, the input <code>epsilon_el^{-1}(omega)</code> is generated from the analytic Drude pole and then fitted back with the same one-pole form. The fit uses a linearized relation, so no external nonlinear optimizer is required.</p>
     <pre><code>y(omega) = epsilon_el^{-1}(omega) - epsilon_inf^{-1}
@@ -467,7 +365,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-9">
     <h2>Fitted-PPM Hybrid Path</h2>
     <p>The hybrid solver now uses the fitted parameter table as its interface. This is the same data shape expected from a future real RPA/Wannier calculation, so the downstream hybridization step no longer depends on directly calling the analytic Drude formula.</p>
     <figure>
@@ -486,7 +384,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-10">
     <h2>Finite-Linewidth Fitted-PPM Branches</h2>
     <p>The zero-linewidth fitted-table path has been extended to complex damped branches. For each density, the model uses fitted <code>omega_pl</code>, fitted plasmon <code>gamma</code>, a small artificial phonon broadening of <code>0.2 meV</code>, DFT-derived GaAs optical phonons, and the LO-TO-strength coupling surrogate. The output stores <code>Re(lambda)</code> and <code>-Im(lambda)</code> for each hybrid branch.</p>
     <figure>
@@ -505,7 +403,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-11">
     <h2>Fitted-PPM Spectral Function</h2>
     <p>The same finite-linewidth model now generates a phonon spectral function. By default the script chooses the density row closest to the LO-like resonance; here that is <code>5.4890e17 cm^-3</code>, close to the analytic resonance target <code>5.6453e17 cm^-3</code>.</p>
     <figure>
@@ -527,7 +425,7 @@ fit output = Omega, omega_pl, gamma, residual, fit_status</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-12">
     <h2>Fitted-PPM Dielectric Loss</h2>
     <p>The same fitted-PPM finite-linewidth model now also produces a toy inverse dielectric response. The external longitudinal field is assumed to couple directly only to the plasmon coordinate, so the hybrid response is computed from the full Green-function matrix element <code>G_00</code>. This is an interface and sign-convention check before implementing the full q-dependent dielectric expression and the finite-linewidth left/right vertex formula.</p>
     <pre><code>epsilon_pl-ph^{-1}(omega) = epsilon_inf^{-1} + Omega^2 * G_00(omega)
@@ -550,7 +448,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-13">
     <h2>Fig.1-Like Surrogate</h2>
     <p>The current data can produce a density-dependent GaAs hybrid-energy plot with the same broad visual vocabulary as the paper's Fig. 1: carrier density on the horizontal axis, hybrid mode energies on the vertical axis, a bare plasmon reference, and TO/LO phonon reference lines. This is a workflow baseline only. It still uses exact-Gamma phonons, Drude/mock-RPA fitted PPM parameters, and a polar LO-TO coupling surrogate rather than the paper's <code>q=8e-4 Angstrom^-1</code> [110] first-principles RPA input.</p>
     <figure>
@@ -571,7 +469,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-14">
     <h2>Fig. 1 Q-Vector Geometry</h2>
     <p>The first concrete step toward a real Fig. 1 reproduction is fixing the wave-vector convention. The paper condition is <code>|q| = 8e-4 Angstrom^-1</code> along conventional cubic <code>[110]</code>. The current GaAs calculations use primitive fcc lattice vectors, so the same Cartesian q-vector has nontrivial primitive reciprocal coordinates.</p>
     <table>
@@ -590,12 +488,12 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     <p>For the current primitive reciprocal basis, this means future q-dependent RPA or QE-style small-q input should use the primitive crystal coordinate vector above, unless the consuming code explicitly expects conventional <code>2pi/a</code> units.</p>
   </section>
 
-  <section>
+  <section id="sec-15">
     <h2>Finite-q Lindhard Surrogate</h2>
     <p>This step replaces the q-&gt;0 Drude/mock-RPA fitted table with a finite-q long-wavelength parabolic-band Lindhard surrogate at the paper Fig. 1 wave vector. It is still an analytic interface test, not the full first-principles RPA/Wannier dielectric response.</p>
-    <div class="formula">ω<sub>pl</sub>(q)<sup>2</sup> = ω<sub>pl</sub>(0)<sup>2</sup> + (3/5)v<sub>F</sub><sup>2</sup>q<sup>2</sup> + ℏ<sup>2</sup>q<sup>4</sup>/(4m<sup>*2</sup>)</div>
+    <div class="math">$$\omega_{\rm pl}^2(q)=\omega_{\rm pl}^2(0)+\frac{3}{5}v_F^2q^2+\frac{\hbar^2q^4}{4m^{*2}}.$$</div>
     <p>The fitted inverse dielectric input keeps the same one-pole shape used by the PPM interface:</p>
-    <div class="formula">ε<sub>el</sub><sup>-1</sup>(q,ω) = ε<sub>∞</sub><sup>-1</sup> + Ω(q)<sup>2</sup> / [ω<sup>2</sup> - ω<sub>pl</sub>(q)<sup>2</sup> + iγω]</div>
+    <div class="math">$$\epsilon_{\rm el}^{-1}(q,\omega)=\epsilon_\infty^{-1}+\frac{\Omega^2(q)}{\omega^2-\omega_{\rm pl}^2(q)+i\gamma\omega}.$$</div>
     <figure>
       <img src="assets/gaas_lindhard_fig1_finite_q_shift.svg" alt="GaAs finite-q Lindhard surrogate plasmon shift">
       <figcaption>The finite-q correction is positive but small for the paper q magnitude: <code>0.0255</code>-<code>0.0802 meV</code> from <code>1e16</code> to <code>1e19 cm^-3</code>.</figcaption>
@@ -620,11 +518,11 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-16">
     <h2>Numerical Finite-T Lindhard Dielectric</h2>
     <p>This step removes the analytic plasmon-pole assumption from the electronic dielectric input. For each density, the code solves the finite-temperature parabolic-band chemical potential and directly integrates the Lindhard density response over radial k and angular quadrature. The resulting complex <code>epsilon_el^{-1}(q,omega)</code> is then passed into the same PPM fitting and hybridization path.</p>
-    <div class="formula">χ<sub>0</sub>(q,ω) = 2∫d<sup>3</sup>k/(2π)<sup>3</sup> [f(ε<sub>k</sub>) - f(ε<sub>k+q</sub>)] / [ℏω + iη + ε<sub>k</sub> - ε<sub>k+q</sub>]</div>
-    <div class="formula">ε(q,ω) = ε<sub>∞</sub> - v(q)χ<sub>0</sub>(q,ω),  v(q)=e<sup>2</sup>/(ε<sub>0</sub>q<sup>2</sup>),  ε<sup>-1</sup>(q,ω)=1/ε(q,ω)</div>
+    <div class="math">$$\chi_0(q,\omega)=2\int\frac{d^3k}{(2\pi)^3}\frac{f(\epsilon_k)-f(\epsilon_{k+q})}{\hbar\omega+i\eta+\epsilon_k-\epsilon_{k+q}}.$$</div>
+    <div class="math">$$\epsilon(q,\omega)=\epsilon_\infty-v(q)\chi_0(q,\omega),\qquad v(q)=\frac{e^2}{\epsilon_0q^2},\qquad \epsilon^{-1}(q,\omega)=\frac{1}{\epsilon(q,\omega)}.$$</div>
     <figure>
       <img src="assets/gaas_numeric_lindhard_fig1_ppm_fit.svg" alt="GaAs numerical finite-temperature Lindhard PPM fit summary">
       <figcaption>The fitted numerical Lindhard pole is compared with the previous long-wavelength analytic pole and the sampled loss peak.</figcaption>
@@ -650,11 +548,11 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-17">
     <h2>Static Approximation Branch</h2>
     <p>The static branch uses the same numerical Lindhard data but freezes the electronic screening at the low-energy/static inverse dielectric value. In the current toy interface this is equivalent to a high-energy static PPM pole at <code>omega*=5 eV</code> whose coupling reproduces a statically screened LO-like phonon.</p>
-    <div class="formula">ω<sub>static LO</sub><sup>2</sup>(q,n) = ω<sub>TO</sub><sup>2</sup> + ε<sub>el</sub><sup>-1</sup>(q,0;n)[ω<sub>LO</sub><sup>2</sup> - ω<sub>TO</sub><sup>2</sup>]</div>
-    <div class="formula">c<sub>static</sub> = ω* sqrt{[1 - ε<sub>el</sub><sup>-1</sup>(q,0;n)][ω<sub>LO</sub><sup>2</sup> - ω<sub>TO</sub><sup>2</sup>]}</div>
+    <div class="math">$$\omega_{\rm static\,LO}^2(q,n)=\omega_{\rm TO}^2+\epsilon_{\rm el}^{-1}(q,0;n)\left(\omega_{\rm LO}^2-\omega_{\rm TO}^2\right).$$</div>
+    <div class="math">$$c_{\rm static}=\omega^*\sqrt{\left[1-\epsilon_{\rm el}^{-1}(q,0;n)\right]\left(\omega_{\rm LO}^2-\omega_{\rm TO}^2\right)}.$$</div>
     <figure>
       <img src="assets/gaas_numeric_lindhard_fig1_static_comparison.svg" alt="GaAs numerical Lindhard dynamic versus static approximation">
       <figcaption>The static branch remains close to the TO reference across the density range, while the dynamic fitted-PPM branches retain the avoided-crossing structure.</figcaption>
@@ -674,7 +572,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-18">
     <h2>Direct Fig. 1 Reproduction Gate</h2>
     <p>The direct Fig. 1 path has been separated from the surrogate interface checks. The local script <code>fig1_direct_reproduction.py</code> will render the final paper-style GaAs figure only when all required CSV inputs declare real provenance. It does not generate or accept toy, Drude, mock, analytic, parabolic-band, or numerical-Lindhard surrogate data.</p>
     <table>
@@ -699,7 +597,7 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     <p><a class="nav" href="fig1_direct.html">Open direct Fig. 1 input requirements</a></p>
   </section>
 
-  <section class="warning">
+  <section id="sec-19" class="warning">
     <h2>Warning</h2>
     <ul>
       <li>Raw QE outputs, <code>.save/</code> directories, wavefunctions, dynamical matrices, Slurm logs, and pseudopotentials remain local and are not uploaded.</li>
@@ -709,10 +607,14 @@ loss(omega) = -Im epsilon_pl-ph^{-1}(omega)</code></pre>
     </ul>
   </section>
 
-  <section>
+  <section id="sec-20">
     <h2>Next Step</h2>
     <p>Next, run a focused diagnostic extraction from the validated file-mesh path. The safest next test is a small <code>filkf</code> subset with <code>prtgkk=.true.</code> and a narrow <code>gkk_band_min/gkk_band_max</code> filter, so we can inspect actual interpolated <code>g(k,q)</code>, phonon frequencies, and band energies without producing a huge raw output. After that, decide whether to write a compact parser/table for the quantities needed by the direct Fig. 1 pipeline.</p>
   </section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>

@@ -1,192 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toy Model Formulas</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --code-bg: #eef3f8;
-      --formula-bg: #fbfcff;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.56;
-    }
-    main {
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      line-height: 1.12;
-      letter-spacing: 0;
-    }
-    h2 {
-      margin: 0 0 12px;
-      font-size: 1.35rem;
-      letter-spacing: 0;
-    }
-    h3 {
-      margin: 12px 0 8px;
-      font-size: 1.05rem;
-      letter-spacing: 0;
-    }
-    p {
-      margin: 0 0 12px;
-    }
-    a {
-      color: var(--accent);
-    }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    code, pre {
-      background: var(--code-bg);
-      border-radius: 6px;
-    }
-    code {
-      padding: 2px 5px;
-      font-size: 0.95em;
-    }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    .formula {
-      overflow-x: auto;
-      margin: 12px 0;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--formula-bg);
-    }
-    math {
-      font-size: 1.08rem;
-    }
-    .note {
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-    .nav {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      text-decoration: none;
-      font-weight: 650;
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span {
-      display: block;
-      margin-top: 4px;
-      overflow-wrap: anywhere;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      text-align: left;
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
-    }
-    th {
-      color: var(--muted);
-      background: #f3f6f9;
-    }
-    @media (max-width: 760px) {
-      main {
-        width: min(100% - 20px, 1040px);
-        padding-top: 16px;
-      }
-      section {
-        padding: 14px;
-      }
-      .meta {
-        grid-template-columns: 1fr;
-      }
-      table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toy Model Formulas</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <a class="nav" href="index.html">Back to report</a>
-  <header>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html">GaAs Inputs</a>
+    <a href="tio2_input_prep.html">TiO2 Inputs</a>
+    <a href="toy_model_formulas.html" style="color:#fff;text-decoration:underline">Toy Model</a>
+    <a href="unit_conventions.html">Units</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>Toy Plasmon-Phonon Model Formulas</h1>
-    <p>This subpage documents the formulas used by the toy model checks and figures. Formulas are rendered with browser-native MathML, so the page does not use external plugins, CDNs, fonts, JavaScript, or network requests.</p>
+    <p class="subtitle">This subpage documents the formulas used by the toy model checks and figures. Formulas are rendered through the shared MathJax v3 report layout.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-21T22:42:48-04:00</span>
-      </div>
-      <div class="metric">
-        <strong>Implementation</strong>
-        <span><code>toy_model_plph.py</code></span>
-      </div>
-      <div class="metric">
-        <strong>Units</strong>
-        <span>energies in eV, coupling in eV<sup>2</sup></span>
-      </div>
+      <span class="pill">Generated: 2026-05-21T22:42:48-04:00</span>
+      <span class="pill">Implementation: <code>toy_model_plph.py</code></span>
+      <span class="pill">Units: energies in eV, coupling in eV<sup>2</sup></span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
+  </div>
+</header>
+<main>
+<section id="contents">
+  <h2>Contents</h2>
+  <div class="toc">
+    <a href="#sec-0">1. Toy Model Parameters</a>
+    <a href="#sec-1">2. Zero-Linewidth Dynamical Matrix</a>
+    <a href="#sec-2">3. Hybrid Mode Eigenproblem</a>
+    <a href="#sec-3">4. Avoided Crossing Formula</a>
+    <a href="#sec-4">5. Direct Dyson Check</a>
+    <a href="#sec-5">6. Finite-Linewidth Solver</a>
+    <a href="#sec-6">7. Static Plasmon-Pole Check</a>
+    <a href="#sec-7">8. Toy Inverse Dielectric Loss</a>
+    <a href="#sec-8">9. Finite-q Lindhard Surrogate</a>
+    <a href="#sec-9">10. Numerical Lindhard Dielectric Source</a>
+    <a href="#sec-10">11. Static Approximation Branch</a>
+  </div>
+</section>
 
-  <section>
+<section id="sec-0">
     <h2>1. Toy Model Parameters</h2>
     <p>The displayed figures use one plasmon and two phonon modes. Only the first phonon is coupled to the plasmon; the second phonon is intentionally decoupled as a control.</p>
     <table>
@@ -227,7 +99,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="sec-1">
     <h2>2. Zero-Linewidth Dynamical Matrix</h2>
     <p>The zero-linewidth toy model diagonalizes the plasmon-phonon dynamical matrix.</p>
     <div class="formula">
@@ -263,7 +135,7 @@
  [c2*, 0, omega_ph,2^2]]</code></pre>
   </section>
 
-  <section>
+  <section id="sec-2">
     <h2>3. Hybrid Mode Eigenproblem</h2>
     <p>The hybrid energies are the square roots of the eigenvalues of the matrix above.</p>
     <div class="formula">
@@ -297,7 +169,7 @@
 E_beta = omega_tilde_beta = sqrt(lambda_beta(C_tilde))</code></pre>
   </section>
 
-  <section>
+  <section id="sec-3">
     <h2>4. Avoided Crossing Formula</h2>
     <p>Because <code>c2 = 0</code>, the second phonon remains exactly fixed. The avoided crossing is controlled by the two-mode plasmon plus coupled-phonon block.</p>
     <div class="formula">
@@ -346,7 +218,7 @@ E_beta = omega_tilde_beta = sqrt(lambda_beta(C_tilde))</code></pre>
     <p>The third energy is simply <code>E3 = omega_ph,2</code> because the decoupled mode has <code>c2 = 0</code>.</p>
   </section>
 
-  <section>
+  <section id="sec-4">
     <h2>5. Direct Dyson Check</h2>
     <p>The full plasmon-phonon Green function uses the inverse matrix below. The direct Dyson check compares its phonon block with the explicit phonon Dyson equation.</p>
     <div class="formula">
@@ -402,7 +274,7 @@ D^{-1} = (D0)^{-1} - Pi
 Pi_mu,nu(omega) = c_mu* D0_pl(omega) c_nu</code></pre>
   </section>
 
-  <section>
+  <section id="sec-5">
     <h2>6. Finite-Linewidth Solver</h2>
     <p>The finite-linewidth check follows the damped-oscillator construction used in the supplemental material. A phase transform first makes the coupling block real.</p>
     <div class="formula">
@@ -516,7 +388,7 @@ B = 1/2 (Phi C_tilde Phi^dagger - I)
     </div>
   </section>
 
-  <section>
+  <section id="sec-6">
     <h2>7. Static Plasmon-Pole Check</h2>
     <p>The static approximation fixes a high plasmon-pole energy and chooses the pole strength to reproduce a target static inverse dielectric function at low energy.</p>
     <div class="formula">
@@ -572,7 +444,7 @@ eps_el^{-1}(omega) = 1 + Omega_0^2 / (omega^2 - omega*^2)
 eps_el^{-1}(omega << omega*) approximately eps_el^{-1}(0)</code></pre>
   </section>
 
-  <section>
+  <section id="sec-7">
     <h2>8. Toy Inverse Dielectric Loss</h2>
     <p>The fitted-PPM GaAs loss check uses the plasmon coordinate Green-function element. The external longitudinal field is coupled only to the plasmon coordinate in this toy interface; phonons affect the response through the full hybrid Green function.</p>
     <div class="formula">
@@ -606,7 +478,7 @@ loss(omega) = -Im eps_plph_inv(omega)</code></pre>
     <p class="note">In the zero-coupling, zero-linewidth limit, <code>G_00 = 1/(omega^2 - omega_pl^2)</code>, so this reduces to the bare plasmon-pole expression.</p>
   </section>
 
-  <section>
+  <section id="sec-8">
     <h2>9. Finite-q Lindhard Surrogate</h2>
     <p>The newest GaAs interface test replaces the q-&gt;0 Drude pole with the long-wavelength 3D parabolic-band Lindhard plasmon dispersion. This is used only as a low-cost finite-q PPM fitting surrogate before real Wannier/RPA data are available.</p>
     <div class="formula">
@@ -672,7 +544,7 @@ eps_el^{-1}(q, omega) = eps_inf^{-1} + Omega^2 / (omega^2 - omega_pl(q)^2 + i ga
     <p class="note">For the current GaAs test at <code>|q|=8e-4 Angstrom^-1</code>, the finite-q shift is <code>0.0255</code>-<code>0.0802 meV</code> over <code>1e16</code>-<code>1e19 cm^-3</code>.</p>
   </section>
 
-  <section>
+  <section id="sec-9">
     <h2>10. Numerical Lindhard Dielectric Source</h2>
     <p>The direct numerical source evaluates the finite-temperature Lindhard response before any one-pole fit. The current implementation still uses a parabolic GaAs conduction band, but the downstream interface now consumes sampled <code>epsilon_el^{-1}(q,omega)</code> data rather than a pre-imposed analytic pole.</p>
     <div class="formula">
@@ -756,7 +628,7 @@ epsilon_inv(q, omega) = 1 / epsilon(q, omega)</code></pre>
     <p class="note">The current numerical grid uses <code>T=300 K</code>, <code>eta=1.5 meV</code>, <code>n_k=240</code>, and <code>n_mu=40</code>. The fitted PPM damping is about <code>3.0 meV</code> because the oscillator denominator uses <code>i gamma omega</code>.</p>
   </section>
 
-  <section>
+  <section id="sec-10">
     <h2>11. Static Approximation Branch</h2>
     <p>The static comparison freezes the electronic response at the low-energy/static inverse dielectric value and represents it with a high-energy static PPM pole. This produces a statically screened LO-like phonon branch rather than a resonant low-energy plasmon branch.</p>
     <div class="formula">
@@ -811,5 +683,9 @@ omega* = 5 eV</code></pre>
     <p class="note">In the current GaAs numerical-Lindhard surrogate, static screening is strong enough that this branch stays near the TO mode, <code>32.2663</code>-<code>32.2748 meV</code>.</p>
   </section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>

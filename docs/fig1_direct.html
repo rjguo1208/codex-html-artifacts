@@ -1,127 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Direct Fig. 1 Reproduction Gate</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f7f8fb;
-      --panel: #ffffff;
-      --ink: #16202a;
-      --muted: #607080;
-      --line: #d9e0e7;
-      --accent: #245f9f;
-      --code-bg: #eef3f8;
-      --warn-bg: #fff6df;
-      --warn-line: #e4b64b;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.56;
-    }
-    main {
-      width: min(1040px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 52px;
-    }
-    header {
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 22px;
-    }
-    h1 { margin: 0 0 10px; font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1.12; letter-spacing: 0; }
-    h2 { margin: 0 0 12px; font-size: 1.35rem; letter-spacing: 0; }
-    p { margin: 0 0 12px; }
-    a { color: var(--accent); }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin: 16px 0;
-      box-shadow: 0 1px 2px rgba(22, 32, 42, 0.04);
-    }
-    code, pre { background: var(--code-bg); border-radius: 6px; }
-    code { padding: 2px 5px; font-size: 0.95em; }
-    pre {
-      margin: 10px 0 0;
-      padding: 12px;
-      overflow-x: auto;
-      border: 1px solid var(--line);
-    }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
-    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
-    th { color: var(--muted); background: #f3f6f9; }
-    .nav {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fff;
-      text-decoration: none;
-      font-weight: 650;
-    }
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .metric {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    .metric strong {
-      display: block;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .metric span { display: block; margin-top: 4px; overflow-wrap: anywhere; }
-    .warning { background: var(--warn-bg); border-color: var(--warn-line); }
-    ul { margin: 8px 0 0 22px; padding: 0; }
-    li { margin: 4px 0; }
-    @media (max-width: 760px) {
-      main { width: min(100% - 20px, 1040px); padding-top: 16px; }
-      section { padding: 14px; }
-      .meta { grid-template-columns: 1fr; }
-      table { display: block; overflow-x: auto; white-space: nowrap; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direct Fig. 1 Reproduction Gate</title>
+<link rel="stylesheet" href="assets/style.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<main>
-  <a class="nav" href="index.html">Back to report</a>
-  <header>
+<nav class="topnav">
+  <div class="inner">
+    <span class="brand">Pl-Ph Hybrid</span>
+    <a href="index.html">Home</a>
+    <a href="hybrid_response_dielectric.html">Hybrid Response</a>
+    <a href="rpa_dielectric_supplement.html">RPA Dielectric</a>
+    <a href="polar_coupling.html">Polar Coupling</a>
+    <a href="fig1_direct.html" style="color:#fff;text-decoration:underline">Fig. 1 Gate</a>
+    <a href="gaas_input_prep.html">GaAs Inputs</a>
+    <a href="tio2_input_prep.html">TiO2 Inputs</a>
+    <a href="toy_model_formulas.html">Toy Model</a>
+    <a href="unit_conventions.html">Units</a>
+  </div>
+</nav>
+<header>
+  <div class="header-inner">
     <h1>Direct Fig. 1 Reproduction Gate</h1>
-    <p>The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles input tables plus explicitly marked experimental or digitized comparison points for the paper Fig. 1 reproduction, and a first-pass Wannier-RPA result is now available.</p>
+    <p class="subtitle">The workflow has been switched away from approximate Fig. 1 panels. A local strict renderer now accepts only real first-principles input tables plus explicitly marked experimental or digitized comparison points for the paper Fig. 1 reproduction, and a first-pass Wannier-RPA result is now available.</p>
     <div class="meta">
-      <div class="metric">
-        <strong>Generated</strong>
-        <span>2026-05-24T21:45:06-04:00</span>
-      </div>
-      <div class="metric">
-        <strong>Local script</strong>
-        <span><code>fig1_direct_reproduction.py</code></span>
-      </div>
-      <div class="metric">
-        <strong>Status</strong>
-        <span>Reference-material direct Fig. 1 generated</span>
-      </div>
+      <span class="pill">Generated: 2026-05-24T21:45:06-04:00</span>
+      <span class="pill">Local script: <code>fig1_direct_reproduction.py</code></span>
+      <span class="pill">Status: Reference-material direct Fig. 1 generated</span>
+      <span class="pill">MathJax v3</span>
     </div>
-  </header>
+  </div>
+</header>
+<main>
+<section id="contents">
+  <h2>Contents</h2>
+  <div class="toc">
+    <a href="#sec-0">Policy</a>
+    <a href="#sec-1">Required Inputs</a>
+    <a href="#sec-2">Run Command</a>
+    <a href="#sec-3">First-Pass Result</a>
+    <a href="#sec-4">Long-Range Polar Coupling Update</a>
+    <a href="#sec-5">Steps 1-4 Validation</a>
+    <a href="#sec-6">Wannier/EPW Prep Status</a>
+    <a href="#sec-7">Verification</a>
+    <a href="#sec-8">Not Uploaded</a>
+  </div>
+</section>
 
-  <section>
+<section id="sec-0">
     <h2>Policy</h2>
     <p>Direct Fig. 1 reproduction means the plotted curves must come from the actual GaAs Fig. 1 data chain: Wannier/RPA electronic dielectric response, plasmon-pole fitting, first-principles long-range coupling, the paper static construction, and explicitly marked approximate Ref. [8] guide points. The renderer refuses inputs marked as toy, surrogate, Drude, mock, analytic, parabolic, or numerical-Lindhard surrogate.</p>
     <p>The supplemental-material RPA response and dielectric-function formulas are now documented on <a href="rpa_dielectric_supplement.html">the RPA dielectric supplement page</a>. That page defines the required <code>delta chi0(q,omega)</code>, <code>epsilon_el^{-1}(q,omega)</code>, Coulomb kernel, plasmon-pole fit, and static construction.</p>
@@ -130,7 +65,7 @@
     <p>A material-input comparison figure is now available on the polar-coupling page and as <code>docs/assets/gaas_material_input_comparison.svg</code>. It keeps the same Wannier-RPA PPM table, rebuilds each effective LO from <code>TO^2+S_polar</code>, then compares reference GaAs, fixed-cell PBE QC, and LDA QC dielectric/Born inputs.</p>
   </section>
 
-  <section>
+  <section id="sec-1">
     <h2>Required Inputs</h2>
     <table>
       <thead>
@@ -147,7 +82,7 @@
     <p>Each CSV must declare provenance in a comment line such as <code># provenance: wannier_rpa</code> or in a <code>provenance</code> column.</p>
   </section>
 
-  <section>
+  <section id="sec-2">
     <h2>Run Command</h2>
     <p>The current first-pass direct result was generated with:</p>
     <pre><code>module reset
@@ -180,7 +115,7 @@ python fig1_material_input_comparison.py</code></pre>
     <p>The last command generated the current reference-material direct SVG from local CSVs with <code>epsilon_inf=10.89</code>, <code>|Z*|=2.18</code>, and <code>LOeff=sqrt(TO^2+S_polar)</code>. The renderer validated <code>2</code> nonadiabatic branches, <code>1</code> static branch, <code>81</code> bare-plasmon points, and <code>20</code> approximate Ref. [8] guide points. It continues to reject toy, Drude, mock, analytic, parabolic, and numerical-Lindhard surrogate provenance.</p>
   </section>
 
-  <section>
+  <section id="sec-3">
     <h2>First-Pass Result</h2>
     <p>The current HPC folder has GaAs SCF/DFPT phonon results, stock-EPW/Wannier artifacts including <code>gaas_zb_prim_hr.dat</code>, and a first-pass direct Fig. 1 data chain under <code>dft/gaas/fig1_direct/</code>. These CSVs are summarized here but are not uploaded as raw data.</p>
     <table>
@@ -238,7 +173,7 @@ python fig1_material_input_comparison.py</code></pre>
     <p>The full-PBE redraw is now the material-consistent PBE comparison: it uses PBE electronic screening and PBE long-range polar input, not the mass-scaled diagnostic. It improves the lower branch substantially, while the upper branch remains low at high density because the complete PBE dielectric screening is stronger than the reference-material input used by the paper-like curve. Replacing only <code>epsilon_inf</code> by <code>10.89</code> largely removes that upper-branch discrepancy. The latest publication-style panel is the compact journal rendering of that reference-<code>epsilon_inf</code> comparison.</p>
   </section>
 
-  <section>
+  <section id="sec-4">
     <h2>Long-Range Polar Coupling Update</h2>
     <p>The final nonadiabatic CSV now records the first-principles coupling ingredients used for the hybrid branches: <code>polar_strength_ev2</code>, <code>born_mode_charge_abs</code>, <code>eps_inf_direction</code>, <code>direction_strength_ratio</code>, and <code>coupling_source</code>. For the current cubic GaAs [110] run, the Born/eigenvector direction ratio is <code>1.000000000000</code>. The SI absolute strength is <code>0.0315%</code> lower than the LO-TO splitting check, a small difference consistent with rounded QE text-output inputs.</p>
     <table>
@@ -255,7 +190,7 @@ python fig1_material_input_comparison.py</code></pre>
     <p><a href="polar_coupling.html">Open the full polar-coupling formula and diagnostics page</a>.</p>
   </section>
 
-  <section>
+  <section id="sec-5">
     <h2>Steps 1-4 Validation</h2>
     <p>The requested convergence and diagnostic pass is complete. It covers RPA convergence, conduction-band window validation, RPA dielectric-function inspection, and PPM fit quality. The compact CSV outputs remain local under <code>dft/gaas/fig1_convergence/</code>; the public page includes only small SVG summaries.</p>
     <table>
@@ -284,7 +219,7 @@ python fig1_material_input_comparison.py</code></pre>
     <p>The next planned step is a heavier validation against the supplemental dense-grid protocol, or a larger production run if the full <code>200x200x200</code> RPA workflow is affordable.</p>
   </section>
 
-  <section>
+  <section id="sec-6">
     <h2>Wannier/EPW Prep Status</h2>
     <p>The first real-input preparation step is now local. The earlier local EPW source-debug branch has been stopped, EPW is restored to stock source, and the active retry uses a clean bands-style input rather than an <code>nscf</code> input controlled by <code>nosym/noinv</code>. QE 7.5 provides <code>wannier90.x</code>, <code>pw2wannier90.x</code>, and the restored <code>epw.x</code>; EPW starts as version <code>6.0</code> from the QE tree. The current retry is EPW-only and changes the fine-grid definition to explicit <code>filkf/filqf</code> files.</p>
     <table>
@@ -302,15 +237,19 @@ python fig1_material_input_comparison.py</code></pre>
     </table>
   </section>
 
-  <section>
+  <section id="sec-7">
     <h2>Verification</h2>
     <p>The direct Fig. 1 gate, current stock-EPW templates, and the new RPA response core are covered by local tests. The combined local regression run now has <code>71</code> passing unittest cases in the requested Anaconda/Tmat environment. The tests verify <code>identity_delta</code> overlap, Wannier90 <code>*_hr.dat</code> parsing, <code>H^W(k)</code> Hermiticity, full-band overlap unitarity, selected-band RPA wiring, Gamma-centered k-mesh generation, smoke CSV writing, absolute-weight density solving, PPM fallback behavior, Born/eigenvector polar coupling normalization, polar direction-invariance scanning, Gamma effective-mass diagnostics, mass-scaled Fig. 1 diagnostics, QE/Wannier band checks, final two-branch hybrid CSV generation, <code>delta chi0</code>, <code>U_q</code>, and <code>epsilon_el^{-1}</code>.</p>
   </section>
 
-  <section class="warning">
+  <section id="sec-8" class="warning">
     <h2>Not Uploaded</h2>
     <p>No paper PDF pages, raw RPA data, raw QE outputs, wavefunctions, private files, or credentials are included in this GitHub Pages report. The local CSVs under <code>dft/gaas/fig1_direct/</code> are summarized but not uploaded; only the small rendered SVG is included. Future convergence-scan tables should remain local unless confirmed public-safe and small.</p>
   </section>
 </main>
+<footer>
+Generated 2026-05-31 from local derived results in the HPC working directory.
+Static HTML; equations rendered client-side with MathJax v3. No raw wavefunctions, PDFs, binaries, or logs are published.
+</footer>
 </body>
 </html>
