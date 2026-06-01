@@ -52,7 +52,8 @@ window.MathJax = {
     <a href="#sec-5">5. Hybrid dynamical matrix</a>
     <a href="#sec-6">6. Total inverse dielectric function</a>
     <a href="#sec-7">7. Practical recipe</a>
-    <a href="#sec-8">8. Approximations and implementation notes</a>
+    <a href="#sec-8">8. Current $W_{00}$ postprocessing result</a>
+    <a href="#sec-9">9. Approximations and implementation notes</a>
   </div>
 </section>
 
@@ -296,8 +297,31 @@ $$
   </div>
 </section>
 
-<section id="sec-8" class="warning">
-  <h2>8. Approximations and Implementation Notes</h2>
+<section id="sec-8">
+  <h2>8. Current $W_{00}$ Postprocessing Result</h2>
+  <p>The current local data are sufficient to compute the macroscopic long-range screened interaction $W_{00}^{\rm pl-ph}(q,\omega)$ for the Fig. 1 GaAs geometry. The postprocessing uses the PBE-HR plus reference-$\epsilon_\infty$ PPM table, the current polar-coupling summary, and the supplement-strict coupling convention</p>
+  <div class="math">$$c_{q\nu}=\Omega_{q0}\sqrt{S_{\rm polar}}.$$</div>
+  <p>The plotted quantity is the physical inverse dielectric loss and the corresponding imaginary part of $W_{00}$:</p>
+  <div class="math">$$\epsilon_{\rm pl-ph}^{-1}(q,\omega)=\frac{W_{00}^{\rm pl-ph}(q,\omega)}{\epsilon^\infty_{\hat q}U_q},\qquad U_q=5.7480327\times10^5\ {\rm eV}.$$</div>
+  <figure>
+    <img src="assets/gaas_pbe_reference_epsilon_hybrid_screened_interaction.svg" alt="GaAs plasmon-phonon hybrid screened interaction and inverse dielectric loss">
+    <figcaption>Solid lines include plasmon-phonon hybridization; dashed lines are the carrier-plasmon-only baseline. A small artificial phonon linewidth $\gamma_{\rm ph}=0.2$ meV is used only to render the narrow phonon-like pole.</figcaption>
+  </figure>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Density</th><th>Peak loss</th><th>Peak energy</th><th>$c$</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>$1.00\times10^{14}$ cm$^{-3}$</td><td>$1.2318$</td><td>$36.015$ meV</td><td>$6.30\times10^{-6}$ eV$^2$</td><td>Weak carrier plasmon; phonon-like dielectric pole dominates.</td></tr>
+        <tr><td>$6.64\times10^{17}$ cm$^{-3}$</td><td>$0.8000$</td><td>$42.388$ meV</td><td>$4.92\times10^{-4}$ eV$^2$</td><td>Near plasmon-phonon resonance.</td></tr>
+        <tr><td>$3.06\times10^{18}$ cm$^{-3}$</td><td>$0.8708$</td><td>$67.431$ meV</td><td>$8.61\times10^{-4}$ eV$^2$</td><td>High-density plasmon-like upper response.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The local numeric table is <code>dft/gaas/fig1_pbe_reference_eps/gaas_pbe_reference_epsilon_hybrid_screened_interaction.csv</code>. It is not uploaded because it is derived numeric data; the public page keeps only the SVG and the compact summary above.</p>
+</section>
+
+<section id="sec-9" class="warning">
+  <h2>9. Approximations and Implementation Notes</h2>
   <p><strong>Overlap:</strong> the paper uses Wannier-eigenvector overlaps. The identity-overlap approximation should be marked explicitly as <code>overlap_mode=identity_delta</code>.</p>
   <p><strong>Long-range only:</strong> for Fig. 1-like GaAs branch energies, the analytic polar vertex is sufficient. The short-range vertex is needed for more general electron self-energy workflows.</p>
   <p><strong>Temperature:</strong> the paper states that calculations are at $T=300$ K; the carrier occupations in $\delta\chi^0$ should match that temperature.</p>

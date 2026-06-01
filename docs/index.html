@@ -91,12 +91,12 @@ window.MathJax = {
           <td><a href="fig1_direct.html">Open gate &rarr;</a></td>
         </tr>
         <tr>
-          <td><strong>Full EELS-style hybrid dielectric image</strong></td>
-          <td>Next test</td>
-          <td>&mdash;</td>
-          <td><span class="badge plan">Planned</span></td>
-          <td>Use the existing PPM table and hybrid matrix to compute $-{\rm Im}\epsilon_{\rm pl-ph}^{-1}(q,\omega)$ on a frequency grid.</td>
-          <td>&mdash;</td>
+          <td><strong>Hybrid screened interaction $W_{00}(q,\omega)$</strong></td>
+          <td>Result</td>
+          <td>2026-05-31</td>
+          <td><span class="badge ok">Complete</span></td>
+          <td>Computed the long-range macroscopic $W_{00}^{\rm pl-ph}$, $\epsilon_{\rm pl-ph}^{-1}$, and loss function for representative densities using the current PBE HR + reference $\epsilon_\infty$ PPM table.</td>
+          <td><a href="hybrid_response_dielectric.html#sec-8">Open result &rarr;</a></td>
         </tr>
       </tbody>
     </table>
@@ -149,6 +149,10 @@ $$
       <figcaption><strong>Publication-style PBE HR with reference $\epsilon_\infty$.</strong> Refit PBE HR plus reference dielectric screening gives the current best Fig. 1-like branch comparison.</figcaption>
     </figure>
     <figure>
+      <img src="assets/gaas_pbe_reference_epsilon_hybrid_screened_interaction.svg" alt="GaAs plasmon-phonon hybrid screened interaction and dielectric loss">
+      <figcaption><strong>Hybrid screened interaction.</strong> Current postprocessing gives $W_{00}^{\rm pl-ph}(q,\omega)$ and $-\mathrm{Im}\epsilon_{\rm pl-ph}^{-1}$ for three representative densities using the supplement-strict coupling $c=\Omega_{q0}\sqrt{S_{\rm polar}}$.</figcaption>
+    </figure>
+    <figure>
       <img src="assets/gaas_pbe_reference_epsilon_fig1.svg" alt="GaAs Fig. 1 curves with PBE HR and reference epsilon infinity">
       <figcaption><strong>PBE HR + reference $\epsilon_\infty$.</strong> Bare plasmon range $6.811$-$65.767$ meV, nonadiabatic hybrid range $6.262$-$67.692$ meV, and all-guide RMSE $1.326$ meV.</figcaption>
     </figure>
@@ -175,6 +179,7 @@ $$
         <tr><td>GaAs q point</td><td>$|q|=8\times10^{-4}$ Angstrom$^{-1}$ along $[110]$</td><td>Paper Fig. 1 geometry.</td></tr>
         <tr><td>Temperature</td><td>$T=300$ K</td><td>Used in the paper's carrier occupations.</td></tr>
         <tr><td>Reference dielectric rerun</td><td>$\epsilon_\infty=10.89$</td><td>Used consistently in RPA Coulomb kernel and long-range polar coupling denominator.</td></tr>
+        <tr><td>Hybrid $W_{00}$ postprocessing</td><td>$U_q=5.7480\times10^5$ eV; $\gamma_{\rm ph}=0.2$ meV for visualization</td><td>Local CSV stays under <code>dft/gaas/fig1_pbe_reference_eps/</code>; only the small SVG summary is published.</td></tr>
       </tbody>
     </table>
   </div>
